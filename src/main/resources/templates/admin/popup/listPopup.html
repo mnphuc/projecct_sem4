@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{admin/fragments/main_layout}" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Đây Là Trang Quản Lý</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="wrapper-pro">
+        <div class="content-inner-all">
+            <div class="data-table-area mg-b-15">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="sparkline13-list shadow-reset">
+                                <div class="sparkline13-hd">
+                                    <div class="main-sparkline13-hd">
+                                        <div class="row">
+                                            <div class="col-lg-8">
+                                                <h1>Danh Sách <span class="table-project-n">Thông Báo</span></h1>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <a th:href="@{them-thong-bao}" class="btn btn-primary pull-right"><span class="adminpro-icon adminpro-plus-add-button"></span> Thêm Thông Báo</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sparkline13-graph">
+                                    <div class="datatable-dashv1-list custom-datatable-overright">
+                                        <table id="table" data-toggle="table" data-pagination="true" data-search="false" data-show-columns="false" data-show-pagination-switch="false" data-show-refresh="false" data-key-events="false" data-show-toggle="false" data-resizable="false" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">
+                                            <thead>
+                                            <tr>
+                                                <th data-field="id">ID</th>
+                                                <th data-field="name" data-editable="false">Tiêu Đề</th>
+                                                <th data-field="image" data-editable="false">Nội Dung</th>
+                                                <th data-field="description" data-editable="false">Ảnh</th>
+                                                <th data-field="linkRedirect" data-editable="false">Trạng Thái</th>
+                                                <th data-field="createDate" data-editable="false">Ngày Bắt Đầu</th>
+                                                <th data-field="dateEnd" data-editable="false">Ngày Kết Thúc</th>
+                                                <th data-field="action">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody >
+                                            <tr th:each="p : ${list}">
+                                                <td th:text="${p.id}"></td>
+                                                <td th:text="${p.title}"></td>
+                                                <td th:text="${p.content}"></td>
+                                                <td th:text="${p.imageBackground}"></td>
+                                                <td th:text="${p.status} ? 'Hiển Thị' : 'Ẩn'"></td>
+                                                <td th:text="${p.dateStart}"></td>
+                                                <td th:text="${p.dateEnd}"></td>
+                                                <td>
+                                                    <a th:href="@{danh-muc/sua-danh-muc(id = ${p.id})}" class="btn btn-primary " style="font-size: 12px">Sửa</a>
+                                                    <button type="button" class="btn btn-custon-rounded-three btn-danger btn-sm deleteItem"  th:attr="data-id=${p.id}, id=deleteItem+${p.title}, data-name=${p.title}" data-toggle="modal" data-target="#ModelDeleteForm">Xóa</button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="ModelDeleteForm" class="modal modal-adminpro-general FullColor-popup-DangerModal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header header-color-modal bg-color-4">
+                        <h4 class="modal-title">Bạn Có Muốn Xóa <p id="showName"></p></h4>
+                        <div class="modal-close-area modal-close-df">
+                            <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{thiet-lap/xoa-thong-bao}" method="post" id="myform">
+                            <input type="hidden" name="id" id="showId" value="">
+                            <div class="modal-footer">
+                                <a data-dismiss="modal" href="#">Hủy</a>
+                                <a href="javascript:void()" onclick="document.getElementById('myform').submit();">xóa</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

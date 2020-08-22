@@ -1,0 +1,257 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{admin/fragments/main_layout}" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Đây Là Trang Quản Lý</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Thuộc Tính</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Quản Trị</a></li>
+                                <li class="breadcrumb-item active">Thuộc Tính</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Danh Sách Thuộc Tính</h3>
+                                    <a th:href="@{them-thuoc-tinh}" class="btn btn-primary float-right">Thêm Thuộc Tính</a>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th >ID</th>
+                                            <th >Tên Thuộc Tính</th>
+                                            <th >Mô Tả</th>
+                                            <th >Giá Trị</th>
+                                            <th >Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="attrs : ${list}">
+                                            <td th:text="${attrs.id}"></td>
+                                            <td th:text="${attrs.name}"></td>
+                                            <td th:text="${attrs.description}"></td>
+                                            <td>
+                                                <button type="button" class="btn btn-default modelShowAttribute" th:attr="data-id=${attrs.id}, id=deleteItem+${attrs.id}, data-name=${attrs.name}" data-toggle="modal" data-target="#modal-lg">
+                                                    Xem Chi Tiết
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <a th:href="@{sua-thuoc-tinh(id = ${attrs.id})}" class="btn btn-primary ">Sửa</a>
+                                                <button type="button" class="btn btn-default deleteItem"  th:attr="data-id=${attrs.id}, id=deleteItem+${attrs.id}, data-name=${attrs.name}" data-toggle="modal" data-target="#modal-sm">Xóa</button>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th >ID</th>
+                                            <th >Tên Thuộc Tính</th>
+                                            <th >Mô Tả</th>
+                                            <th >Giá Trị</th>
+                                            <th >Action</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div class="modal fade" id="modal-sm">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Bạn Có Muốn Xóa <p id="showName"></p></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{xoa-thuoc-tinh}" method="post" >
+                            <input type="hidden" name="id" id="showId" value="">
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Xóa</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+<!--        xóa giá trị thuộc tính-->
+        <div class="modal fade" id="ModelDeleteFormAttribute">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Bạn Có Muốn Xóa <p id="showNameAttribute"></p></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{xoa-gia-tri-thuoc-tinh}" method="post" >
+                            <input type="hidden" name="id" id="showIdAttribute"  value="">
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Xóa</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        <div class="modal fade" id="modal-lg">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Large Modal</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="example3" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th >ID</th>
+                                <th >Tên Thuộc Tính</th>
+                                <th >Mô Tả</th>
+                                <th >Kiểu Nhập</th>
+                                <th >Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="showAttribute">
+
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th >ID</th>
+                                <th >Tên Thuộc Tính</th>
+                                <th >Mô Tả</th>
+                                <th >Kiểu Nhập</th>
+                                <th >Action</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <a id="urlCreateAttr" class="btn btn-primary" th:href="@{them-gia-tri-thuoc-tinh}">Thêm</a>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+            });
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+            $("#example3").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+                "searching": false,
+                "lengthChange": false,
+            });
+        });
+        $(document).ready(function() {
+            $('body').on('click','.deleteItemAttribute', function () {
+                $("#modal-lg").modal('hide');
+                var getId = $(this).data("id");
+                var getName = $(this).data("name");
+                console.log("đây là id đó mày"+getId)
+                $("#showIdAttribute").val(getId);
+                $("#showNameAttribute").text(getName);
+            })
+            $('body').on('click', '.ModelDeleteFormAttribute',function() {
+                var getId = $(this).data("id");
+                var getName = $(this).data("name");
+                $("#showId").val(getId);
+                $("#showName").text(getName);
+            })
+            $('body').on('click', '.modelShowAttribute',function() {
+                var getId = $(this).data("id");
+                var getName = $(this).data("name");
+                $('#urlCreateAttr').attr("href","them-gia-tri-thuoc-tinh?id="+getId);
+                // $("#showId").val(getId);
+                $("#attrName").text(getName);
+                $.ajax({
+                    type: "GET",
+                    url: "/quan-tri/api/getAttribute/"+getId,
+                    //data: myusername,
+                    cache: false,
+                    success: function(data){
+                        var html = '';
+                        $.each (data, function (key, item){
+                            console.log(item.id)
+                            html += '<tr><td>';
+                            html += item.id;
+                            html += '</td><td id="name">';
+                            html+=item.name;
+                            html+= '</td><td id="description">';
+                            html+= item.description;
+                            html+= '</td><td id="dataType">';
+                            html+= item.dataType;
+                            html+='</td><td><a href="sua-gia-tri-cua-thuoc-tinh?id='+item.id+'" class="btn btn-primary " style="font-size: 12px">Sửa</a><button type="button" class="btn btn-custon-rounded-three btn-danger btn-sm deleteItemAttribute"  data-id="'+item.id+'" data-name="'+item.name+'" data-toggle="modal" data-target="#ModelDeleteFormAttribute">Xóa</button></td></tr>';
+
+                        })
+                        $("#showAttribute").html(html);
+                    }
+                });
+            })
+            // $('.radioCheckedTrue').attr("checked", "true");
+
+        })
+    </script>
+</th:block>
+</body>
+</html>
