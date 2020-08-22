@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<!-- Mirrored from theme.nileforest.com/html/philos/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 24 Jul 2020 07:18:14 GMT -->
+<head>
+    <meta charset="utf-8">
+    <title>Philos - Responsive Ecommerce Html Template</title>
+    <meta name="description" content="Philos Template" />
+    <meta name="keywords" content="philos, WooCommerce, bootstrap, html template, philos template">
+    <meta name="author" content="philos" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <!-- Favicone Icon -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/client/img/favicon.ico}">
+    <link rel="icon" type="img/png" th:href="@{/client/img/favicon.png}">
+    <link rel="apple-touch-icon" th:href="@{/client/img/favicon.png}">
+
+    <!-- CSS -->
+    <link th:href="@{/client/css/plugins/bootstrap.css}" rel="stylesheet" type="text/css" />
+    <!-- bootstrap css -->
+    <link th:href="@{/client/css/plugins/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+    <!-- fontawesome css -->
+    <link th:href="@{/client/css/plugins/animate.css}" rel="stylesheet" type="text/css" />
+    <!-- animate css -->
+    <link th:href="@{/client/css/style.css}" rel="stylesheet" type="text/css" />
+    <!-- template css -->
+    <link th:href="@{/client/plugins/revslider/css/settings-ver.5.3.1.css}" rel="stylesheet" type="text/css" />
+    <!-- Slider Revolution Css Setting -->
+
+</head>
+<body>
+
+
+<div th:replace="fragments/header :: header"></div>
+
+<div layout:fragment="content"></div>
+<!--footer.html  that's here  -->
+<div th:replace="fragments/footer :: footer"></div>
+
+
+
+
+<!--==========================================-->
+<!-- JAVASCRIPT -->
+<!--==========================================-->
+<script type="text/javascript" th:src="@{/client/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/client/s/plugins/jquery-ui.js}"></script>
+<!-- jquery library js -->
+<script type="text/javascript" th:src="@{/client/js/plugins/modernizr.js}"></script>
+<!--modernizr Js-->
+<script type="text/javascript" th:src="@{/client/plugins/revslider/js/jquery.themepunch.revolution.min.js}"></script>
+<script type="text/javascript" th:src="@{/client/plugins/revslider/js/jquery.themepunch.tools.min.js}"></script>
+<script type="text/javascript" th:src="@{/client/plugins/revslider/js/revolution.extension.navigation.min.js}"></script>
+<script type="text/javascript" th:src="@{/client/plugins/revslider/js/revolution.extension.parallax.min.js}"></script>
+<script type="text/javascript" th:src="@{/client/plugins/revslider/js/revolution.extension.slideanims.min.js}"></script>
+<script type="text/javascript" th:src="@{/client/plugins/revslider/js/revolution.extension.layeranimation.min.js}"></script>
+<!--Slider Revolution Js File-->
+<script type="text/javascript" th:src="@{/client/js/plugins/tether.min.js}"></script>
+<!--Bootstrap tooltips require Tether (Tether Js)-->
+<script type="text/javascript" th:src="@{/client/js/plugins/bootstrap.min.js}"></script>
+<!-- bootstrap js -->
+<script type="text/javascript" th:src="@{/client/js/plugins/owl.carousel.js}"></script>
+<!-- OWL carousel js -->
+<script type="text/javascript" th:src="@{/client/js/plugins/slick.js}"></script>
+<!-- Slick Slider js -->
+<script type="text/javascript" th:src="@{/client/js/plugins/plugins-all.js}"></script>
+<!-- Plugins All js -->
+<script type="text/javascript" th:src="@{/client/js/custom.js}"></script>
+<!-- custom js -->
+<!-- end jquery -->
+
+
+
+
+</body>
+</html>

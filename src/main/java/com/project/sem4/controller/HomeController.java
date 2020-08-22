@@ -29,7 +29,7 @@ public class HomeController {
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String Index(ModelMap model){
         model.addAttribute("msg", "Đây là trang chủ");
-        return "index";
+        return "home";
     }
 
 
