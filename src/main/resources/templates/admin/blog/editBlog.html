@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{admin/fragments/main_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Blog</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Sửa Bài Viết</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- left column -->
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Sửa Blog</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form class="form-horizontal" th:action="@{sua-bai-viet}" method="POST" th:object="${blogs}">
+                            <input type="hidden" th:field="*{id}">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label for="image" class="col-sm-2 col-form-label">Tiêu Đề Bài Viết</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" th:field="*{title}" class="form-control " th:classappend="${#fields.hasErrors('title')} ? is-invalid : ''" id="title"  placeholder="Nhập Tiêu Đề">
+                                        <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="image" class="col-sm-2 col-form-label">Ảnh Đại Diện</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" th:field="*{image}" class="form-control " th:classappend="${#fields.hasErrors('image')} ? is-invalid : ''" id="image" style="display: none"  placeholder="ảnh">
+                                        <img id="show_image" th:src="${(blogs.image != null && !#strings.isEmpty(blogs.image)) ? blogs.image : '/admin/dist/img/00001.png'}" onclick="OpenPopupWindow('image')"  alt="..." class="img-thumbnail show_edit_images" style="width: 30%;">
+                                        <div th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Danh Mục</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" th:classappend="${#fields.hasErrors('blogCategoryId')} ? is-invalid : ''" th:field="*{blogCategoryId}">
+                                            <option value="">Chọn Danh Mục</option>
+                                            <option th:each="bc : ${blogCategories}" th:value="${bc.id}" th:text="${bc.name}"/>
+                                        </select>
+                                        <div th:if="${#fields.hasErrors('blogCategoryId')}" th:errors="*{blogCategoryId}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label  class="col-sm-2 col-form-label">Bài Viết</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="textarea" placeholder="Place some text here" th:field="*{content}"></textarea>
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="invalid-feedback">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="offset-sm-2 col-sm-10">
+                                        <button type="submit" class="btn btn-info">Lưu</button>
+                                        <button type="reset" class="btn btn-default ">Làm Mới</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-footer -->
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script>
+        $(function () {
+            // Summernote
+            $('.textarea').summernote({
+                callbacks: {
+                    onImageUpload: function (files, editor, welEditable) {
+                        var url = sendFile(files[0], editor, welEditable);
+                    }
+                },
+                height: 300,
+            })
+        })
+    </script>
+</th:block>
+</body>
+</html>

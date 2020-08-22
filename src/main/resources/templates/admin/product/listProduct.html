@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{admin/fragments/main_layout}" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Đây Là Trang Quản Lý</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>DataTables</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">DataTables</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">DataTable with default features</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tên Sản Phẩm</th>
+                                                <th>Ảnh</th>
+                                                <th>Giá</th>
+                                                <th>Số Lượng</th>
+                                                <th>Trạng Thái</th>
+                                                <th>Hành Động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="p : ${list}">
+                                            <td th:text="${p.id}"></td>
+                                            <td th:text="${p.productName}"></td>
+                                            <td th:text="${p.imageLink}"></td>
+                                            <td th:text="${p.price}"></td>
+                                            <td th:text="${p.quantity}"></td>
+                                            <td th:text="${p.status} ? 'Hiện' : 'Ẩn'"></td>
+                                            <td>
+                                                <a th:href="@{san-pham/sua-danh-muc(id = ${p.id})}" class="btn btn-primary ">Sửa</a>
+                                                <button type="button" class="btn btn-default deleteItem" th:attr="data-id=${p.id}, id=deleteItem+${p.id}, data-name=${p.productName}" data-toggle="modal" data-target="#modal-sm">Xóa</button>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tên Sản Phẩm</th>
+                                                <th>Ảnh</th>
+                                                <th>Giá</th>
+                                                <th>Số Lượng</th>
+                                                <th>Trạng Thái</th>
+                                                <th>Hành Động</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div class="modal fade" id="modal-sm">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Bạn Có Muốn Xóa <p id="showName"></p></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{danh-muc/xoa-danh-muc}" method="post" id="myform">
+                            <input type="hidden" name="id" id="showId" value="">
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Xóa</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+            });
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>

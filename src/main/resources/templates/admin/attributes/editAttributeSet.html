@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{admin/fragments/main_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Thuộc Tính</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Thuộc Tính</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- left column -->
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Sửa Thuộc Tính</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form class="form-horizontal" th:action="@{sua-thuoc-tinh}" method="POST" th:object="${attributeSet}">
+                            <input type="hidden" th:field="*{id}">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Tên Thuộc Tính</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" th:field="*{name}" class="form-control " th:classappend="${#fields.hasErrors('name')} ? is-invalid : ''" id="inputEmail3" placeholder="Nhập Tên Danh Mục">
+                                        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Mô Tả</label>
+                                    <div class="col-sm-4">
+                                        <textarea class="form-control" th:field="*{description}" th:classappend="${#fields.hasErrors('description')} ? is-invalid : ''" rows="3" placeholder="Mô Tả"></textarea>
+                                        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--                                <div class="form-group row">-->
+                                <!--                                    <div class="offset-sm-2 col-sm-10">-->
+                                <!--                                        <div class="form-check">-->
+                                <!--                                            <input type="checkbox" class="form-check-input" th:field="*{status}" id="status" value="true">-->
+                                <!--                                            <label class="form-check-label" for="status">Hiện Thị</label>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <div class="form-group row">
+                                    <div class="offset-sm-2 col-sm-10">
+                                        <button type="submit" class="btn btn-info">Lưu</button>
+                                        <button type="reset" class="btn btn-default ">Làm Mới</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+
+                            </div>
+                            <!-- /.card-footer -->
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

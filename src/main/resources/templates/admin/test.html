@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+<form action="#" th:action="@{query/submitQuery}" th:object="${wrapper}" method="post">
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Select</th>
+            <th>Client ID</th>
+            <th>IP Addresss</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="currentClient, stat : *{clientList}">
+            <td>
+                <input type="checkbox" th:field="*{clientList[__${stat.index}__].selected}" />
+                <input type="hidden" th:field="*{clientList[__${stat.index}__].clientID}" />
+                <input type="hidden" th:field="*{clientList[__${stat.index}__].ipAddress}" />
+                <input type="hidden" th:field="*{clientList[__${stat.index}__].description}" />
+            </td>
+            <td th:text="${currentClient.getClientID()}"></td>
+            <td th:text="${currentClient.getIpAddress()}"></td>
+            <td th:text="${currentClient.getDescription()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="submit" value="submit" class="btn btn-success">Submit</button>
+</form>
+
+</body>
+</html>

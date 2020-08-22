@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+
+
+<!-- Mirrored from themeon.net/nifty/v2.9.1/app-file-manager.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Aug 2020 10:11:44 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>File Manager | Nifty - Admin Template</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <!--STYLESHEET-->
+    <!--=================================================-->
+    <!--Open Sans Font [ OPTIONAL ]-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+
+
+    <!--Bootstrap Stylesheet [ REQUIRED ]-->
+    <link rel="stylesheet" th:href="@{/admin/mnphuc/bootstrap.min.css}">
+
+
+    <!--Nifty Stylesheet [ REQUIRED ]-->
+    <link th:href="@{/admin/mnphuc/nifty.min.css}" rel="stylesheet">
+
+
+    <!--Nifty Premium Icon [ DEMONSTRATION ]-->
+    <link th:href="@{/admin/mnphuc/nifty-demo-icons.min.css}" rel="stylesheet">
+
+
+
+    <!--Pace - Page Load Progress Par [OPTIONAL]-->
+    <link th:href="@{/admin/mnphuc/pace.min.css}" rel="stylesheet">
+    <script th:src="@{/admin/mnphuc/pace.min.js}"></script>
+<!--    &lt;!&ndash;Demo [ DEMONSTRATION ]&ndash;&gt;-->
+<!--    <link th:href="@{/admin/mnphuc/nifty-demo.min.css}" rel="stylesheet">-->
+</head>
+<body>
+<div class="panel">
+    <div class="pad-all file-manager">
+        <div class="fixed-fluid">
+            <div class="fixed-sm-200 pull-sm-left file-sidebar">
+                <div class="bord-btm pad-btm">
+                    <form method="post" action="" enctype="multipart/form-data" id="myform">
+                        <input id="selectFile" name="fileUpdate" accept="image/*" type="file" multiple style="display: none"/>
+                    </form>
+                    <a href="#" id="fileUpload" class="btn btn-block btn-lg btn-info v-middle">Upload Files</a>
+                </div>
+                <p class="pad-hor mar-top text-main text-bold text-sm text-uppercase">Folders</p>
+                <div class="list-group bg-trans pad-btm bord-btm" id="listFolder">
+                    <a href="#" class="list-group-item">
+                        <i class="demo-pli-folder icon-lg icon-fw"></i> ...
+                    </a>
+                    <a href="#" class="list-group-item text-bold">
+                        <span class="text-main"><i class="demo-pli-folder-with-document icon-lg icon-fw"></i> Documents</span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="demo-pli-folder icon-lg icon-fw"></i> Favorites
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="demo-pli-folder icon-lg icon-fw"></i> Data
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="demo-pli-folder icon-lg icon-fw"></i> PDF Docs
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="demo-pli-folder icon-lg icon-fw"></i> Illustration
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="demo-pli-folder icon-lg icon-fw"></i> Github
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="demo-pli-folder icon-lg icon-fw"></i> Server
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="demo-pli-folder icon-lg icon-fw"></i> Old Files
+                    </a>
+                </div>
+            </div>
+            <div class="fluid file-panel">
+                <div class="bord-btm pad-ver">
+                    <ol class="breadcrumb">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">App Views</a></li>
+                        <li class="active">File Manager</li>
+                    </ol>
+                </div>
+                <div class="file-toolbar bord-btm">
+                    <div class="btn-file-toolbar">
+                        <a class="btn btn-icon add-tooltip" href="#" data-original-title="Home" data-toggle="tooltip"><i class="icon-2x demo-pli-home"></i></a>
+                        <a class="btn btn-icon add-tooltip" href="#" data-original-title="Refresh" data-toggle="tooltip"><i class="icon-2x demo-pli-reload-3"></i></a>
+                    </div>
+                    <div class="btn-file-toolbar">
+                        <a class="btn btn-icon add-tooltip" href="#" data-original-title="New Folder" data-toggle="tooltip"><i class="icon-2x demo-pli-folder"></i></a>
+                        <a class="btn btn-icon add-tooltip" href="#" data-original-title="New File" data-toggle="tooltip"><i class="icon-2x demo-pli-file-add"></i></a>
+                        <a class="btn btn-icon add-tooltip" href="#" data-original-title="Edit File" data-toggle="tooltip"><i class="icon-2x demo-pli-file-edit"></i></a>
+                    </div>
+                    <div class="btn-file-toolbar pull-right">
+                        <a class="btn btn-icon add-tooltip" href="#" data-original-title="Delete" data-toggle="tooltip"><i class="icon-2x demo-pli-recycling"></i></a>
+                        <a class="btn btn-icon add-tooltip" href="#" data-original-title="Download" data-toggle="tooltip"><i class="icon-2x demo-pli-download-from-cloud"></i></a>
+                    </div>
+                </div>
+                <ul id="listImage" class="file-list">
+                    <!--File list item-->
+                    <li>
+                        <div class="file-control">
+                            <input id="file-list-9" class="magic-checkbox" type="checkbox">
+                            <label for="file-list-9"></label>
+                        </div>
+                        <div class="file-settings"><a href="#"><i class="pci-ver-dots"></i></a></div>
+                        <div class="file-attach-icon"></div>
+                        <a href="#" class="file-details">
+                            <div class="media-block">
+                                <div class="media-left"><i class="demo-pli-file-jpg"></i></div>
+                                <div class="media-body">
+                                    <p class="file-name">Nature.jpg</p>
+                                    <small>Created 3 weeks ago | 56 KB</small>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="button" id="save_value" name="save_value" value="Save" />
+
+<!--JAVASCRIPT-->
+<!--=================================================-->
+<!--jQuery [ REQUIRED ]-->
+<script th:src="@{/admin/mnphuc/jquery.min.js}"></script>
+
+
+<!--BootstrapJS [ RECOMMENDED ]-->
+<script th:src="@{/admin/mnphuc/bootstrap.min.js}"></script>
+
+
+<!--&lt;!&ndash;NiftyJS [ RECOMMENDED ]&ndash;&gt;-->
+<!--<script th:src="@{/admin/js/nifty.min.js}"></script>-->
+
+<!--=================================================-->
+
+<!--Demo script [ DEMONSTRATION ]-->
+<!--<script th:src="@{/admin/js/nifty-demo.min.js}"></script>-->
+<script>
+    $(document).ready(function() {
+        getAllImage();
+        // getAllFolder();
+        var token = $("meta[name='_csrf']").attr("content");
+        console.log(token)
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        });
+    });
+    function getAllImage(){
+        $.ajax({
+            type: "GET",
+            url: "/quan-tri/api/getAllFile/",
+            success: function (data) {
+                var html = '';
+
+                $.each (data, function (key, item){
+                    html += '<li ><div class="file-control"><input id="file-list-'+key+'" class="magic-checkbox " value="'+item.rootDirName+'" type="checkbox">';
+                    html += '<label for="file-list-'+key+'"></label></div><div class="file-settings"><a href="#" ><i class="pci-ver-dots"></i></a></div>';
+                    html += ' <div class="file-attach-icon"></div><a href="#" class="file-details"><div class="media-block" data-image="'+item.rootDirName+'"> <div class="media-left"><img src="'+item.rootDirName   +'" style="height: 60px"></div>';
+                    html += '<div class="media-body"> <p class="file-name">'+item.name+'</p><small>Created 3 weeks ago | 56 KB</small>';
+                    html += ' </div></div></a></li>';
+                })
+                $('#listImage').html(html);
+            }
+        })
+    }
+    function getAllFolder(){
+        $.ajax({
+            type: "GET",
+            url: "/quan-tri/api/getAllFolder/",
+            cache: false,
+            success: function (data) {
+                var html = '';
+                html += '<a href="#" class="list-group-item active"><i class="demo-pli-folder icon-lg icon-fw"></i>All File</a>';
+                $.each (data, function (key, item){
+                    html += ' <a href="#" class="list-group-item">';
+                    html += '<i class="demo-pli-folder icon-lg icon-fw"></i>';
+                    html += item.nameFolder;
+                    html += '</a>';
+                })
+                $('#listFolder').html(html);
+            }
+        })
+    }
+    $(document).ready(function() {
+        $('body').on('click', '#fileUpload', function () {
+            $('#selectFile').click();
+                $('#selectFile').change(function () {
+                    console.log("đã thay đổi dữ liệu")
+                    var fd = new FormData();
+                    var files = $('#selectFile').get(0).files;
+                    //fd.append('file', files);
+                    for (var i = 0; i < files.length; i++){
+                        fd.append('file', files[i]);
+                    }
+
+                    $.ajax({
+                        url: 'api/saveImage',
+                        type: 'post',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        success: function (data, textStatus, xhr) {
+                                getAllImage();
+                        }
+                    })
+                })
+        })
+        $(document).ready(function(){
+            $('body').on('click', '#listImage .media-block', function () {
+                var bien = $(this).data('image');
+                getImage(bien)
+            })
+            $('#save_value').click(function () {
+                var arr = $('.magic-checkbox:checked').map(function () {
+                    return this.value;
+                }).get();
+                console.log(arr);
+            });
+
+        });
+
+        function getImage(value) {
+
+            if (window.opener != null && !window.opener.closed) {
+                var tech = getUrlParameter('id');
+                var txtName = window.opener.document.getElementById(tech); // ID này là của parent form
+                txtName.value = value;
+                window.opener.popupCallback(value);
+            }
+            window.close();
+        }
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+    })
+
+</script>
+</body>
+</html>

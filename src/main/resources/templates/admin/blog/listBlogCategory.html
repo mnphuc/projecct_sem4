@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{admin/fragments/main_layout}" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Đây Là Trang Quản Lý</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Blog</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Quản Trị</a></li>
+                                <li class="breadcrumb-item active">Blog</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Danh Sách Danh Mục Blog</h3>
+                                    <a th:href="@{them-danh-muc-blog}" class="btn btn-primary float-right">Thêm Danh Mục Blog</a>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th >ID</th>
+                                            <th >Tên</th>
+                                            <th >Mô Tả</th>
+                                            <th >Ngày Tạo</th>
+                                            <th >Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="c : ${list}">
+                                            <td th:text="${c.id}"></td>
+                                            <td th:text="${c.name}"></td>
+                                            <td th:text="${c.description}"></td>
+                                            <td th:text="${c.createAt}"></td>
+                                            <td>
+                                                <a th:href="@{sua-danh-muc-blog(id = ${c.id})}" class="btn btn-primary ">Sửa</a>
+                                                <button type="button" class="btn btn-default deleteItem"  th:attr="data-id=${c.id}, id=deleteItem+${c.id}, data-name=${c.name}" data-toggle="modal" data-target="#modal-sm">Xóa</button>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th >ID</th>
+                                            <th >Tên</th>
+                                            <th >Mô Tả</th>
+                                            <th >Ngày Tạo</th>
+                                            <th >Action</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div class="modal fade" id="modal-sm">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Bạn Có Muốn Xóa <p id="showName"></p></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{xoa-danh-muc-blog}" method="post" id="myform">
+                            <input type="hidden" name="id" id="showId" value="">
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Xóa</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+            });
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>

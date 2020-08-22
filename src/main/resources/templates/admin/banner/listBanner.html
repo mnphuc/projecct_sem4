@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{admin/fragments/main_layout}" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Đây Là Trang Quản Lý</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Banner</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Quản Trị</a></li>
+                                <li class="breadcrumb-item active">Banner</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Danh Sách Banner</h3>
+                                    <a th:href="@{them-banner}" class="btn btn-primary float-right">Thêm Banner</a>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th >ID</th>
+                                            <th >Tiêu Đề</th>
+                                            <th >Ảnh</th>
+                                            <th >Mô Tả</th>
+                                            <th >Đích Đến</th>
+                                            <th >Vị Trí</th>
+                                            <th >Ngày Tạo</th>
+                                            <th >Trạng Thái</th>
+                                            <th >Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="b : ${list}">
+                                            <td th:text="${b.id}"></td>
+                                            <td th:text="${b.titleBanner}"></td>
+                                            <td th:text="${b.imageLink}"></td>
+                                            <td th:text="${b.description}"></td>
+                                            <td th:text="${b.linkRedirect}"></td>
+                                            <td >
+                                                <th:block th:if="${b.typeBanner == 1}">Đầu trang</th:block>
+                                                <th:block th:if="${b.typeBanner == 2}">Giữa trang</th:block>
+                                                <th:block th:if="${b.typeBanner == 3}">Cuối trang</th:block>
+                                            </td>
+                                            <td th:text="${b.createDate}"></td>
+                                            <td th:text="${b.status} ? 'Hiển Thị' : 'Ẩn'"></td>
+                                            <td>
+                                                <a th:href="@{sua-banner(id = ${b.id})}" class="btn btn-primary ">Sửa</a>
+                                                <button type="button" class="btn btn-default deleteItem"  th:attr="data-id=${b.id}, id=deleteItem+${b.id}, data-name=${b.titleBanner}" data-toggle="modal" data-target="#modal-sm">Xóa</button>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th >ID</th>
+                                            <th >Tiêu Đề</th>
+                                            <th >Ảnh</th>
+                                            <th >Mô Tả</th>
+                                            <th >Đích Đến</th>
+                                            <th >Vị Trí</th>
+                                            <th >Ngày Tạo</th>
+                                            <th >Trạng Thái</th>
+                                            <th >Action</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div class="modal fade" id="modal-sm">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Bạn Có Muốn Xóa <p id="showName"></p></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{xoa-banner}" method="post" id="myform">
+                            <input type="hidden" name="id" id="showId" value="">
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Xóa</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+            });
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>
