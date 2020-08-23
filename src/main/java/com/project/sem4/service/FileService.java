@@ -4,18 +4,12 @@ import com.project.sem4.model.view.FileInfo;
 import com.project.sem4.model.view.FolderInfo;
 import com.project.sem4.vendor.MnpFileCommon;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
+
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -24,8 +18,7 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 @Service
 public class FileService {
@@ -33,16 +26,11 @@ public class FileService {
     public static final String SAFE_DIR_NAME = "safe";
     public static final String[] fs = { DIR_NAME, SAFE_DIR_NAME };
     private static String ROOT_URL = "src/main/resources/static/uploads/";
-    @Autowired
-    private ServletContext context;
-    @Autowired
-    private ResourceLoader resourceLoader;
+
     @Autowired
     ResourcePatternResolver resourcePatternResolver;
-    @Autowired
-    HttpServletRequest request;
 
-    public List<FileInfo> findAll(String rootDirName, String dirPath, FileFilter fileFilter) throws IOException {
+    public List<FileInfo> findAll(String rootDirName, String dirPath, FileFilter fileFilter) {
         List<FileInfo> fileInfos = new ArrayList<>();
         File directory = new File(ROOT_URL);
         //List<FolderInfo> listFolder = getAllFolder(DIR_NAME);
@@ -120,7 +108,7 @@ public class FileService {
         Boolean bl = false;
         try {
             bl = Files.deleteIfExists(path);
-            return bl;
+            return bl ;
         } catch (IOException e) {
             e.printStackTrace();
         }
