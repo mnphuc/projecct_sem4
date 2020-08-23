@@ -129,12 +129,12 @@
             <!-- Search Form -->
             <form role="search" id="searchform" action="http://theme.nileforest.com/search" method="get">
                 <div class="search-icon-lg">
-                    <img src="img/search-icon-lg.png" alt="" />
+                    <img th:src="@{/client/img/search-icon-lg.png}" alt="" />
                 </div>
                 <label class="h6 normal search-input-label" for="search-query">Enter keywords to Search Product</label>
-                <input value="" name="q" type="search" placeholder="Search..." />
+                <input value="" name="q" type="search" id="search-query" placeholder="Search..." />
                 <button type="submit">
-                    <img src="img/search-lg-go-icon.png" alt="" />
+                    <img th:src="@{/client/img/search-lg-go-icon.png}" alt="" />
                 </button>
             </form>
             <!-- End Search Form -->
@@ -210,7 +210,7 @@
                 <!-- Logo -->
                 <div class="logo">
                     <a href="index-2.html">
-                        <img src="img/logo_black.png" alt="Philos" />
+                        <img th:src="@{/client/img/logo_black.png}" alt="Philos" />
                     </a>
                 </div>
                 <!-- End Logo -->
@@ -367,7 +367,7 @@
                                         </li>
                                         <li class="nav-dropdown-grid">
                                             <a href="#" class="sub-banner">
-                                                <img src="img/banner/banner_115145.jpg" alt="" /></a>
+                                                <img th:src="@{/client/img/banner/banner_115145.jpg}" alt="" /></a>
                                         </li>
 
                                     </ul>
