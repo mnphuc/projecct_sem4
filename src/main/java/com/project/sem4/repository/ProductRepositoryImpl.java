@@ -66,7 +66,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         String abc = new Gson().toJson(insertProductModel);
         try {
             cs = conn.prepareCall("{call insertProducts (?)}");
-            cs.setString(1, abc);
+            cs.setObject(1, abc);
             int i = cs.executeUpdate();
             if (i >0){
                 bl = true;

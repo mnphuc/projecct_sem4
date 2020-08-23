@@ -124,15 +124,14 @@
     })
 </script>
 <script type="text/Javascript">
-    function OpenPopupWindow(Param)
+    function OpenPopupWindow(Param, CallImage, CallList)
     {
-        var url = "/quan-tri/fileManager?id="+Param;
+        var url = "/quan-tri/fileManager?id="+Param+"&callImage="+CallImage+"&CallList="+CallList;
         myRef = window.open(url ,'mywin','left=20,top=20,width=1300,height=700,toolbar=1,resizable=0');
         myRef.focus()
     }
     function popupCallback(str){
         $("#show_image").attr("src", str);
-
     }
 
 </script>

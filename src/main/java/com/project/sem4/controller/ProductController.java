@@ -5,6 +5,7 @@ import com.project.sem4.model.view.InsertProductModel;
 import com.project.sem4.repository.AttributeRepositoryImpl;
 import com.project.sem4.repository.CategoriesRepositoryImpl;
 import com.project.sem4.repository.ProductRepositoryImpl;
+import com.project.sem4.vendor.MnpSlug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,7 +51,8 @@ public class ProductController {
     }
     @RequestMapping(value = "them-san-pham", method = RequestMethod.POST)
     public String insertProductSubmit(@Valid InsertProductModel productModel , Model model) {
-
+        String slug = MnpSlug.makeSlug(productModel.getProductName());
+         productModel.setSlug(slug);
         Boolean bl = productRepository.insertProducts(productModel);
         if (bl) {
 

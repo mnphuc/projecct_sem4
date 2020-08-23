@@ -47,7 +47,7 @@
                                     <label for="image" class="col-sm-2 col-form-label">Ảnh Đại Diện</label>
                                     <div class="col-sm-4">
                                         <input type="text" th:field="*{imageLink}" class="form-control " th:classappend="${#fields.hasErrors('imageLink')} ? is-invalid : ''" id="image" style="display: none"  placeholder="ảnh">
-                                        <img id="show_image" th:src="@{/admin/dist/img/00001.png}" onclick="OpenPopupWindow('imageLink')"  alt="..." class="img-thumbnail show_edit_images" style="width: 30%;">
+                                        <img id="show_image" th:src="@{/admin/dist/img/00001.png}" onclick="OpenPopupWindow('image', 'true', 'false')"  alt="..." class="img-thumbnail show_edit_images" style="width: 30%;">
                                         <div th:if="${#fields.hasErrors('imageLink')}" th:errors="*{imageLink}" class="invalid-feedback">
                                         </div>
                                     </div>
@@ -56,7 +56,7 @@
                                     <label for="Listimage" class="col-sm-2 col-form-label">Ảnh Chi Tiết</label>
                                     <div class="col-sm-4">
                                         <input type="text" th:field="*{imageList}" class="form-control " th:classappend="${#fields.hasErrors('imageList')} ? is-invalid : ''" id="Listimage" style="display: none"  placeholder="ảnh">
-                                        <img id="show_imageList" th:src="@{/admin/dist/img/00001.png}" onclick="OpenPopupWindow('imageList')"  alt="..." class="img-thumbnail show_edit_images" style="width: 30%;">
+                                        <img id="show_imageList" th:src="@{/admin/dist/img/00001.png}" onclick="OpenPopupWindow('Listimage')"  alt="..." class="img-thumbnail show_edit_images" style="width: 30%;">
                                         <div th:if="${#fields.hasErrors('imageList')}" th:errors="*{imageList}" class="invalid-feedback">
                                         </div>
                                     </div>
@@ -155,17 +155,17 @@
             var data =  $('#data').val();
             var html = "";
             $.each(JSON.parse(data), function(i, item) {
-                html += '<div class="form-group row"><label class="col-sm-2 col-form-label">';
-                html += data.Name;
+                html += '<div class="form-group row"><label class="col-sm-2 col-form-label">'+item.Name+'';
                 html+= '</label><div class="col-sm-10 row">';
                 $.each(item.attribute, function (ii, it){
                     html += '<div class="col-sm-3"><div class="custom-control custom-checkbox">';
-                    html += '<input class="custom-control-input" type="checkbox" id="checkB'+it.Id+'" value="'+it.Id+'">';
+                    html += '<input class="custom-control-input" type="checkbox" name="productAttributes" id="checkB'+it.Id+'" value="'+it.Id+'">';
                     html += '<label for="checkB'+it.Id+'" class="custom-control-label">'+it.Name+'</label>';
-                    html += '</div></div></div></div>';
+                    html += '</div></div>';
                 })
+                html += '</div></div>';
             });
-            ShowAttr.html(html);
+            $('#ShowAttr').html(html);
         })
     </script>
 </th:block>
