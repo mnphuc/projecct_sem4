@@ -2,6 +2,7 @@ package com.project.sem4.repository.interfaces;
 
 import com.project.sem4.model.Attribute;
 import com.project.sem4.model.AttributeSet;
+import com.project.sem4.model.view.AttributeSetAttributeView;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface AttributeRepository {
     public Boolean updateAttribute(Attribute attribute);
     public Attribute findAttributeById(Integer id);
     public Boolean deleteAttribute(Integer id);
+    public String getListAttributeSetAttributeViews();
 }

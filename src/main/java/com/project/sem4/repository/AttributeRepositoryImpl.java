@@ -1,16 +1,18 @@
 package com.project.sem4.repository;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.sem4.model.Attribute;
 import com.project.sem4.model.AttributeSet;
+import com.project.sem4.model.view.AttributeSetAttributeView;
 import com.project.sem4.repository.interfaces.AttributeRepository;
 import com.project.sem4.vendor.DBConnect;
 import org.springframework.stereotype.Repository;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -296,4 +298,26 @@ public class AttributeRepositoryImpl implements AttributeRepository {
         }
         return bl;
     }
+
+    @Override
+    public String getListAttributeSetAttributeViews() {
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        String json = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call returnJson}");
+            rs = cs.executeQuery();
+            while (rs.next()){
+                json = (String) rs.getObject("JSON_F52E2B61-18A1-11d1-B105-00805F49916B");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+
+        }
+        return json;
+    }
+
 }

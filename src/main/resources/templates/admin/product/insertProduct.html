@@ -6,195 +6,168 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="wrapper-pro">
-        <div class="content-inner-all">
-            <div class="basic-form-area mg-b-15">
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="sparkline12-list shadow-reset mg-t-30">
-                                <div class="sparkline12-hd">
-                                    <div class="main-sparkline12-hd">
-                                        <h1>Thêm Giá Trị Của Thuộc Tính</h1>
-                                        <div class="sparkline12-outline-icon">
-                                            <span class="sparkline12-collapse-link"><i class="fa fa-chevron-up"></i></span>
-                                            <span><i class="fa fa-wrench"></i></span>
-                                            <span class="sparkline12-collapse-close"><i class="fa fa-times"></i></span>
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Blog</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Thêm Sản Phẩm Mới</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- left column -->
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Thêm Blog</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form class="form-horizontal" th:action="@{them-san-pham}" method="POST" th:object="${insertProductModel}">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-2 col-form-label">Tên Sản Phẩm</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" th:field="*{productName}" class="form-control " th:classappend="${#fields.hasErrors('productName')} ? is-invalid : ''" id="name"  placeholder="Nhập Tên Sản Phẩm">
+                                        <div th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" class="invalid-feedback">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="sparkline12-graph">
-                                    <div class="basic-login-form-ad">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="all-form-element-inner">
-                                                    <form class="needs-validation" th:action="@{them-san-pham}" method="POST" th:object="${insertProductModel}">
-                                                        <div class="form-group-inner" th:classappend="${#fields.hasErrors('productName')} ? has-error : ''">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Tên Sản Phẩm</label>
-                                                                </div>
-                                                                <div class="col-lg-4" th:classappend="${#fields.hasErrors('productName')} ? 'input-icon right' : ''">
-                                                                    <i th:if="${#fields.hasErrors('productName')}" class="fa fa-exclamation tooltips" data-original-title="Vui Lòng nhập tên Thuộc tính" data-container="body" style="padding-right: 22px"></i>
-                                                                    <input type="text" class="form-control" th:field="*{productName}" placeholder="Nhập Tên Thuộc Tính " />
-                                                                    <span th:if="${#fields.hasErrors('productName')}" class="help-block" th:errors="*{productName}"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner" th:classappend="${#fields.hasErrors('price')} ? has-error : ''">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Giá</label>
-                                                                </div>
-                                                                <div class="col-lg-4" th:classappend="${#fields.hasErrors('price')} ? 'input-icon right' : ''">
-                                                                    <i th:if="${#fields.hasErrors('description')}" class="fa fa-exclamation tooltips" data-original-title="Vui Lòng nhập Mô TảP" data-container="body" style="padding-right: 22px"></i>
-                                                                    <input type="text" class="form-control" th:field="*{price}" placeholder="Nhập Mô Tả " />
-                                                                    <span th:if="${#fields.hasErrors('price')}" class="help-block" th:errors="*{price}"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner" th:classappend="${#fields.hasErrors('priceSale')} ? has-error : ''">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Giá</label>
-                                                                </div>
-                                                                <div class="col-lg-4" th:classappend="${#fields.hasErrors('priceSale')} ? 'input-icon right' : ''">
-                                                                    <i th:if="${#fields.hasErrors('priceSale')}" class="fa fa-exclamation tooltips" data-original-title="Vui Lòng nhập Mô TảP" data-container="body" style="padding-right: 22px"></i>
-                                                                    <input type="text" class="form-control" th:field="*{price}" placeholder="Nhập Mô Tả " />
-                                                                    <span th:if="${#fields.hasErrors('priceSale')}" class="help-block" th:errors="*{priceSale}"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner" th:classappend="${#fields.hasErrors('imageList')} ? has-error : ''">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Giá Khuyến Mại</label>
-                                                                </div>
-                                                                <div class="col-lg-4" th:classappend="${#fields.hasErrors('imageList')} ? 'input-icon right' : ''">
-                                                                    <i th:if="${#fields.hasErrors('imageList')}" class="fa fa-exclamation tooltips" data-original-title="Vui Lòng nhập Mô TảP" data-container="body" style="padding-right: 22px"></i>
-                                                                    <input type="text" class="form-control" th:field="*{imageList}" placeholder="Nhập Mô Tả " />
-                                                                    <span th:if="${#fields.hasErrors('imageList')}" class="help-block" th:errors="*{imageList}"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner" th:classappend="${#fields.hasErrors('quantity')} ? has-error : ''">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Số Lượng</label>
-                                                                </div>
-                                                                <div class="col-lg-4" th:classappend="${#fields.hasErrors('quantity')} ? 'input-icon right' : ''">
-                                                                    <i th:if="${#fields.hasErrors('quantity')}" class="fa fa-exclamation tooltips" data-original-title="Vui Lòng nhập Mô TảP" data-container="body" style="padding-right: 22px"></i>
-                                                                    <input type="text" class="form-control" th:field="*{quantity}" placeholder="Nhập Mô Tả " />
-                                                                    <span th:if="${#fields.hasErrors('quantity')}" class="help-block" th:errors="*{quantity}"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner" th:classappend="${#fields.hasErrors('saleStatus')} ? has-error : ''">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Trạng Thái Sale</label>
-                                                                </div>
-                                                                <div class="col-lg-4" th:classappend="${#fields.hasErrors('saleStatus')} ? 'input-icon right' : ''">
-                                                                    <i th:if="${#fields.hasErrors('saleStatus')}" class="fa fa-exclamation tooltips" data-original-title="Vui Lòng nhập Mô TảP" data-container="body" style="padding-right: 22px"></i>
-                                                                    <input type="text" class="form-control" th:field="*{saleStatus}" placeholder="Nhập Mô Tả " />
-                                                                    <span th:if="${#fields.hasErrors('saleStatus')}" class="help-block" th:errors="*{saleStatus}"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner" th:classappend="${#fields.hasErrors('imageLink')} ? has-error : ''">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Giá</label>
-                                                                </div>
-                                                                <div class="col-lg-4" th:classappend="${#fields.hasErrors('imageLink')} ? 'input-icon right' : ''">
-                                                                    <i th:if="${#fields.hasErrors('imageLink')}" class="fa fa-exclamation tooltips" data-original-title="Vui Lòng nhập Mô TảP" data-container="body" style="padding-right: 22px"></i>
-                                                                    <input type="text" class="form-control" th:field="*{imageLink}" placeholder="Nhập Mô Tả " />
-                                                                    <span th:if="${#fields.hasErrors('imageLink')}" class="help-block" th:errors="*{imageLink}"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner" th:classappend="${#fields.hasErrors('description')} ? has-error : ''">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Mô Tả</label>
-                                                                </div>
-                                                                <div class="col-lg-4" th:classappend="${#fields.hasErrors('description')} ? 'input-icon right' : ''">
-                                                                    <i th:if="${#fields.hasErrors('description')}" class="fa fa-exclamation tooltips" data-original-title="Vui Lòng nhập Mô TảP" data-container="body" style="padding-right: 22px"></i>
-                                                                    <input type="text" class="form-control" th:field="*{description}" placeholder="Nhập Mô Tả " />
-                                                                    <span th:if="${#fields.hasErrors('description')}" class="help-block" th:errors="*{description}"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3 col-md-6 col-sm-8 col-xs-6">
-                                                                    <label class="login2 pull-right pull-right-pro">Inline <span class="basic-ds-n">categories</span>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="col-lg-9 col-md-6 col-sm-4 col-xs-6">
-                                                                    <div class="bt-df-checkbox pull-left">
-                                                                        <label th:each="cate : ${listCate}">
-                                                                            <input
-                                                                                   th:text="${cate.categoryName}"
-                                                                                   th:value="${cate.id}" class="pull-left radio-checked" th:field="*{categories}" type="checkbox">
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3 col-md-6 col-sm-8 col-xs-6">
-                                                                    <label class="login2 pull-right pull-right-pro">Inline <span class="basic-ds-n">categories</span>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="col-lg-9 col-md-6 col-sm-4 col-xs-6">
-                                                                    <div class="bt-df-checkbox pull-left">
-                                                                        <label th:each="attr : ${listAttr}">
-                                                                            <input
-                                                                                    th:text="${attr.name}"
-                                                                                    th:value="${attr.id}" class="pull-left radio-checked" th:field="*{productAttributes}" type="checkbox">
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner">
-                                                            <div class="login-btn-inner">
-                                                                <div class="row">
-                                                                    <div class="col-lg-3"></div>
-                                                                    <div class="col-lg-9">
-                                                                        <div class="login-horizental cancel-wp pull-left">
-                                                                            <a class="btn btn-white" type="submit" th:href="@{danh-sach-thuoc-tinh}">Cancel</a>
-                                                                            <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                <div class="form-group row">
+                                    <label for="image" class="col-sm-2 col-form-label">Ảnh Đại Diện</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" th:field="*{imageLink}" class="form-control " th:classappend="${#fields.hasErrors('imageLink')} ? is-invalid : ''" id="image" style="display: none"  placeholder="ảnh">
+                                        <img id="show_image" th:src="@{/admin/dist/img/00001.png}" onclick="OpenPopupWindow('imageLink')"  alt="..." class="img-thumbnail show_edit_images" style="width: 30%;">
+                                        <div th:if="${#fields.hasErrors('imageLink')}" th:errors="*{imageLink}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Listimage" class="col-sm-2 col-form-label">Ảnh Chi Tiết</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" th:field="*{imageList}" class="form-control " th:classappend="${#fields.hasErrors('imageList')} ? is-invalid : ''" id="Listimage" style="display: none"  placeholder="ảnh">
+                                        <img id="show_imageList" th:src="@{/admin/dist/img/00001.png}" onclick="OpenPopupWindow('imageList')"  alt="..." class="img-thumbnail show_edit_images" style="width: 30%;">
+                                        <div th:if="${#fields.hasErrors('imageList')}" th:errors="*{imageList}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="image" class="col-sm-2 col-form-label">Giá</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" th:field="*{price}" class="form-control " th:classappend="${#fields.hasErrors('price')} ? is-invalid : ''" id="title"  placeholder="Nhập Tên Sản Phẩm">
+                                        <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="price" class="col-sm-2 col-form-label">Giá Khuyến Mại</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" th:field="*{priceSale}" class="form-control " th:classappend="${#fields.hasErrors('priceSale')} ? is-invalid : ''" id="price"  placeholder="Nhập Tên Sản Phẩm">
+                                        <div th:if="${#fields.hasErrors('priceSale')}" th:errors="*{priceSale}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Trạng Thái SALE</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" th:classappend="${#fields.hasErrors('saleStatus')} ? is-invalid : ''" th:field="*{saleStatus}">
+                                            <option value="1">Không SALE</option>
+                                            <option value="2">BEST SALE</option>
+                                            <option value="3">Sản Phẩm Mới</option>
+                                        </select>
+                                        <div th:if="${#fields.hasErrors('saleStatus')}" th:errors="*{saleStatus}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label  class="col-sm-2 col-form-label">Mô Tả</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="textareas" placeholder="Place some text here" th:field="*{description}"></textarea>
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="invalid-feedback">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Chọn Danh Mục</label>
+                                    <div class="col-sm-10 row">
+                                        <div class="col-sm-3 " th:each="cate : ${listCate}">
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" th:field="*{categories}" type="checkbox" th:value="${cate.id}" th:id="'Checkbox' + ${cate.id}" >
+                                                <label th:for="'Checkbox' + ${cate.id}" class="custom-control-label" th:text="${cate.categoryName}"></label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div id="ShowAttr"></div>
+                                <div class="form-group row">
+                                    <div class="offset-sm-2 col-sm-10">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="custom-control-input" th:field="*{status}" id="status" value="true">
+                                            <label class="custom-control-label" for="status">Hiện Thị</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="offset-sm-2 col-sm-10">
+                                        <button type="submit" class="btn btn-info">Lưu</button>
+                                        <button type="reset" class="btn btn-default ">Làm Mới</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <!-- /.card-footer -->
+                        </form>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
+        <input id="data" type="text" style="display: none" th:value="${listJson}" />
     </div>
+
 </div>
-<!--<th:block layout:fragment="script">-->
-<!--    <script>-->
-<!--        $(document).ready(function() {-->
-<!--            $("#colorInput").on("change paste keyup", function() {-->
-<!--                var color = ($(this).val());-->
-<!--                $("#defaultValue").val(color);-->
-<!--            });-->
-<!--        })-->
-<!--    </script>-->
-<!--</th:block>-->
+
+<th:block layout:fragment="script">
+    <script>
+        $(function () {
+            $('.textareas').summernote({
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+        })
+        $(document).ready(function() {
+            var data =  $('#data').val();
+            var html = "";
+            $.each(JSON.parse(data), function(i, item) {
+                html += '<div class="form-group row"><label class="col-sm-2 col-form-label">';
+                html += data.Name;
+                html+= '</label><div class="col-sm-10 row">';
+                $.each(item.attribute, function (ii, it){
+                    html += '<div class="col-sm-3"><div class="custom-control custom-checkbox">';
+                    html += '<input class="custom-control-input" type="checkbox" id="checkB'+it.Id+'" value="'+it.Id+'">';
+                    html += '<label for="checkB'+it.Id+'" class="custom-control-label">'+it.Name+'</label>';
+                    html += '</div></div></div></div>';
+                })
+            });
+            ShowAttr.html(html);
+        })
+    </script>
+</th:block>
 </body>
 </html>

@@ -1,9 +1,6 @@
 package com.project.sem4.controller;
 
-import com.project.sem4.model.Attribute;
-import com.project.sem4.model.Categories;
-import com.project.sem4.model.ProductAttribute;
-import com.project.sem4.model.Products;
+import com.project.sem4.model.*;
 import com.project.sem4.model.view.InsertProductModel;
 import com.project.sem4.repository.AttributeRepositoryImpl;
 import com.project.sem4.repository.CategoriesRepositoryImpl;
@@ -43,10 +40,12 @@ public class ProductController {
         List<Attribute> listAttributes = attributeRepository.getAllAttribute();
         model.addAttribute("insertProductModel",  new InsertProductModel());
         List<Categories> listCategories = categoriesRepository.getAllCategories();
-
-
+        List<AttributeSet> listAttrSet = attributeRepository.getAllAttributeSet();
+        String listJson = attributeRepository.getListAttributeSetAttributeViews();
         model.addAttribute("listCate", listCategories);
         model.addAttribute("listAttr", listAttributes);
+        model.addAttribute("listAttrSet", listAttrSet);
+        model.addAttribute("listJson", listJson);
         return "admin/product/insertProduct";
     }
     @RequestMapping(value = "them-san-pham", method = RequestMethod.POST)

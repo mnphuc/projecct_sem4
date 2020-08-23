@@ -69,7 +69,15 @@
 <script type="text/javascript" th:src="@{/client/js/custom.js}"></script>
 <!-- custom js -->
 <!-- end jquery -->
-
+<script>
+    var data = [{"Id":1,"Name":"Màu","Description":"màu sắc","status":true,"attribute":[{"Id":2,"AttributeSetId":1,"Description":"sdas ","Name":"đỏ","DataType":"d?","DefaultValue":"d?"},{"Id":4,"AttributeSetId":1,"Description":"xanh","Name":"xanh","DataType":"xanh","DefaultValue":"xanh"},{"Id":5,"AttributeSetId":1,"Description":"tím","Name":"tím","DataType":"tím","DefaultValue":"tím"}]},{"Id":2,"Name":"Size","Description":"size","status":true,"attribute":[{"Id":3,"AttributeSetId":2,"Description":"XL","Name":"lớm","DataType":"l?n","DefaultValue":"l?n"}]}];
+    $.each(data, function(i, item) {
+        console.log(item.Description + ":"+item.);
+        $.each(item.attribute, function (ii, it){
+            console.log(it.Description)
+        })
+    });
+</script>
 
 
 

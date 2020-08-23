@@ -1,6 +1,8 @@
 package com.project.sem4.controller;
 
 
+import com.project.sem4.repository.AttributeRepositoryImpl;
+import com.sun.xml.internal.stream.events.AttributeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,8 @@ import java.util.List;
 public class HomeController {
     @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
+    @Autowired
+    AttributeRepositoryImpl attribute;
     @RequestMapping( value = "endPoints", method = RequestMethod.GET )
     public String getEndPointsInView( Model model )
     {
