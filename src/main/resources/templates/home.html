@@ -15,9 +15,9 @@
                 <!-- START REVOLUTION SLIDER 5.3.0.2 fullwidth mode -->
                 <div id="rev_slider_1078_1" class="rev_slider fullwidthabanner" style="display: none;" data-version="5.3.0.2">
                     <ul>
-                        <li class="dark-bg" data-index="rs-1" data-transition="random" data-slotamount="7" data-masterspeed="500" data-thumb="" data-saveperformance="off" data-title="01">
+                        <li th:each="b : ${listBanner}" data-index="rs-${b.id}" data-transition="random" data-slotamount="7" data-masterspeed="500" data-thumb="" data-saveperformance="off" data-title="01">
                             <!-- Main Image Layer 0-->
-                            <img th:src="@{/client/img/slide-img/slide_bg1.jpg}" alt="h" title="home-1-slide-1" width="1920" height="1100" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="6" class="rev-slidebg" data-no-retina />
+                            <img th:src="${b.imageLink}" th:alt="${b.titleBanner}" title="home-1-slide-1" width="1920" height="1100" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="6" class="rev-slidebg" data-no-retina />
 
 
                             <!--Layer 1-->
@@ -78,117 +78,8 @@
                                data-splitout="none"
                                data-responsive_offset="on">See More
                             </a>
-
-
                         </li>
-                        <li data-index="rs-2" data-transition="random" data-slotamount="7" data-masterspeed="500" data-thumb="" data-saveperformance="off" data-title="02">
-                            <!-- Main Image Layer 0-->
-                            <img th:src="@{/client/img/slide-img/slide_bg2.jpg}" alt="h" title="home-1-slide-1" width="1920" height="1100" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="6" class="rev-slidebg" data-no-retina />
-                            <!-- LAYERS -->
 
-                            <!--Layer 1-->
-                            <h1 class="tp-caption NotGeneric-Title tp-resizeme" style="letter-spacing: 0px; line-height: 60px;"
-                                data-x="150"
-                                data-y="center"
-                                data-hoffset=""
-                                data-voffset="-100"
-                                data-transform_idle="o:1;"
-                                data-width="['auto','auto','auto','auto']"
-                                data-height="['auto','auto','auto','auto']"
-                                data-transform_in="y:50px;opacity:0;s:700;e:Power3.easeOut;"
-                                data-transform_out="s:500;e:Power3.easeInOut;s:500;e:Power3.easeInOut;"
-                                data-start="500"
-                                data-speed="500"
-                                data-endspeed="500"
-                                data-splitin="none"
-                                data-splitout="none"
-                                data-responsive_offset="on">Bang's Eng<br />
-                                20% Off
-                            </h1>
-
-
-                            <!--Layer 2-->
-                            <h3 class="tp-caption NotGeneric-Title tp-resizeme h3 normal " style="letter-spacing: 0px;"
-                                data-x="150"
-                                data-y="center"
-                                data-hoffset=""
-                                data-voffset="0"
-                                data-transform_idle="o:1;"
-                                data-width="['auto','auto','auto','auto']"
-                                data-height="['auto','auto','auto','auto']"
-                                data-transform_in="y:50px;opacity:0;s:700;e:Power3.easeOut;"
-                                data-transform_out="s:500;e:Power3.easeInOut;s:500;e:Power3.easeInOut;"
-                                data-start="800"
-                                data-speed="500"
-                                data-endspeed="500"
-                                data-splitin="none"
-                                data-splitout="none"
-                                data-responsive_offset="on">The Bag for Summer
-                            </h3>
-
-                            <!--Layer 3-->
-                            <a class="tp-caption NotGeneric-Title tp-resizeme btn btn-md btn-color"
-                               data-x="150"
-                               data-y="center"
-                               data-hoffset=""
-                               data-voffset="75"
-                               data-transform_idle="o:1;"
-                               data-width="['auto','auto','auto','auto']"
-                               data-height="['auto','auto','auto','auto']"
-                               data-transform_in="y:50px;opacity:0;s:700;e:Power3.easeOut;"
-                               data-transform_out="s:500;e:Power3.easeInOut;s:500;e:Power3.easeInOut;"
-                               data-start="1100"
-                               data-speed="500"
-                               data-endspeed="500"
-                               data-splitin="none"
-                               data-splitout="none"
-                               data-responsive_offset="on">See More
-                            </a>
-                        </li>
-                        <li data-index="rs-3" data-transition="random" data-slotamount="7" data-masterspeed="500" data-thumb="" data-saveperformance="off" data-title="03">
-                            <!-- Main Image Layer 0-->
-                            <img th:src="@{/client/img/slide-img/slide_bg3.jpg}" alt="h" title="home-1-slide-1" width="1920" height="1100" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="6" class="rev-slidebg" data-no-retina />
-                            <!-- LAYERS -->
-
-                            <!--Layer 1-->
-                            <div class="tp-caption NotGeneric-Title tp-resizeme" style="letter-spacing: 0px; line-height: 60px;"
-                                 data-x="center"
-                                 data-y="center"
-                                 data-hoffset=""
-                                 data-voffset="-65"
-                                 data-transform_idle="o:1;"
-                                 data-width="['auto','auto','auto','auto']"
-                                 data-height="['auto','auto','auto','auto']"
-                                 data-transform_in="y:50px;opacity:0;s:700;e:Power3.easeOut;"
-                                 data-transform_out="s:500;e:Power3.easeInOut;s:500;e:Power3.easeInOut;"
-                                 data-start="500"
-                                 data-speed="500"
-                                 data-endspeed="500"
-                                 data-splitin="none"
-                                 data-splitout="none"
-                                 data-responsive_offset="on">
-                                <img th:src="@{/client/img/slider-caption-sale.png}" alt="" style="width: 100%; max-width: 682px;" />
-                            </div>
-
-                            <!--Layer 2-->
-                            <a class="tp-caption NotGeneric-Title tp-resizeme btn btn-md btn-black"
-                               data-x="center"
-                               data-y="center"
-                               data-hoffset=""
-                               data-voffset="65"
-                               data-transform_idle="o:1;"
-                               data-width="['auto','auto','auto','auto']"
-                               data-height="['auto','auto','auto','auto']"
-                               data-transform_in="y:50px;opacity:0;s:700;e:Power3.easeOut;"
-                               data-transform_out="s:500;e:Power3.easeInOut;s:500;e:Power3.easeInOut;"
-                               data-start="900"
-                               data-speed="500"
-                               data-endspeed="500"
-                               data-splitin="none"
-                               data-splitout="none"
-                               data-responsive_offset="on">See More
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </div>

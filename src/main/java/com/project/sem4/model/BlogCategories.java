@@ -1,8 +1,10 @@
 package com.project.sem4.model;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
-
+@Data
 public class BlogCategories {
 //    Id int primary key identity(1,1),
 //    Name nvarchar(255),

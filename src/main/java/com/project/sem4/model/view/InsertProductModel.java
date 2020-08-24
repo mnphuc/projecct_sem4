@@ -1,15 +1,19 @@
 package com.project.sem4.model.view;
 
-import com.project.sem4.model.Attribute;
-import com.project.sem4.model.ProductAttribute;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
+@Data
 public class InsertProductModel {
     private Long id;
+    @NotEmpty(message = "Tên Sản Phẩm Không Được Để Trống")
     private String productName;
+    @NotNull(message = "Giá Không Được Để Trống")
     private Double price;
+    @NotEmpty(message = "Ảnh Không Được Để Trống")
     private String imageLink;
     private String imageList;
     private Integer quantity;
@@ -24,7 +28,9 @@ public class InsertProductModel {
     private String slug;
     private Date createAt;
     private Boolean status;
+    @NotEmpty(message = "Phải Chọn Ít Nhất 1 Danh Mục")
     private String[] categories;
+    @NotEmpty(message = "Phải Chọn Ít Nhất 1 Thuộc Tính")
     private String[] productAttributes;
 
     public Long getId() {

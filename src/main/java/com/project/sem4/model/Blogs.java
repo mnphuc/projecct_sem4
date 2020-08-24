@@ -1,9 +1,11 @@
 package com.project.sem4.model;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-
+@Data
 public class Blogs {
 //    Id int primary key identity(1,1),
 //    CategoryBlogId int,

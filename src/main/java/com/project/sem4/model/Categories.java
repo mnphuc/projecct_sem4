@@ -1,11 +1,12 @@
 package com.project.sem4.model;
 
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-
+@Data
 public class Categories {
 //    Id int primary key identity(1,1),
 //    CategoryName nvarchar(255),

@@ -36,11 +36,7 @@ public class AdminServiceController {
     private FileService fileService;
     @Autowired
     AttributeRepository repository;
-    @RequestMapping(value = "hello", method = RequestMethod.GET)
-    public ResponseEntity<List<FolderInfo>> sayHello() throws IOException {
-        List<FolderInfo> fileInfos = fileService.getAllV2(FileService.DIR_NAME);
-        return new ResponseEntity<>(fileInfos, HttpStatus.OK);
-    }
+
     @RequestMapping(value = "getAttribute/{id}", method = RequestMethod.GET)
     public List<Attribute> findAttributeByAttributeSetId(@PathVariable(value = "id") Integer id){
         return repository.findAttributeByAttributeSetId(id);
@@ -48,6 +44,11 @@ public class AdminServiceController {
     @RequestMapping(value = "getAllFile", method = RequestMethod.GET)
     public ResponseEntity<List<FileInfo>> getAllFile() throws IOException {
         List<FileInfo> fileInfos = fileService.findAll(FileService.DIR_NAME, "", null);
+        return new ResponseEntity<>(fileInfos, HttpStatus.OK);
+    }
+    @RequestMapping(value = "getFileByFolder", method = RequestMethod.GET)
+    public ResponseEntity<List<FileInfo>> getFileByFolder(@RequestParam(value = "nameFolder", required = false)String nameFolder) throws IOException {
+        List<FileInfo> fileInfos = fileService.getFileByFolder(nameFolder, null);
         return new ResponseEntity<>(fileInfos, HttpStatus.OK);
     }
     @RequestMapping(value = "getAllFolder", method = RequestMethod.GET)

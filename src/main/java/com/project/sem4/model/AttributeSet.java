@@ -1,7 +1,9 @@
 package com.project.sem4.model;
 
-import javax.validation.constraints.NotEmpty;
+import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+@Data
 public class AttributeSet {
 //    Id int primary key identity(1,1),
 //    Name varchar(255),

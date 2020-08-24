@@ -1,7 +1,9 @@
 package com.project.sem4.controller;
 
 
+import com.project.sem4.model.Banner;
 import com.project.sem4.repository.AttributeRepositoryImpl;
+import com.project.sem4.repository.BannerRepositoryImpl;
 import com.sun.xml.internal.stream.events.AttributeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,8 @@ public class HomeController {
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
     @Autowired
     AttributeRepositoryImpl attribute;
+    @Autowired
+    BannerRepositoryImpl bannerRepository;
     @RequestMapping( value = "endPoints", method = RequestMethod.GET )
     public String getEndPointsInView( Model model )
     {
@@ -32,7 +36,8 @@ public class HomeController {
     }
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String Index(ModelMap model){
-        model.addAttribute("msg", "Đây là trang chủ");
+        List<Banner> listBanner = bannerRepository.getAllBanner();
+        model.addAttribute("listBanner", listBanner);
         return "home";
     }
 

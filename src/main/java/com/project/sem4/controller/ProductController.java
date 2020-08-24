@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,13 +50,21 @@ public class ProductController {
         return "admin/product/insertProduct";
     }
     @RequestMapping(value = "them-san-pham", method = RequestMethod.POST)
-    public String insertProductSubmit(@Valid InsertProductModel productModel , Model model) {
+    public String insertProductSubmit(@Valid InsertProductModel productModel, BindingResult result, Model model) {
         String slug = MnpSlug.makeSlug(productModel.getProductName());
          productModel.setSlug(slug);
+        if (result.hasErrors()){
+            List<Categories> listCategories = categoriesRepository.getAllCategories();
+            model.addAttribute("listCate", listCategories);
+            String listJson = attributeRepository.getListAttributeSetAttributeViews();
+            model.addAttribute("listJson", listJson);
+            return "admin/product/insertProduct";
+        }
         Boolean bl = productRepository.insertProducts(productModel);
         if (bl) {
-
+            return "redirect:/quan-tri/san-pham/danh-sach-san-pham";
         }
+
         return "";
     }
     @RequestMapping(value = "sua-san-pham", method = RequestMethod.GET)

@@ -1,8 +1,10 @@
 package com.project.sem4.model;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
-
+@Data
 public class Banner {
 //    BannerId INT PRIMARY KEY IDENTITY(1,1),
 //    Image_link varchar(255) NOT NULL,

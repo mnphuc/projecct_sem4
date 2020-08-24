@@ -12,12 +12,14 @@ public class MnpFileCommon {
 
         String rootDirName = file.getParent();
         rootDirName = rootDirName.substring(rootDirName.lastIndexOf('\\') + 1);
-        String abc = "src\\main\\resources\\static";
+        String abc = "src\\main\\resources\\static\\";
+
         String replaceString = file.toString().replace(abc, "");
+        String fileName = replaceString.replace("\\", "/");
         return new FileInfo(
                 file.getName(),
                 file.length() / 1024,
-                replaceString,
+                fileName,
                 encodeURI(file.getName()));
     }
     /* JS encodeURI */

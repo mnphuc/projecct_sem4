@@ -53,17 +53,40 @@ public class FileService {
         }
         return fileInfos;
     }
-    public List<FolderInfo> getAllV2(String dir) throws IOException {
-        List<FolderInfo> list = new ArrayList<>();
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(dir))) {
-            for (Path path : stream) {
-                    FolderInfo info = new FolderInfo();
-                    info.setNameFolder(path.getFileName().toString());
-                    list.add(info);
+    public List<FileInfo> getFileByFolder(String dirPath,  FileFilter fileFilter){
+        List<FileInfo> fileInfos = new ArrayList<>();
+        File directory = new File(ROOT_URL+dirPath);
+        //List<FolderInfo> listFolder = getAllFolder(DIR_NAME);
+        File[] files = (directory.exists()) ? directory.listFiles(fileFilter) : new File[0];
+        for (File file : files) {
+            if (file.isDirectory()){
+                File file1 = new File(ROOT_URL+"/"+file.getName());
+                File[] files1 = (file1.exists()) ? file1.listFiles(fileFilter) : new File[0];
+                for (File file11 : files1){
+                    FileInfo info = MnpFileCommon.getFileInfo(file11);
+                    fileInfos.add(info);
+                }
             }
+
+            if (file.length() == 0 || file.isDirectory())
+                continue;
+            FileInfo fileInfo = MnpFileCommon.getFileInfo(file);
+            fileInfos.add(fileInfo);
+
         }
-        return list;
+        return fileInfos;
     }
+//    public List<FolderInfo> getAllV2(String dir) throws IOException {
+//        List<FolderInfo> list = new ArrayList<>();
+//        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(dir))) {
+//            for (Path path : stream) {
+//                    FolderInfo info = new FolderInfo();
+//                    info.setNameFolder(path.getFileName().toString());
+//                    list.add(info);
+//            }
+//        }
+//        return list;
+//    }
     public List<FolderInfo> getAllFolder(String dir){
         List<FolderInfo>list = new ArrayList<>();
         File file = new File(dir);
@@ -95,7 +118,7 @@ public class FileService {
                 //image = ImageIO.read((File) file);
                 //ImageIO.write(image, "jpg",new File(ROOT_URL));
                // ImageIO.write((RenderedImage) file, "jpg", (File) file);
-                Files.copy(inputStream, path.resolve(file.getOriginalFilename()));
+                Files.copy(inputStream, path.resolve(mills.toString()+"_"+file.getOriginalFilename()));
                 bl = true;
             } catch (IOException e) {
                 e.printStackTrace();

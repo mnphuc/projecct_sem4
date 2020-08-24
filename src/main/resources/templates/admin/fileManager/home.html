@@ -150,6 +150,7 @@
     $(document).ready(function() {
         getAllImage();
         getAllFolder();
+        getFileByFolder("banner")
         var token = $("meta[name='_csrf']").attr("content");
         console.log(token)
         $.ajaxSetup({
@@ -164,11 +165,10 @@
             url: "/quan-tri/api/getAllFile/",
             success: function (data) {
                 var html = '';
-
                 $.each (data, function (key, item){
                     html += '<li ><div class="file-control"><input id="file-list-'+key+'" class="magic-checkbox " value="'+item.rootDirName+'" type="checkbox">';
                     html += '<label for="file-list-'+key+'"></label></div><div class="file-settings"><a href="#" ><i class="pci-ver-dots"></i></a></div>';
-                    html += ' <div class="file-attach-icon"></div><a href="#" class="file-details"><div class="media-block" data-image="'+item.rootDirName+'"> <div class="media-left"><img src="'+item.rootDirName   +'" style="height: 60px"></div>';
+                    html += ' <div class="file-attach-icon"></div><a href="#" class="file-details"><div class="media-block" data-image="/'+item.rootDirName+'"> <div class="media-left"><img src="/'+item.rootDirName+'" style="height: 60px"></div>';
                     html += '<div class="media-body"> <p class="file-name">'+item.name+'</p><small>Created 3 weeks ago | 56 KB</small>';
                     html += ' </div></div></a></li>';
                 })
@@ -176,6 +176,21 @@
             }
         })
     }
+    function getFileByFolder(nameFolder){
+        $.ajax({
+            type: "GET",
+            url: "/quan-tri/api/getFileByFolder?nameFolder=/"+nameFolder,
+            success: function (data) {
+                var html = '';
+                console.log(data)
+                // $.each (data, function (key, item){
+                //     console.log(item)
+                // })
+                // $('#listImage').html(html);
+            }
+        })
+    }
+
     function getAllFolder(){
         $.ajax({
             type: "GET",
