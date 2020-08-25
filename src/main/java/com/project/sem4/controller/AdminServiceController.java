@@ -24,10 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("quan-tri/api")
@@ -41,14 +38,22 @@ public class AdminServiceController {
     public List<Attribute> findAttributeByAttributeSetId(@PathVariable(value = "id") Integer id){
         return repository.findAttributeByAttributeSetId(id);
     }
+    static class SortByDate implements Comparator<FileInfo> {
+        @Override
+        public int compare(FileInfo f, FileInfo ff) {
+            return ff.getCreateTime().compareTo(f.getCreateTime());
+        }
+    }
     @RequestMapping(value = "getAllFile", method = RequestMethod.GET)
     public ResponseEntity<List<FileInfo>> getAllFile() throws IOException {
         List<FileInfo> fileInfos = fileService.findAll(FileService.DIR_NAME, "", null);
+        Collections.sort(fileInfos, new SortByDate());
         return new ResponseEntity<>(fileInfos, HttpStatus.OK);
     }
     @RequestMapping(value = "getFileByFolder", method = RequestMethod.GET)
     public ResponseEntity<List<FileInfo>> getFileByFolder(@RequestParam(value = "nameFolder", required = false)String nameFolder) throws IOException {
         List<FileInfo> fileInfos = fileService.getFileByFolder(nameFolder, null);
+        Collections.sort(fileInfos, new SortByDate());
         return new ResponseEntity<>(fileInfos, HttpStatus.OK);
     }
     @RequestMapping(value = "getAllFolder", method = RequestMethod.GET)
@@ -65,6 +70,19 @@ public class AdminServiceController {
         }
             String txt = "đã lưu";
             return new ResponseEntity<>(txt, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "saveFolder", method = RequestMethod.POST)
+    public ResponseEntity<String> saveFolder(@RequestParam(value = "dir", required = false)String dir){
+        Boolean bl = fileService.saveFolder(dir);
+        String txt;
+        if (bl){
+            txt = "tạo thư mục thành công";
+            return new ResponseEntity<>(txt, HttpStatus.OK);
+        }else {
+            txt = "Tạo Không Thành Công";
+            return new ResponseEntity<>(txt, HttpStatus.NOT_FOUND);
+        }
     }
     @RequestMapping(value = "deleteImage/{photo}", method = RequestMethod.POST)
     public ResponseEntity<Boolean> deleteImage(@PathVariable("photo")String photo){
