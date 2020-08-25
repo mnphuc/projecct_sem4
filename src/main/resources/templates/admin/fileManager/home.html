@@ -139,10 +139,12 @@
 
         })
         $('body').on('keypress', '#enterKey',function(e) {
+            var nameFolder = $(this).val();
             if(e.which == 13) {
                 console.log("enter đươc rồi đó con chó");
+
                 $.ajax({
-                    url: "/quan-tri/api/saveFolder/",
+                    url: "/quan-tri/api/saveFolder?dir="+nameFolder,
                     type: 'post',
                     success: function (data, textStatus, xhr) {
                         console.log(data)

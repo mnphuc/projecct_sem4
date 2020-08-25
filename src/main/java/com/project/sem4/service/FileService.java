@@ -130,7 +130,7 @@ public class FileService {
     }
     public Boolean saveFolder(String dir){
         Boolean bl;
-        if (!dir.isEmpty() ||!dir.equals("")) {
+        if (!dir.isEmpty()) {
             File file = new File(ROOT_URL+dir);
             bl = file.mkdir();
         }
