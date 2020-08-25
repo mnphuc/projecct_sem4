@@ -151,7 +151,6 @@
     </div>
 </div>
 <ul class="custom-menu" id="showMenu">
-    <li id="viewFolder">Xem</li>
     <li id="editFolder">Sửa</li>
     <li id="remoteFolder">Xóa</li>
 </ul>
@@ -179,6 +178,8 @@
     $(document).ready(function() {
         getAllImage();
         getAllFolder();
+
+
         var token = $("meta[name='_csrf']").attr("content");
         console.log(token)
         $.ajaxSetup({
@@ -186,8 +187,10 @@
                 xhr.setRequestHeader('X-CSRF-TOKEN', token);
             }
         });
+
+
         $('body').on('click', '#addfolder', function (){
-            var html = '<div class="form-group"><input type="email" class="form-control" id="enterKey" placeholder="Nhập tên Thư Muc"></div>';
+            var html = '<div class="form-group"><input type="email" class="form-control" id="enterKey" placeholder="Nhập tên Thư Muc" autofocus></div>';
             $('#listFolder').append(html);
 
         })
@@ -202,6 +205,7 @@
                     success: function (data, textStatus, xhr) {
                         console.log(data)
                         getAllFolder();
+                        location.reload();
                     }
                 })
             }
@@ -267,37 +271,37 @@
     $(document).ready(function() {
         $('body').on('click', '#fileUpload', function () {
             $('#selectFile').click();
-                $('#selectFile').change(function () {
-                    var fd = new FormData();
-                    var files = $('#selectFile').get(0).files;
-                    //fd.append('file', files);
-                    for (var i = 0; i < files.length; i++){
-                        fd.append('file', files[i]);
-                    }
-                    var url;
-                    var name = $('#setnamefolder').val();
-                    if (name == 'all'){
-                        url = 'api/saveImage'
-                    }else {
-                        url = 'api/saveImage?rootDir='+name;
-                    }
-                    $.ajax({
-                        url: url,
-                        type: 'post',
-                        data: fd,
-                        contentType: false,
-                        processData: false,
-                        success: function (data, textStatus, xhr) {
-                            if (name == 'all') {
-                                getAllImage();
-                            }
-                            else {
-                                getFileByFolder(name)
-                            }
+            $('#selectFile').change(function () {
+                var fd = new FormData();
+                var files = $('#selectFile').get(0).files;
+                //fd.append('file', files);
+                for (var i = 0; i < files.length; i++) {
+                    fd.append('file', files[i]);
+                }
+                var url;
+                var name = $('#setnamefolder').val();
+                if (name == 'all') {
+                    url = 'api/saveImage'
+                } else {
+                    url = 'api/saveImage?rootDir=' + name;
+                }
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    success: function (data, textStatus, xhr) {
+                        if (name == 'all') {
+                            getAllImage();
+                        } else {
+                            getFileByFolder(name)
                         }
-                    })
+                    }
                 })
+            })
         })
+    })
         $(document).ready(function(){
             $('body').on('click', '#listImage .media-block', function () {
                 var bien = $(this).data('image');
@@ -337,7 +341,6 @@
                 }
             }
         };
-    })
     $(document).ready(function(){
         $('body').on('click', '.ListBox a',function() {
             $(this).siblings('a').removeClass('active');
@@ -356,27 +359,51 @@
 
 </script>
 <script>
-    let name;
-    $('#listFolder').bind("contextmenu", 'a', function (event) {
-        event.preventDefault();
-        name =  $(this).data('values');
-        $('#showMenu').finish().toggle(100).
-        css({
-            top: event.pageY + "px",
-            left: event.pageX + "px"
+    window.onload = function () {
+
+        $('#listFolder>a').bind("contextmenu", function (event) {
+            event.preventDefault();
+            var name = $(this).data("values")
+            // console.log(name)
+            $("#listFolder>a").data('namefolder', name);
+
+            $('#showMenu').finish().toggle(100).css({
+                top: event.pageY + "px",
+                left: event.pageX + "px"
+            });
         });
-    });
-    jQuery(document).click(function (event) {
-        console.log(name)
-        if (jQuery(event.target).closest('#listFolder').length === 0) {
-            jQuery('#showMenu').hide();
-        }
-    });
-    jQuery(document).on("contextmenu", function (e) {
-        if (jQuery(event.target).closest('#listFolder').length === 0) {
-            $('#showMenu').hide();
-        }
-    });
+        jQuery(document).click(function (event) {
+            if (jQuery(event.target).closest('#listFolder>a').length === 0) {
+                jQuery('#showMenu').hide();
+            }
+        });
+        jQuery(document).on("contextmenu", function (e) {
+            if (jQuery(event.target).closest('#listFolder>a').length === 0) {
+                $('#showMenu').hide();
+            }
+        });
+        $('#editFolder').click(function () {
+            var namef = $('#listFolder>a').data('namefolder');
+            console.log(namef)
+        })
+        $('#remoteFolder').click(function (){
+            var named = $('#listFolder>a').data('namefolder');
+            if (named == 'all'){
+                console.log('không xóa đc')
+            }else {
+                $.ajax({
+                    url: "/quan-tri/api/deleteFolder?dir="+named,
+                    type: 'post',
+                    success: function (data, textStatus, xhr) {
+                        if (xhr.status == 200){
+
+                        }
+                    }
+                })
+            }
+
+        })
+    }
 </script>
 </body>
 </html>

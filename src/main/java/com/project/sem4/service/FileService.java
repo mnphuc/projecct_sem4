@@ -3,6 +3,7 @@ package com.project.sem4.service;
 import com.project.sem4.model.view.FileInfo;
 import com.project.sem4.model.view.FolderInfo;
 import com.project.sem4.vendor.MnpFileCommon;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -136,6 +137,16 @@ public class FileService {
         }
         else bl = false;
         return bl;
+    }
+    public Boolean deleteFolder(String dir)  {
+        File file = new File(ROOT_URL+"bố phúc");
+        File[] files = file.listFiles();
+        try {
+            FileUtils.deleteDirectory(new File(ROOT_URL+dir));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
     public Boolean deleteFile(String fileName){
         Path path = Paths.get("ROOT_URL"+fileName);

@@ -84,6 +84,15 @@ public class AdminServiceController {
             return new ResponseEntity<>(txt, HttpStatus.NOT_FOUND);
         }
     }
+    @RequestMapping(value = "deleteFolder", method = RequestMethod.POST)
+    public ResponseEntity<String> deleteFolder(@RequestParam(value = "dir", required = false)String dir){
+        if (dir.equals("all") || dir.isEmpty()){
+            return new ResponseEntity<>("Xóa không Thành Công", HttpStatus.NOT_FOUND);
+        }else {
+            fileService.deleteFolder(dir);
+            return new ResponseEntity<>("thành công", HttpStatus.OK);
+        }
+    }
     @RequestMapping(value = "deleteImage/{photo}", method = RequestMethod.POST)
     public ResponseEntity<Boolean> deleteImage(@PathVariable("photo")String photo){
         Boolean bl = fileService.deleteFile(photo);
