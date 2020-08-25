@@ -8,12 +8,6 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 @Data
 public class Categories {
-//    Id int primary key identity(1,1),
-//    CategoryName nvarchar(255),
-//    Url varchar(255),
-//    parent_id int,
-//    CreateDate Datetime default getdate(),
-//    status bit
     private Integer id;
     @NotEmpty(message = "Tên Danh Muc không được để trống")
     private String categoryName;

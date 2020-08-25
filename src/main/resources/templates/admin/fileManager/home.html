@@ -44,12 +44,13 @@
             <div class="fixed-sm-200 pull-sm-left file-sidebar">
                 <div class="bord-btm pad-btm">
                     <form method="post" action="" enctype="multipart/form-data" id="myform">
+                        <input type="hidden" id="setnamefolder" value="">
                         <input id="selectFile" name="fileUpdate" accept="image/*" type="file" multiple style="display: none"/>
                     </form>
                     <a href="#" id="fileUpload" class="btn btn-block btn-lg btn-info v-middle">Upload Files</a>
                 </div>
                 <p class="pad-hor mar-top text-main text-bold text-sm text-uppercase">Folders</p>
-                <div class="list-group bg-trans pad-btm bord-btm" id="listFolder">
+                <div class="list-group bg-trans pad-btm bord-btm ListBox" id="listFolder">
                     <a href="#" class="list-group-item">
                         <i class="demo-pli-folder icon-lg icon-fw"></i> ...
                     </a>
@@ -58,24 +59,6 @@
                     </a>
                     <a href="#" class="list-group-item">
                         <i class="demo-pli-folder icon-lg icon-fw"></i> Favorites
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <i class="demo-pli-folder icon-lg icon-fw"></i> Data
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <i class="demo-pli-folder icon-lg icon-fw"></i> PDF Docs
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <i class="demo-pli-folder icon-lg icon-fw"></i> Illustration
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <i class="demo-pli-folder icon-lg icon-fw"></i> Github
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <i class="demo-pli-folder icon-lg icon-fw"></i> Server
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <i class="demo-pli-folder icon-lg icon-fw"></i> Old Files
                     </a>
                 </div>
             </div>
@@ -89,13 +72,7 @@
                 </div>
                 <div class="file-toolbar bord-btm">
                     <div class="btn-file-toolbar">
-                        <a class="btn btn-icon add-tooltip" href="#" data-original-title="Home" data-toggle="tooltip"><i class="icon-2x demo-pli-home"></i></a>
-                        <a class="btn btn-icon add-tooltip" href="#" data-original-title="Refresh" data-toggle="tooltip"><i class="icon-2x demo-pli-reload-3"></i></a>
-                    </div>
-                    <div class="btn-file-toolbar">
-                        <a class="btn btn-icon add-tooltip" href="#" data-original-title="New Folder" data-toggle="tooltip"><i class="icon-2x demo-pli-folder"></i></a>
-                        <a class="btn btn-icon add-tooltip" href="#" data-original-title="New File" data-toggle="tooltip"><i class="icon-2x demo-pli-file-add"></i></a>
-                        <a class="btn btn-icon add-tooltip" href="#" data-original-title="Edit File" data-toggle="tooltip"><i class="icon-2x demo-pli-file-edit"></i></a>
+                        <a class="btn btn-icon add-tooltip" href="#" id="addfolder"  title="New Folder" data-original-title="New Folder" data-toggle="tooltip"><i class="icon-2x demo-pli-folder"></i></a>
                     </div>
                     <div class="btn-file-toolbar pull-right">
                         <a class="btn btn-icon add-tooltip" href="#" data-original-title="Delete" data-toggle="tooltip"><i class="icon-2x demo-pli-recycling"></i></a>
@@ -128,7 +105,6 @@
 </div>
 
 <input type="button" id="save_value" name="save_value" value="Save" />
-
 <!--JAVASCRIPT-->
 <!--=================================================-->
 <!--jQuery [ REQUIRED ]-->
@@ -150,12 +126,29 @@
     $(document).ready(function() {
         getAllImage();
         getAllFolder();
-        getFileByFolder("banner")
         var token = $("meta[name='_csrf']").attr("content");
         console.log(token)
         $.ajaxSetup({
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        });
+        $('body').on('click', '#addfolder', function (){
+            var html = '<div class="form-group"><input type="email" class="form-control" id="enterKey" placeholder="Nhập tên Thư Muc"></div>';
+            $('#listFolder').append(html);
+
+        })
+        $('body').on('keypress', '#enterKey',function(e) {
+            if(e.which == 13) {
+                console.log("enter đươc rồi đó con chó");
+                $.ajax({
+                    url: "/quan-tri/api/saveFolder/",
+                    type: 'post',
+                    success: function (data, textStatus, xhr) {
+                        console.log(data)
+                        getAllFolder();
+                    }
+                })
             }
         });
     });
@@ -169,7 +162,7 @@
                     html += '<li ><div class="file-control"><input id="file-list-'+key+'" class="magic-checkbox " value="'+item.rootDirName+'" type="checkbox">';
                     html += '<label for="file-list-'+key+'"></label></div><div class="file-settings"><a href="#" ><i class="pci-ver-dots"></i></a></div>';
                     html += ' <div class="file-attach-icon"></div><a href="#" class="file-details"><div class="media-block" data-image="/'+item.rootDirName+'"> <div class="media-left"><img src="/'+item.rootDirName+'" style="height: 60px"></div>';
-                    html += '<div class="media-body"> <p class="file-name">'+item.name+'</p><small>Created 3 weeks ago | 56 KB</small>';
+                    html += '<div class="media-body"> <p class="file-name">'+item.name+'</p><small>Created '+item.createTime+' | '+item.size+' KB</small>';
                     html += ' </div></div></a></li>';
                 })
                 $('#listImage').html(html);
@@ -183,10 +176,14 @@
             success: function (data) {
                 var html = '';
                 console.log(data)
-                // $.each (data, function (key, item){
-                //     console.log(item)
-                // })
-                // $('#listImage').html(html);
+                $.each (data, function (key, item){
+                    html += '<li ><div class="file-control"><input id="file-list-'+key+'" class="magic-checkbox " value="'+item.rootDirName+'" type="checkbox">';
+                    html += '<label for="file-list-'+key+'"></label></div><div class="file-settings"><a href="#" ><i class="pci-ver-dots"></i></a></div>';
+                    html += ' <div class="file-attach-icon"></div><a href="#" class="file-details"><div class="media-block" data-image="/'+item.rootDirName+'"> <div class="media-left"><img src="/'+item.rootDirName+'" style="height: 60px"></div>';
+                    html += '<div class="media-body"> <p class="file-name">'+item.name+'</p><small>Created '+item.createTime+' | '+item.size+' KB</small>';
+                    html += ' </div></div></a></li>';
+                })
+                $('#listImage').html(html);
             }
         })
     }
@@ -198,9 +195,9 @@
             cache: false,
             success: function (data) {
                 var html = '';
-                html += '<a href="#" class="list-group-item active"><i class="demo-pli-folder icon-lg icon-fw"></i>All File</a>';
+                html += '<a class="list-group-item active" data-values="all"><i class="demo-pli-folder icon-lg icon-fw"  ></i>All File</a>';
                 $.each (data, function (key, item){
-                    html += ' <a href="#" class="list-group-item">';
+                    html += ' <a class="list-group-item" data-values="'+item.nameFolder+'">';
                     html += '<i class="demo-pli-folder icon-lg icon-fw"></i>';
                     html += item.nameFolder;
                     html += '</a>';
@@ -213,22 +210,32 @@
         $('body').on('click', '#fileUpload', function () {
             $('#selectFile').click();
                 $('#selectFile').change(function () {
-                    console.log("đã thay đổi dữ liệu")
                     var fd = new FormData();
                     var files = $('#selectFile').get(0).files;
                     //fd.append('file', files);
                     for (var i = 0; i < files.length; i++){
                         fd.append('file', files[i]);
                     }
-
+                    var url;
+                    var name = $('#setnamefolder').val();
+                    if (name == 'all'){
+                        url = 'api/saveImage'
+                    }else {
+                        url = 'api/saveImage?rootDir='+name;
+                    }
                     $.ajax({
-                        url: 'api/saveImage',
+                        url: url,
                         type: 'post',
                         data: fd,
                         contentType: false,
                         processData: false,
                         success: function (data, textStatus, xhr) {
+                            if (name == 'all') {
                                 getAllImage();
+                            }
+                            else {
+                                getFileByFolder(name)
+                            }
                         }
                     })
                 })
@@ -245,7 +252,9 @@
                 console.log(arr);
             });
 
+
         });
+
 
         function getImage(value) {
 
@@ -270,6 +279,21 @@
                 }
             }
         };
+    })
+    $(document).ready(function(){
+        $('body').on('click', '.ListBox a',function() {
+            $(this).siblings('a').removeClass('active');
+            $(this).addClass('active');
+            var name = $(this).attr('data-values');
+            $('#setnamefolder').val(name)
+            if (name == 'all'){
+                getAllImage();
+            }else {
+                getFileByFolder(name)
+            }
+
+        })
+
     })
 
 </script>

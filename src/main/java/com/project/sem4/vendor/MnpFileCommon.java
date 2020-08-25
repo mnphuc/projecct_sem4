@@ -5,6 +5,9 @@ import com.project.sem4.model.view.FileInfo;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Pattern;
 
 public class MnpFileCommon {
     public static FileInfo getFileInfo(File file) {
@@ -16,9 +19,16 @@ public class MnpFileCommon {
 
         String replaceString = file.toString().replace(abc, "");
         String fileName = replaceString.replace("\\", "/");
+        String[] setT = file.getName().split(Pattern.quote("."));
+        Long LongDate = Long.parseLong(setT[0]);
+        Date d = new Date(LongDate);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        String createDate = formatter.format(d);
         return new FileInfo(
                 file.getName(),
+
                 file.length() / 1024,
+                createDate,
                 fileName,
                 encodeURI(file.getName()));
     }

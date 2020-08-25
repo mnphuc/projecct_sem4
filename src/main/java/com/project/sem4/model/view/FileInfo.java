@@ -1,10 +1,14 @@
 package com.project.sem4.model.view;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class FileInfo {
     private String name;
 
-    private long size;
-
+    private Long size;
+    private String createTime;
     private String rootDirName;
 
     private String encName;
@@ -12,11 +16,12 @@ public class FileInfo {
     public FileInfo() {
     }
 
-    public FileInfo(String name, long size, String rootDirName, String encName) {
+    public FileInfo(String name, Long size, String createTime, String rootDirName, String encName) {
         this.name = name;
         this.size = size;
         this.rootDirName = rootDirName;
         this.encName = encName;
+        this.createTime = createTime;
     }
 
     public String getName() {
@@ -31,7 +36,7 @@ public class FileInfo {
         return size;
     }
 
-    public void setSize(long size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 
@@ -51,9 +56,18 @@ public class FileInfo {
         this.encName = encName;
     }
 
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+
     @Override
     public String toString() {
-        return "FileInfo [name=" + name + ", size=" + size + ", rootDirName=" + rootDirName + ", encName=" + encName
+        return "FileInfo [name=" + name + ", size=" + size + ",createTime=" +createTime +", rootDirName=" + rootDirName + ", encName=" + encName
                 + "]";
     }
 }

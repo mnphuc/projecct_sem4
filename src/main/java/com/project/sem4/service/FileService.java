@@ -3,6 +3,7 @@ package com.project.sem4.service;
 import com.project.sem4.model.view.FileInfo;
 import com.project.sem4.model.view.FolderInfo;
 import com.project.sem4.vendor.MnpFileCommon;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -118,13 +119,23 @@ public class FileService {
                 //image = ImageIO.read((File) file);
                 //ImageIO.write(image, "jpg",new File(ROOT_URL));
                // ImageIO.write((RenderedImage) file, "jpg", (File) file);
-                Files.copy(inputStream, path.resolve(mills.toString()+"_"+file.getOriginalFilename()));
+                String extentFile = FilenameUtils.getExtension(file.getOriginalFilename());
+                Files.copy(inputStream, path.resolve(mills.toString()+"."+extentFile));
                 bl = true;
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
             return bl;
+    }
+    public Boolean saveFolder(String dir){
+        Boolean bl;
+        if (!dir.isEmpty() ||!dir.equals("")) {
+            File file = new File(ROOT_URL+dir);
+            bl = file.mkdir();
+        }
+        else bl = false;
+        return bl;
     }
     public Boolean deleteFile(String fileName){
         Path path = Paths.get("ROOT_URL"+fileName);
