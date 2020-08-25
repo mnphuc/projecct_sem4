@@ -34,6 +34,53 @@
     <!--Pace - Page Load Progress Par [OPTIONAL]-->
     <link th:href="@{/admin/mnphuc/pace.min.css}" rel="stylesheet">
     <script th:src="@{/admin/mnphuc/pace.min.js}"></script>
+    <style>
+        .custom-menu {
+            display: none;
+            z-index: 1000;
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            overflow: hidden;
+            border: 1px solid #CCC;
+            white-space: nowrap;
+            font-family: sans-serif;
+            background: #FFF;
+            color: #333;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .custom-menu li {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .custom-menu li:hover {
+            background-color: #DEF;
+        }
+
+        .custom-menu .divider {
+            content: " ";
+            height: 1px;
+            margin: 4px 10px;
+            background: #929292;
+        }
+
+        #MailBodyList.custom-menu li.Title {
+            color: #929292;
+        }
+
+        #MailBodyList.custom-menu li.Title:hover {
+            background: #FFF;
+            cursor: default;
+        }
+
+        #MailBodyList.custom-menu li.ForThisSenderMore {
+            display: none;
+        }
+    </style>
 <!--    &lt;!&ndash;Demo [ DEMONSTRATION ]&ndash;&gt;-->
 <!--    <link th:href="@{/admin/mnphuc/nifty-demo.min.css}" rel="stylesheet">-->
 </head>
@@ -103,8 +150,14 @@
         </div>
     </div>
 </div>
-
+<ul class="custom-menu" id="showMenu">
+    <li id="viewFolder">Xem</li>
+    <li id="editFolder">Sửa</li>
+    <li id="remoteFolder">Xóa</li>
+</ul>
 <input type="button" id="save_value" name="save_value" value="Save" />
+
+
 <!--JAVASCRIPT-->
 <!--=================================================-->
 <!--jQuery [ REQUIRED ]-->
@@ -152,6 +205,9 @@
                     }
                 })
             }
+        });
+        $( "#target" ).contextmenu(function() {
+            alert( "Handler for .contextmenu() called." );
         });
     });
     function getAllImage(){
@@ -298,6 +354,29 @@
 
     })
 
+</script>
+<script>
+    let name;
+    $('#listFolder').bind("contextmenu", 'a', function (event) {
+        event.preventDefault();
+        name =  $(this).data('values');
+        $('#showMenu').finish().toggle(100).
+        css({
+            top: event.pageY + "px",
+            left: event.pageX + "px"
+        });
+    });
+    jQuery(document).click(function (event) {
+        console.log(name)
+        if (jQuery(event.target).closest('#listFolder').length === 0) {
+            jQuery('#showMenu').hide();
+        }
+    });
+    jQuery(document).on("contextmenu", function (e) {
+        if (jQuery(event.target).closest('#listFolder').length === 0) {
+            $('#showMenu').hide();
+        }
+    });
 </script>
 </body>
 </html>
