@@ -143,11 +143,8 @@ public class BlogController {
         return "admin/blog/insertBlog";
     }
     @RequestMapping(value = "them-bai-viet", method = RequestMethod.POST)
-    public String submitFormBlog(@Valid Blogs blogs, HttpServletRequest request, BindingResult result, Model model, RedirectAttributes redirectAttributes){
-//        Authentication authentication = null;
-//        Users users = (Users) authentication.getPrincipal();
-//        Long userId = users.getUserID();
-        //Long userId = (Long) request.getSession().getAttribute("userId");
+    public String submitFormBlog(@Valid Blogs blogs, BindingResult result, Model model, RedirectAttributes redirectAttributes){
+
         Long uId = Long.valueOf(1);
         blogs.setUserId(uId);
         if (result.hasErrors()){

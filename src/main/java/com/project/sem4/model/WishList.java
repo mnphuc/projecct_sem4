@@ -4,8 +4,8 @@ import java.math.BigInteger;
 import java.util.Date;
 
 public class WishList {
-    int Id;
-    int UserId;
+    Integer Id;
+    Integer UserId;
     Long ProductId;
     Date Create_At;
 

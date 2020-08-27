@@ -205,7 +205,7 @@
                     success: function (data, textStatus, xhr) {
                         console.log(data)
                         getAllFolder();
-                        location.reload();
+                        //location.reload();
                     }
                 })
             }
@@ -354,55 +354,57 @@
             }
 
         })
-
+        abc()
     })
 
 </script>
 <script>
-    window.onload = function () {
+    function abc() {
+        window.onload = function () {
+            $('#listFolder>a').bind("contextmenu", function (event) {
+                event.preventDefault();
+                var name = $(this).data("values")
+                // console.log(name)
+                $("#listFolder>a").data('namefolder', name);
 
-        $('#listFolder>a').bind("contextmenu", function (event) {
-            event.preventDefault();
-            var name = $(this).data("values")
-            // console.log(name)
-            $("#listFolder>a").data('namefolder', name);
-
-            $('#showMenu').finish().toggle(100).css({
-                top: event.pageY + "px",
-                left: event.pageX + "px"
+                $('#showMenu').finish().toggle(100).css({
+                    top: event.pageY + "px",
+                    left: event.pageX + "px"
+                });
             });
-        });
-        jQuery(document).click(function (event) {
-            if (jQuery(event.target).closest('#listFolder>a').length === 0) {
-                jQuery('#showMenu').hide();
-            }
-        });
-        jQuery(document).on("contextmenu", function (e) {
-            if (jQuery(event.target).closest('#listFolder>a').length === 0) {
-                $('#showMenu').hide();
-            }
-        });
-        $('#editFolder').click(function () {
-            var namef = $('#listFolder>a').data('namefolder');
-            console.log(namef)
-        })
-        $('#remoteFolder').click(function (){
-            var named = $('#listFolder>a').data('namefolder');
-            if (named == 'all'){
-                console.log('không xóa đc')
-            }else {
-                $.ajax({
-                    url: "/quan-tri/api/deleteFolder?dir="+named,
-                    type: 'post',
-                    success: function (data, textStatus, xhr) {
-                        if (xhr.status == 200){
-
+            jQuery(document).click(function (event) {
+                if (jQuery(event.target).closest('#listFolder>a').length === 0) {
+                    jQuery('#showMenu').hide();
+                }
+            });
+            jQuery(document).on("contextmenu", function (e) {
+                if (jQuery(event.target).closest('#listFolder>a').length === 0) {
+                    $('#showMenu').hide();
+                }
+            });
+            $('#editFolder').click(function () {
+                var namef = $('#listFolder>a').data('namefolder');
+                console.log(namef)
+            })
+            $('#remoteFolder').click(function () {
+                var named = $('#listFolder>a').data('namefolder');
+                if (named == 'all') {
+                    console.log('không xóa đc')
+                } else {
+                    $.ajax({
+                        url: "/quan-tri/api/deleteFolder?dir=" + named,
+                        type: 'post',
+                        success: function (data, textStatus, xhr) {
+                            if (xhr.status == 200) {
+                                $('[data-values="'+named+'"]').remove();
+                                console.log('xóa thành công')
+                            }
                         }
-                    }
-                })
-            }
+                    })
+                }
 
-        })
+            })
+        }
     }
 </script>
 </body>

@@ -28,6 +28,8 @@ public class CategoriesRepositoryImpl implements CategoriesRepository {
                 Categories categories = new Categories();
                 categories.setId(rs.getInt("id"));
                 categories.setCategoryName(rs.getString("categoryName"));
+                categories.setImage(rs.getString("image"));
+                categories.setDescription(rs.getString("description"));
                 categories.setUrl(rs.getString("url"));
                 categories.setParentId(rs.getInt("parent_id"));
                 categories.setCreateDate(rs.getDate("createDate"));
@@ -51,12 +53,14 @@ public class CategoriesRepositoryImpl implements CategoriesRepository {
         ResultSet rs = null;
         conn = DBConnect.openConnect();
         try {
-            cs = conn.prepareCall("{call insertCategories (?,?,?,?)}");
+            cs = conn.prepareCall("{call insertCategories (?,?,?,?,?,?)}");
             cs.setString(1, categories.getCategoryName());
             String slug = MnpSlug.makeSlug(categories.getCategoryName());
-            cs.setString(2, slug);
-            cs.setInt(3, categories.getParentId());
-            cs.setBoolean(4, categories.getStatus());
+            cs.setString(2, categories.getImage());
+            cs.setString(3, categories.getDescription());
+            cs.setString(4, slug);
+            cs.setInt(5, categories.getParentId());
+            cs.setBoolean(6, categories.getStatus());
             int i = cs.executeUpdate();
             if (i >0){
                 bl = true;
@@ -82,9 +86,11 @@ public class CategoriesRepositoryImpl implements CategoriesRepository {
             cs.setInt(1, categories.getId());
             cs.setString(2, categories.getCategoryName());
             String slug = MnpSlug.makeSlug(categories.getCategoryName());
-            cs.setString(3, slug);
-            cs.setInt(4, categories.getParentId());
-            cs.setBoolean(5, categories.getStatus());
+            cs.setString(3, categories.getImage());
+            cs.setString(4, categories.getDescription());
+            cs.setString(5, slug);
+            cs.setInt(6, categories.getParentId());
+            cs.setBoolean(7, categories.getStatus());
             int i = cs.executeUpdate();
             if (i > 0){
                 bl = true;
@@ -112,6 +118,8 @@ public class CategoriesRepositoryImpl implements CategoriesRepository {
             while (rs.next()){
                 categories.setId(rs.getInt("id"));
                 categories.setCategoryName(rs.getString("categoryName"));
+                categories.setImage(rs.getString("image"));
+                categories.setDescription(rs.getString("description"));
                 categories.setUrl(rs.getString("url"));
                 categories.setParentId(rs.getInt("parent_id"));
                 categories.setCreateDate(rs.getDate("createDate"));

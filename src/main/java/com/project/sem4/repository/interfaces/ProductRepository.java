@@ -8,5 +8,8 @@ import java.util.List;
 public interface ProductRepository {
     public List<Products> getAllProducts();
     public Boolean insertProducts(InsertProductModel insertProductModel);
-
+    public InsertProductModel findProductById(Integer Id);
+    public Boolean editProduct(InsertProductModel insertProductModel);
+    public Boolean deleteProduct(Integer id);
+    
 }

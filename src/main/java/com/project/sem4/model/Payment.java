@@ -1,8 +1,10 @@
 package com.project.sem4.model;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
-
+@Data
 public class Payment {
 //    Id int primary key identity(1,1),
 //    Name nvarchar(255),
@@ -16,44 +18,4 @@ public class Payment {
     String description;
     String title;
     Date createAt;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
-    }
 }

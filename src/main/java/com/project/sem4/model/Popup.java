@@ -1,8 +1,10 @@
 package com.project.sem4.model;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
-
+@Data
 public class Popup {
 //    Id int primary key identity(1,1),
 //    Title nvarchar(255) not null,
@@ -22,67 +24,4 @@ public class Popup {
     private Date dateEnd;
     private Date createAt;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getImageBackground() {
-        return imageBackground;
-    }
-
-    public void setImageBackground(String imageBackground) {
-        this.imageBackground = imageBackground;
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
-
-    public Date getDateStart() {
-        return dateStart;
-    }
-
-    public void setDateStart(Date dateStart) {
-        this.dateStart = dateStart;
-    }
-
-    public Date getDateEnd() {
-        return dateEnd;
-    }
-
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
-    }
-
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
-    }
 }
