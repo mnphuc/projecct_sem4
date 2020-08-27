@@ -90,7 +90,7 @@ public class ProductController {
         return "admin/product/insertProduct";
     }
     @RequestMapping(value = "sua-san-pham", method = RequestMethod.GET)
-    public String editProductForm(@RequestParam(name = "id", required = false)Integer id, Model model, RedirectAttributes redirectAttributes){
+    public String editProductForm(@RequestParam(name = "id", required = false)Long id, Model model, RedirectAttributes redirectAttributes){
         if (id == null || id == 0){
             String msg = "warning,Cảnh Báo,Bạn Đang Cố Tấn Công Hệ Thống Của Mình,hide";
             redirectAttributes.addAttribute("msg", msg);

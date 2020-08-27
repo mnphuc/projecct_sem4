@@ -70,13 +70,29 @@
 <!-- custom js -->
 <!-- end jquery -->
 <script>
-    var data = [{"Id":1,"Name":"Màu","Description":"màu sắc","status":true,"attribute":[{"Id":2,"AttributeSetId":1,"Description":"sdas ","Name":"đỏ","DataType":"d?","DefaultValue":"d?"},{"Id":4,"AttributeSetId":1,"Description":"xanh","Name":"xanh","DataType":"xanh","DefaultValue":"xanh"},{"Id":5,"AttributeSetId":1,"Description":"tím","Name":"tím","DataType":"tím","DefaultValue":"tím"}]},{"Id":2,"Name":"Size","Description":"size","status":true,"attribute":[{"Id":3,"AttributeSetId":2,"Description":"XL","Name":"lớm","DataType":"l?n","DefaultValue":"l?n"}]}];
-    $.each(data, function(i, item) {
-        console.log(item.Description + ":"+item.);
-        $.each(item.attribute, function (ii, it){
-            console.log(it.Description)
+    $(document).ready(function() {
+        $('body').on("click", ".addToCart", function (){
+            console.log($(this).data("id"))
+            console.log("hình như được")
         })
-    });
+        var token = $("meta[name='_csrf']").attr("content");
+        console.log(token)
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        });
+    })
+    function addTocart(productId, attr) {
+        $.ajax({
+            type: "GET",
+            url: "/api/addCart/" + productId + "?attr=" + attr,
+            success: function (data) {
+                var html = '';
+                console.log(data)
+            }
+        })
+    }
 </script>
 
 

@@ -179,7 +179,6 @@
         getAllImage();
         getAllFolder();
 
-
         var token = $("meta[name='_csrf']").attr("content");
         console.log(token)
         $.ajaxSetup({
@@ -319,7 +318,6 @@
 
 
         function getImage(value) {
-
             if (window.opener != null && !window.opener.closed) {
                 var tech = getUrlParameter('id');
                 var txtName = window.opener.document.getElementById(tech); // ID này là của parent form

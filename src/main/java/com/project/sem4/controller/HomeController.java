@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -47,7 +48,8 @@ public class HomeController {
         List<Products> productsList = productRepository.getAllProducts();
         model.addAttribute("listProduct", productsList);
         List<Categories> categories = categoriesRepository.getAllCategories();
-        model.addAttribute("listCategory", categories);
+        List<Categories> newlist = categories.stream().limit(3).collect(Collectors.toList());
+        model.addAttribute("listCategory", newlist);
         return "home";
     }
 
@@ -63,7 +65,10 @@ public class HomeController {
 
         return "";
     }
-
+    @RequestMapping(value = "danh-sach-san-pham", method = RequestMethod.GET)
+    public String viewListProduct(Model model){
+        return "shopList";
+    }
 //    @GetMapping("/admin")
 //    public String admin(){
 //        return "admin/index";

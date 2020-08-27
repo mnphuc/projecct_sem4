@@ -102,7 +102,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 //    private Date createAt;
 //    private Boolean status;
     @Override
-    public InsertProductModel findProductById(Integer id) {
+    public InsertProductModel findProductById(Long id) {
         InsertProductModel products = new InsertProductModel();
         Connection conn;
         CallableStatement cs = null;
@@ -110,7 +110,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         conn = DBConnect.openConnect();
         try {
             cs = conn.prepareCall("{call findProductById (?)}");
-            cs.setInt(1, id);
+            cs.setLong(1, id);
             rs = cs.executeQuery();
             while (rs.next()){
                 products.setId(rs.getLong("id"));
@@ -184,6 +184,44 @@ public class ProductRepositoryImpl implements ProductRepository {
             DBConnect.closeAll(conn,cs,rs);
         }
         return bl;
+    }
+
+    @Override
+    public Products findProById(Long id) {
+        Products products= new Products();
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call findProductsById (?)}");
+            cs.setLong(1, id);
+            rs = cs.executeQuery();
+            while (rs.next()){
+                products.setId(rs.getLong("id"));
+                products.setProductName(rs.getString("productName"));
+                products.setPrice(rs.getDouble("price"));
+                products.setImageLink(rs.getString("imageLink"));
+                products.setImageList(rs.getString("imageList"));
+                products.setQuantity(rs.getInt("quantity"));
+                products.setPriceSale(rs.getDouble("priceSale"));
+                products.setNote(rs.getInt("note"));
+                products.setSaleStatus(rs.getInt("saleStatus"));
+                products.setDescription(rs.getString("description"));
+                products.setView(rs.getInt("view"));
+                products.setMetaTitle(rs.getString("metaTitle"));
+                products.setMetaKeyWord(rs.getString("metaKeyWord"));
+                products.setMetaDescription(rs.getString("metaDescription"));
+                products.setSlug(rs.getString("slug"));
+                products.setCreateAt(rs.getDate("createAt"));
+                products.setStatus(rs.getBoolean("status"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            DBConnect.closeAll(conn,cs,rs);
+        }
+        return products;
     }
 
 }
