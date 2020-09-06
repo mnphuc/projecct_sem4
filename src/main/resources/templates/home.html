@@ -96,27 +96,27 @@
                         <div class="icon"><i class="fa fa-truck" aria-hidden="true"></i></div>
                         <div class="info">
                             <a href="#">
-                                <h6 class="normal">Delivery Free</h6>
+                                <h6 class="normal">Miễn Phí Giao Hàng</h6>
                             </a>
-                            <p>On Order Over $150</p>
+                            <p>Đơn Hàng Từ 1tr</p>
                         </div>
                     </div>
                     <div class="col-md-4 mtb-sm-30 promo-item">
                         <div class="icon"><i class="fa fa-repeat" aria-hidden="true"></i></div>
                         <div class="info">
                             <a href="#">
-                                <h6 class="normal">Exchange or Return</h6>
+                                <h6 class="normal">Đổi Trả</h6>
                             </a>
-                            <p>30 Day Money Back Guarantee</p>
+                            <p>Trong 30 Ngày</p>
                         </div>
                     </div>
                     <div class="col-md-4 mtb-sm-30 promo-item">
                         <div class="icon"><i class="fa fa-headphones" aria-hidden="true"></i></div>
                         <div class="info">
                             <a href="#">
-                                <h6 class="normal">Support</h6>
+                                <h6 class="normal">Hỗ Trợ</h6>
                             </a>
-                            <p>24/7 Online Support</p>
+                            <p>24/7</p>
                         </div>
                     </div>
                 </div>
@@ -179,7 +179,7 @@
                                 </div>
                                 <div class="product-detail">
                                     <a class="tag" href="#" th:text="${p.productName}">Men Fashion</a>
-                                    <p class="product-title"><a href="product_detail.html" th:text="${p.productName}">United Colors of Benetton</a></p>
+                                    <p class="product-title"><a th:href="@{'/san-pham/'+${p.slug}}" th:text="${p.productName}">United Colors of Benetton</a></p>
                                     <div class="product-rating">
                                         <div class="star-rating" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating" title="Rated 4 out of 5">
                                             <span style="width: 60%"></span>
@@ -238,7 +238,7 @@
                                         <img th:src="${p.imageLink}" th:alt="${p.productName}">
                                     </div>
                                     <div class="product-button">
-                                        <a href="#" class="js_tooltip" data-mode="top" data-tip="Thêm Vào Giỏ Hàng"><i class="fa fa-shopping-bag"></i></a>
+                                        <a href="#" class="js_tooltip addToCart" th:attr="data-id=${p.id}" data-mode="top" data-tip="Thêm Vào Giỏ Hàng"><i class="fa fa-shopping-bag"></i></a>
                                         <a href="#" class="js_tooltip" data-mode="top" data-tip="Yêu Thích"><i class="fa fa-heart"></i></a>
                                         <a href="#" class="js_tooltip" data-mode="top" data-tip="Xem"><i class="fa fa-eye"></i></a>
                                     </div>
@@ -270,7 +270,7 @@
         <section class="">
             <div class="section-padding container-fluid bg-image text-center overlay-light90" data-background-img="/client/img/bg/bg_5.jpg" data-bg-position-x="center center">
                 <div class="container">
-                    <h2 class="page-title">Shop by Categories</h2>
+                    <h2 class="page-title">Danh Mục</h2>
                 </div>
             </div>
             <div class="container container-margin-minus-t">
@@ -297,7 +297,7 @@
         <!-- New Product -->
         <section class="section-padding">
             <div class="container">
-                <h2 class="page-title">New Tranding</h2>
+                <h2 class="page-title">Đang Bán Chạy</h2>
             </div>
             <div class="container">
                 <div id="new-tranding" class="product-item-4 owl-carousel owl-theme nf-carousel-theme1">
@@ -305,7 +305,7 @@
                     <div class="product-item">
                         <div class="product-item-inner">
                             <div class="product-img-wrap">
-                                <img src="img/product-img/big/product_125470001.jpg" alt="">
+                                <img src="/client/img/product-img/big/product_125470001.jpg" alt="">
                             </div>
                             <div class="product-button">
                                 <a href="#" class="js_tooltip" data-mode="top" data-tip="Add To Cart"><i class="fa fa-shopping-bag"></i></a>
@@ -720,6 +720,7 @@
         <!-- End Instagram -->
     </div>
     <!-- End Page Content Wraper -->
+
     </div>
 </div>
 </body>

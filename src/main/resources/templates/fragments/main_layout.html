@@ -71,31 +71,92 @@
 <!-- end jquery -->
 <script>
     $(document).ready(function() {
-        $('body').on("click", ".addToCart", function (){
-            console.log($(this).data("id"))
-            console.log("hình như được")
-        })
         var token = $("meta[name='_csrf']").attr("content");
-        console.log(token)
         $.ajaxSetup({
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('X-CSRF-TOKEN', token);
             }
         });
+        $('body').on("click", ".addToCart", function (){
+            addTocart($(this).data("id"), "", 1);
+        })
+        $('body').on("click", "#remove-cart", function (){
+            var keyId = $(this).data("key");
+            $.ajax({
+                type: "POST",
+                url: "/api/remove",
+                data: {keyId: keyId },
+                success: function (data) {
+                    $("#"+keyId).remove();
+                    var quantityCart = 0;
+                    var totalPriceCart = 0;
+                    for (var key in data){
+                        var keys = Object.keys(data)[key];
+                       // console.log("key", keys)
+                        var value = data[key];
+                        //console.log(value)
+                        quantityCart ++;
+                        totalPriceCart += value.products.priceSale * value.quantity;
+                    }
+                    //console.log(totalPriceCart)
+                    $('#cartQuantity').text(quantityCart)
+                    $('#totalCartH').text(formatNumber(totalPriceCart, '.', ',')+ " VND")
+                    //console.log("ahihai data", data);
+                }
+            })
+        })
+        //console.log($("#total-price").data("total"))
+        var total = 0;
+        var totalCart = 0;
+        $("#totalCheck .total-price").each(function() {
+            total += parseInt($(this).data("total"))
+            totalCart ++;
+        });
+        //console.log("totalCart", totalCart)
+        $('#total').text(formatNumber(total, '.', ',')+ " VND")
+        $('#cartQuantity').text(totalCart)
+        $('#totalCartH').text(formatNumber(total, '.', ',')+ " VND")
+
     })
-    function addTocart(productId, attr) {
+    function formatNumber(nStr, decSeperate, groupSeperate) {
+        nStr += '';
+        x = nStr.split(decSeperate);
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + groupSeperate + '$2');
+        }
+        return x1 + x2;
+    }
+    function addTocart(productId, attr, quantity) {
         $.ajax({
             type: "GET",
-            url: "/api/addCart/" + productId + "?attr=" + attr,
+            url: "/api/addCart/?proId="+productId+"&attr="+attr+"&quantity="+quantity,
             success: function (data) {
+                //console.log(data);
                 var html = '';
-                console.log(data)
+                var totalPrice = 0;
+                var quantityCart = 0;
+                for (var key in data){
+                    var keys = Object.keys(data)[key];
+                    var value = data[key];
+                    var priceTotal = formatNumber(value.products.priceSale, '.', ',') + ' VNĐ';
+                    html += ' <li class="checkRemove" id="'+key+'"><a th:href="/san-pham/'+value.products.slug+'"class="product-image"><img src="'+value.products.imageLink+'" alt="'+value.products.productName+'" /></a><div class="product-content"><!-- Item Linkcollateral --><a class="product-link" href="/san-pham/'+value.products.slug+'">'+value.products.productName+'</a><div class="cart-collateral"><span class="qty-cart">'+value.quantity+'</span>&nbsp;<span>&#215;</span>&nbsp;<span class="product-price-amount" >'+priceTotal+'</span></div><a class="product-remove" href="javascript:void(0)" data-key="'+key+'" id="remove-cart"><i class="fa fa-times-circle" aria-hidden="true"></i></a></div></li>';
+                    totalPrice += value.quantity * value.products.priceSale;
+                    quantityCart ++;
+                }
+                $("#listItemCart").html(html);
+                $("#total").text(formatNumber(totalPrice, '.', ',') + ' VNĐ')
+                $("#cartQuantity").text(quantityCart)
+                $("#totalCartH").text(formatNumber(totalPrice, '.', ',')+ ' VNĐ')
+
             }
         })
     }
 </script>
 
 
-
+<th:block layout:fragment="script"></th:block>
 </body>
 </html>

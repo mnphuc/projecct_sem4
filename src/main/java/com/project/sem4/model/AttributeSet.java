@@ -1,7 +1,7 @@
 package com.project.sem4.model;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
+
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;

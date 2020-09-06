@@ -2,7 +2,8 @@ package com.project.sem4.model;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 @Data
 public class BlogCategories {
@@ -11,7 +12,7 @@ public class BlogCategories {
 //    Description nvarchar(255),
 //    Create_At datetime default getdate()
     Integer id;
-    @NotEmpty(message = "tên danh mục không được để trống")
+    @NotNull(message = "tên danh mục không được để trống")
     String name;
     String description;
     String slug;

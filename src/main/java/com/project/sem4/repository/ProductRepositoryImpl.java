@@ -7,6 +7,11 @@ import com.project.sem4.model.view.InsertProductModel;
 import com.project.sem4.repository.interfaces.ProductRepository;
 import com.project.sem4.vendor.DBConnect;
 import com.project.sem4.vendor.MnpSlug;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import javax.sound.midi.MidiDevice;
@@ -18,6 +23,8 @@ import java.util.List;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
+
+
     @Override
     public List<Products> getAllProducts() {
         List<Products> list = new ArrayList<>();
@@ -84,23 +91,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         return bl;
     }
-//    private Long id;
-//    private String productName;
-//    private Double price;
-//    private String imageLink;
-//    private String imageList;
-//    private Integer quantity;
-//    private Double priceSale;
-//    private Integer note;
-//    private Integer saleStatus;
-//    private String description;
-//    private Integer view;
-//    private String metaTitle;
-//    private String metaKeyWord;
-//    private String metaDescription;
-//    private String slug;
-//    private Date createAt;
-//    private Boolean status;
     @Override
     public InsertProductModel findProductById(Long id) {
         InsertProductModel products = new InsertProductModel();
@@ -213,7 +203,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 products.setMetaKeyWord(rs.getString("metaKeyWord"));
                 products.setMetaDescription(rs.getString("metaDescription"));
                 products.setSlug(rs.getString("slug"));
-                products.setCreateAt(rs.getDate("createAt"));
+                products.setCreateAt(rs.getDate("create_At"));
                 products.setStatus(rs.getBoolean("status"));
             }
         } catch (SQLException throwables) {
@@ -224,4 +214,81 @@ public class ProductRepositoryImpl implements ProductRepository {
         return products;
     }
 
+    @Override
+    public Products getProductBySlug(String slug) {
+        Products products= new Products();
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call getProductBySlug (?)}");
+            cs.setString(1, slug);
+            rs = cs.executeQuery();
+            while (rs.next()){
+                products.setId(rs.getLong("id"));
+                products.setProductName(rs.getString("productName"));
+                products.setPrice(rs.getDouble("price"));
+                products.setImageLink(rs.getString("imageLink"));
+                products.setImageList(rs.getString("imageList"));
+                products.setQuantity(rs.getInt("quantity"));
+                products.setPriceSale(rs.getDouble("priceSale"));
+                products.setNote(rs.getInt("note"));
+                products.setSaleStatus(rs.getInt("saleStatus"));
+                products.setDescription(rs.getString("description"));
+                products.setView(rs.getInt("view"));
+                products.setMetaTitle(rs.getString("metaTitle"));
+                products.setMetaKeyWord(rs.getString("metaKeyWord"));
+                products.setMetaDescription(rs.getString("metaDescription"));
+                products.setSlug(rs.getString("slug"));
+                products.setCreateAt(rs.getDate("create_At"));
+                products.setStatus(rs.getBoolean("status"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            DBConnect.closeAll(conn,cs,rs);
+        }
+        return products;
+    }
+
+    @Override
+    public List<Products> getRelatedProduct(Double price) {
+        List<Products> list = new ArrayList<>();
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call getRelatedProduct (?)}");
+            cs.setDouble(1, price);
+            rs = cs.executeQuery();
+            while (rs.next()){
+                Products products = new Products();
+                products.setId(rs.getLong("id"));
+                products.setProductName(rs.getString("ProductName"));
+                products.setPrice(rs.getDouble("price"));
+                products.setImageLink(rs.getString("imageLink"));
+                products.setImageList(rs.getString("imageList"));
+                products.setQuantity(rs.getInt("Quantity"));
+                products.setPriceSale(rs.getDouble("PriceSale"));
+                products.setNote(rs.getInt("Note"));
+                products.setSaleStatus(rs.getInt("SaleStatus"));
+                products.setDescription(rs.getString("Description"));
+                products.setView(rs.getInt("view"));
+                products.setMetaDescription(rs.getString("MetaKeyWord"));
+                products.setMetaTitle(rs.getString("MetaTitle"));
+                products.setMetaDescription(rs.getString("MetaDescription"));
+                products.setSlug(rs.getString("slug"));
+                products.setCreateAt(rs.getDate("create_at"));
+                products.setStatus(rs.getBoolean("status"));
+                list.add(products);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            DBConnect.closeAll(conn,cs,rs);
+        }
+        return list;
+    }
 }

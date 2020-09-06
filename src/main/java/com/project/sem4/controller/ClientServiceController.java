@@ -1,47 +1,119 @@
 package com.project.sem4.controller;
 
+import com.project.sem4.model.Attribute;
+import com.project.sem4.model.Discount;
 import com.project.sem4.model.Products;
+import com.project.sem4.model.map.HashMapCart;
+import com.project.sem4.model.service.Cart;
 import com.project.sem4.model.view.CartInfo;
+import com.project.sem4.repository.AttributeRepositoryImpl;
+import com.project.sem4.repository.ClientRepositoryImpl;
 import com.project.sem4.repository.ProductRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Array;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("api")
 public class ClientServiceController {
     @Autowired
     ProductRepositoryImpl productRepository;
+    @Autowired
+    ClientRepositoryImpl clientRepository;
+    @Autowired
+    AttributeRepositoryImpl attributeRepository;
 
-    @RequestMapping(value = "addCart/{productId}", method = RequestMethod.GET)
-    public ResponseEntity<String> addCart(HttpSession session, @PathVariable("productId") Long productId, @RequestParam(value = "Attr",required = false )String attr){
+    @RequestMapping(value = "addCart", method = RequestMethod.GET)
+    public ResponseEntity<HashMap<Long, CartInfo>> addCart(HttpSession session, @ModelAttribute Cart cart) {
+
+        Integer[] attrs = new Integer[0];
+        String[] attrName = new String[0];
+        List<Integer> integers = new ArrayList<>();
+        List<String> strings = new ArrayList<>();
+        if (cart.getAttr() == null || cart.getAttr().length == 0){
+            List<ClientRepositoryImpl.GsonOb> list = clientRepository.getAttributeByProId(cart.getProId());
+            for (ClientRepositoryImpl.GsonOb gsonOb : list) {
+               List<ClientRepositoryImpl.AttributeList> attributeLists = gsonOb.getAttributeList();
+               ClientRepositoryImpl.AttributeList  attributeList = attributeLists.get(0);
+               Integer attrId = attributeList.getId();
+               String attrNames = attributeList.getName();
+               strings.add(attrNames);
+               attrName = strings.toArray(attrName);
+               integers.add(attrId);
+               attrs = integers.toArray(attrs);
+            }
+            cart.setAttr(attrs);
+        }
+        List<Attribute> attributeList = new ArrayList<>();
+        Integer attrIdInt = 0;
+        Integer xxx = 1;
+        for (Integer attrId : cart.getAttr()){
+            Attribute attribute = attributeRepository.findAttributeById(attrId);
+            attributeList.add(attribute);
+            attrIdInt += attrId * xxx;
+            xxx *= 10;
+
+        }
         HashMap<Long, CartInfo> cartItems = (HashMap<Long, CartInfo>) session.getAttribute("myCart");
-        if (cartItems == null){
+        if (cartItems == null || cartItems.size() == 0) {
             cartItems = new HashMap<>();
         }
-
-        Products products = productRepository.findProById(productId);
-        if (products != null){
+        Products products = productRepository.findProById(cart.getProId());
+        Long keyId = cart.getProId() * xxx+ attrIdInt ;
+        if (products != null) {
             CartInfo item;
-            if (cartItems.containsKey(productId)) {
-                item = cartItems.get(productId);
+                if (cartItems.containsKey(keyId) ) {
+                item = cartItems.get(keyId);
                 item.setProducts(products);
-                item.setQuantity(item.getQuantity() + 1);
-            }else {
-                item = new CartInfo();
-                item.setProducts(products);
-                item.setQuantity(1);
-            }
-            cartItems.put(productId, item);
-
+                item.setAttribute(attributeList);
+                item.setQuantity(item.getQuantity() + cart.getQuantity());
+                } else {
+                    item = new CartInfo();
+                    item.setProducts(products);
+                    item.setAttribute(attributeList);
+                    item.setQuantity(cart.getQuantity());
+                }
+            cartItems.put(keyId, item);
         }
-        return new ResponseEntity<>("thêm thành công", HttpStatus.OK);
+        session.setAttribute("myCart", cartItems);
+        return new ResponseEntity<HashMap<Long, CartInfo>>(cartItems, HttpStatus.OK);
     }
+    @RequestMapping(value = "remove", method = RequestMethod.POST)
+    public ResponseEntity< HashMap<Long, CartInfo>> RemoveItem(ModelMap mm, HttpSession session, @RequestParam("keyId")Long keyId) {
+
+        HashMap<Long, CartInfo> cartItems = (HashMap<Long, CartInfo>) session.getAttribute("myCart");
+        if (cartItems == null || cartItems.size() == 0) {
+            cartItems = new HashMap<>();
+        }
+        if (cartItems.containsKey(keyId)) {
+            cartItems.remove(keyId);
+        }
+        session.setAttribute("myCart", cartItems);
+        return new ResponseEntity<HashMap<Long, CartInfo>>(cartItems, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "checkDiscount", method = RequestMethod.POST)
+    public ResponseEntity<?> checkDiscount(@RequestParam("code")String code, HttpSession session){
+        Discount discount = clientRepository.checkDiscount(code);
+        HashMap<Long, CartInfo> cartItems = (HashMap<Long, CartInfo>) session.getAttribute("myCart");
+        Double totals = (Double) session.getAttribute("totals");
+        Double totalDiscount = Double.valueOf(0);
+        if (discount.getId() != null){
+            Integer a = Integer.parseInt(discount.getDiscount());
+                totalDiscount = totals *(100 - a)/100;
+        }
+        Double abc = totals - totalDiscount;
+        if (abc > discount.getMaxDiscount()){
+            abc = discount.getMaxDiscount();
+        }
+        session.setAttribute("discountPrice", abc);
+        return new ResponseEntity<Double>(abc, HttpStatus.OK);
+    }
+
 }

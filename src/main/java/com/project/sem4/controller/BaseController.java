@@ -20,7 +20,7 @@ public class BaseController {
         return "admin/login";
     }
 
-    @RequestMapping("/login2")
+    @RequestMapping("/dang-nhap")
     public String login2(@RequestParam(required = false) String message, final Model model) {
         if (message != null && !message.isEmpty()) {
             if (message.equals("logout")) {

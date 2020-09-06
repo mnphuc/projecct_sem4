@@ -2,7 +2,6 @@ package com.project.sem4.model;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 @Data
@@ -21,12 +20,12 @@ public class Blogs {
     Integer id;
     @NotNull(message = "Phải Chọn Danh Mục")
     Integer blogCategoryId;
-    @NotEmpty(message = "Phải Có Nội Dung")
+    @NotNull(message = "Phải Có Nội Dung")
     String content;
     String image;
     String slug;
     String tag;
-    @NotEmpty(message = "Phải Có Tiêu Đề")
+    @NotNull(message = "Phải Có Tiêu Đề")
     String title;
     String metaTitle;
     String metaContent;

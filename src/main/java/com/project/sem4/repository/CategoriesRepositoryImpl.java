@@ -82,7 +82,7 @@ public class CategoriesRepositoryImpl implements CategoriesRepository {
         conn = DBConnect.openConnect();
 
         try {
-            cs = conn.prepareCall("{call updateCategories (?,?,?,?,?)}");
+            cs = conn.prepareCall("{call updateCategories (?,?,?,?,?,?,?)}");
             cs.setInt(1, categories.getId());
             cs.setString(2, categories.getCategoryName());
             String slug = MnpSlug.makeSlug(categories.getCategoryName());

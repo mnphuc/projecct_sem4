@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{admin/fragments/main_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Discount</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Discount</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- left column -->
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Thêm Discount</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form class="form-horizontal" th:action="@{them-ma-giam-gia}" method="POST" th:object="${discount}">
+                            <div class="card-body">
+
+                                <div class="form-group row">
+                                    <label for="description" class="col-sm-2 col-form-label">Mô Tả</label>
+                                    <div class="col-sm-4">
+                                        <textarea class="form-control" id="description" th:field="*{description}" th:classappend="${#fields.hasErrors('description')} ? is-invalid : ''" rows="3" placeholder="Mô Tả"></textarea>
+                                        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-2 col-form-label">Code</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" th:field="*{codeDiscount}" class="form-control " th:classappend="${#fields.hasErrors('codeDiscount')} ? is-invalid : ''" id="name" placeholder="nhập code">
+                                        <div th:if="${#fields.hasErrors('codeDiscount')}" th:errors="*{codeDiscount}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Kiểu Mã Giảm Giá</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" th:field="*{typeDiscount}">
+                                            <option value="1">Giảm Tất Cả Theo %</option>
+                                            <option value="2">Giảm Cho Sản Phẩm Theo %</option>
+                                            <option value="3">Giảm Cho User Theo %</option>
+                                            <option value="4">Giảm Tiền Theo Sản Phẩm</option>
+                                            <option value="5">Giảm Tiền Theo User</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-2 col-form-label">Giảm Giá</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" th:field="*{discount}" class="form-control " th:classappend="${#fields.hasErrors('discount')} ? is-invalid : ''" id="name" placeholder="% hoặc giá tiền">
+                                        <div th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-2 col-form-label">Tối Đa</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" th:field="*{maxDiscount}" class="form-control " th:classappend="${#fields.hasErrors('maxDiscount')} ? is-invalid : ''" id="name" placeholder="Giảm Tối Đa Tối Đa">
+                                        <div th:if="${#fields.hasErrors('maxDiscount')}" th:errors="*{maxDiscount}" class="invalid-feedback">
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="text" id="dateStart" th:field="*{dateStart}" style="display: none">
+                                <input type="text" id="dateEnd" th:field="*{dateEnd}" style="display: none">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Thời Gian Tồn Tại:</label>
+                                    <div class=" col-sm-4 input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control float-right" id="reservationtime" th:classappend="${#fields.hasErrors('dateStart')} ? is-invalid : ''">
+                                        <div th:if="${#fields.hasErrors('dateStart')}" th:errors="*{dateStart}" class="invalid-feedback"></div>
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="offset-sm-2 col-sm-10">
+                                        <button type="submit" class="btn btn-info">Lưu</button>
+                                        <button type="reset" class="btn btn-default ">Làm Mới</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+
+                            </div>
+                            <!-- /.card-footer -->
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<th:block>
+    <script layout:fragment="script">
+        $('#reservationtime').daterangepicker({
+            timePicker: true,
+            timePickerIncrement: 30,
+            endDate: moment().startOf('day').add(7, 'day'),
+            locale: {
+                format: 'DD/MM/YYYY hh:mm A'
+            }
+        },
+        function (start, end){
+            $("#dateStart").val(start.format('YYYY/MM/DD hh:mm A'))
+            $("#dateEnd").val(end.format('YYYY/MM/DD hh:mm A'))
+            console.log("A new date selection was made: " + start.format('DD/MM/YYYY hh:mm A') + ' to ' + end.format('DD/MM/YYYY hh:mm A'));
+
+        }
+        )
+       // console.log($("#reservationtime").val())
+    </script>
+</th:block>
+</body>
+</html>

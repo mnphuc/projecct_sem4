@@ -29,7 +29,7 @@
 
             <!-- Cart Headiing -->
             <div class="cart-widget-heading">
-                <h4>Shopping Cart</h4>
+                <h4>Giỏ Hàng</h4>
                 <!-- Close Icon -->
                 <a href="javascript:void(0)" id="sidebar_close_icon" class="close-icon-white"></a>
                 <!-- End Close Icon -->
@@ -41,53 +41,32 @@
                 <div class="cart-widget-product ">
 
                     <!-- Empty Cart -->
-                    <div class="cart-empty">
-                        <p>You have no items in your shopping cart.</p>
+                    <div class="cart-empty" th:if="${session.myCart == null}">
+                        <p>Giỏ Hàng Của Bạn Trống</p>
                     </div>
                     <!-- EndEmpty Cart -->
 
                     <!-- Cart Products -->
-                    <ul class="cart-product-item">
+                    <ul class="cart-product-item" id="listItemCart" >
 
                         <!-- Item -->
-                        <li>
+                        <li th:each="cart : ${session.myCart}" class="checkRemove" th:attr="id=${cart.key}">
                             <!--Item Image-->
-                            <a href="#" class="product-image">
-                                <img src="img/product-img/small/product_12547554.jpg" alt="" /></a>
+                            <a th:href="'/san-pham/'+${cart.value.products.slug}" class="product-image">
+                                <img th:src="${cart.value.products.imageLink}" th:alt="${cart.value.products.productName}" /></a>
 
                             <!--Item Content-->
                             <div class="product-content">
                                 <!-- Item Linkcollateral -->
-                                <a class="product-link" href="#">Alpha Block Black Polo T-Shirt</a>
+                                <a class="product-link" th:href="'/san-pham/'+${cart.value.products.slug}" th:text="${cart.value.products.productName}">Alpha Block Black Polo T-Shirt</a>
 
                                 <!-- Item Cart Totle -->
                                 <div class="cart-collateral">
-                                    <span class="qty-cart">1</span>&nbsp;<span>&#215;</span>&nbsp;<span class="product-price-amount"><span class="currency-sign">$</span>399.00</span>
+                                    <span class="qty-cart" th:text="${cart.value.quantity}">1</span>&nbsp;<span>&#215;</span>&nbsp;<span class="product-price-amount" th:text="${#numbers.formatDecimal(cart.value.products.priceSale, 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></span>
                                 </div>
 
                                 <!-- Item Remove Icon -->
-                                <a class="product-remove" href="javascript:void(0)"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-                            </div>
-                        </li>
-
-                        <!-- Item -->
-                        <li>
-                            <!--Item Image-->
-                            <a href="#" class="product-image">
-                                <img src="img/product-img/small/product_12547555.jpg" alt="" /></a>
-
-                            <!--Item Content-->
-                            <div class="product-content">
-                                <!-- Item Linkcollateral -->
-                                <a class="product-link" href="#">Red Printed Round Neck T-Shirt</a>
-
-                                <!-- Item Cart Totle -->
-                                <div class="cart-collateral">
-                                    <span class="qty-cart">2</span>&nbsp;<span>&#215;</span>&nbsp;<span class="product-price-amount"><span class="currency-sign">$</span>299.00</span>
-                                </div>
-
-                                <!-- Item Remove Icon -->
-                                <a class="product-remove" href="javascript:void(0)"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                                <a class="product-remove" href="javascript:void(0)" th:attr="data-key=${cart.key}" id="remove-cart"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
                             </div>
                         </li>
 
@@ -103,13 +82,18 @@
                 <div class="cart-footer-inner">
 
                     <!-- Cart Total -->
-                    <h4 class="cart-total-hedding normal"><span>Total :</span><span class="cart-total-price">$698.00</span></h4>
+
+                    <div id="totalCheck" th:each="cart : ${session.myCart}" th:with="result=${cart.value.quantity * cart.value.products.priceSale}"style="display: none">
+                        <span class="total-price" th:attr="data-total=${result}" th:text="${result}" ></span>
+                    </div>
+
+                    <h4 class="cart-total-hedding normal"><span>Tổng :</span><span class="cart-total-price" id="total">$698.00</span></h4>
                     <!-- Cart Total -->
 
                     <!-- Cart Buttons -->
                     <div class="cart-action-buttons">
-                        <a href="cart.html" class="view-cart btn btn-md btn-gray">View Cart</a>
-                        <a href="checkout.html" class="checkout btn btn-md btn-color">Checkout</a>
+                        <a href="/gio-hang" class="view-cart btn btn-md btn-gray">Xem Giỏ Hàng</a>
+                        <a href="/thanh-toan" class="checkout btn btn-md btn-color">Thanh Toán</a>
                     </div>
                     <!-- End Cart Buttons -->
 
@@ -131,7 +115,7 @@
                 <div class="search-icon-lg">
                     <img th:src="@{/client/img/search-icon-lg.png}" alt="" />
                 </div>
-                <label class="h6 normal search-input-label" for="search-query">Enter keywords to Search Product</label>
+                <label class="h6 normal search-input-label" for="search-query">Nhập Từ Khóa Để Tìm Kiếm Sản Phẩm</label>
                 <input value="" name="q" type="search" id="search-query" placeholder="Search..." />
                 <button type="submit">
                     <img th:src="@{/client/img/search-lg-go-icon.png}" alt="" />
@@ -149,7 +133,7 @@
             <div class="header-topbar-inner">
                 <!--Topbar Left-->
                 <div class="topbar-left hidden-sm-down">
-                    <div class="phone"><i class="fa fa-phone left" aria-hidden="true"></i>Customer Support : <b>+77 7565 348 576</b></div>
+                    <div class="phone"><i class="fa fa-phone left" aria-hidden="true"></i>Điện Thoại Hỗ Trợ : <b>+84 868 608 169</b></div>
                 </div>
                 <!--End Topbar Left-->
 
@@ -157,10 +141,10 @@
                 <div class="topbar-right">
                     <ul class="list-none">
                         <li>
-                            <a href="login-register.html"><i class="fa fa-lock left" aria-hidden="true"></i><span class="hidden-sm-down">Login</span></a>
+                            <a href="/dang-nhap"><i class="fa fa-lock left" aria-hidden="true"></i><span class="hidden-sm-down">Đăng Nhập</span></a>
                         </li>
                         <li class="dropdown-nav">
-                            <a href="login-register.html"><i class="fa fa-user left" aria-hidden="true"></i><span class="hidden-sm-down">My Account</span><i class="fa fa-angle-down right" aria-hidden="true"></i></a>
+                            <a href="login-register.html"><i class="fa fa-user left" aria-hidden="true"></i><span class="hidden-sm-down">Tài Khoản</span><i class="fa fa-angle-down right" aria-hidden="true"></i></a>
                             <!--Dropdown-->
                             <div class="dropdown-menu">
                                 <ul>
@@ -178,24 +162,12 @@
                             </div>
                             <!--End Dropdown-->
                         </li>
-                        <li class="dropdown-nav">
-                            <a href="#">USD<i class="fa fa-angle-down right" aria-hidden="true"></i></a>
-                            <!--Dropdown-->
-                            <div class="dropdown-menu">
-                                <ul>
-                                    <li><a href="#">USD</a></li>
-                                    <li><a href="#">EUR</a></li>
-                                    <li><a href="#">GBP</a></li>
-                                    <li><a href="#">AUD</a></li>
-                                </ul>
-                            </div>
-                            <!--End Dropdown-->
+
+                        <li>
+                            <a href="/gioi-thieu">About</a>
                         </li>
                         <li>
-                            <a href="about.html">About</a>
-                        </li>
-                        <li>
-                            <a href="contact.html">Contact</a>
+                            <a href="/lien-he">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -209,7 +181,7 @@
             <div class="header-main-inner">
                 <!-- Logo -->
                 <div class="logo">
-                    <a href="index-2.html">
+                    <a href="/">
                         <img th:src="@{/client/img/logo_black.png}" alt="Philos" />
                     </a>
                 </div>
@@ -234,9 +206,9 @@
                                 </div>
 
                                 <div class="cart-title">
-                                    <span class="cart-count">2</span>
+                                    <span class="cart-count" id="cartQuantity">2</span>
                                     /
-                                    <span class="cart-price strong">$698.00</span>
+                                    <span class="cart-price strong" id="totalCartH">$698.00</span>
                                 </div>
                             </a></li>
                         </ul>
@@ -250,65 +222,37 @@
                 <nav class="navigation-menu">
                     <ul>
                         <li>
-                            <a href="index-2.html">Home</a>
+                            <a href="/">Trang Chủ</a>
                         </li>
                         <li>
-                            <a href="shop_grid.html">Man</a>
+                            <a href="/danh-sach-san-pham">Cửa Hàng</a>
                             <!-- Drodown Menu ------->
                             <ul class="nav-dropdown js-nav-dropdown">
                                 <li class="container">
                                     <ul class="row">
                                         <!--Grid 1-->
-                                        <li class="nav-dropdown-grid">
-                                            <h6>New In</h6>
+                                        <li class="nav-dropdown-grid" th:each="p : ${listCate}">
+                                            <h6 th:text="${p.categoryName}">New In</h6>
                                             <ul>
-                                                <li><a href="#">New In Clothing</a></li>
-                                                <li><a href="#">New In Shoes<span class="new-label">New</span></a></li>
-                                                <li><a href="#">New In Bags</a></li>
-                                                <li><a href="#">New In Watches</a></li>
-                                                <li><a href="#">New In Accesories</a></li>
+                                                <li th:each="pp : ${listCate}" th:if="${p.status == true && p.id == pp.parentId}" th:unless="${pp.parentId == 0}"><a th:href="'/danh-muc/'+${pp.url}" th:text="${pp.categoryName}"></a></li>
                                             </ul>
                                         </li>
-                                        <!--Grid 2-->
-                                        <li class="nav-dropdown-grid">
-                                            <h6>Clothing</h6>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <!-- End Drodown Menu -->
+                        </li>
+                        <li th:each="p : ${listCate}" th:if="${p.status == true && p.parentId == 0}">
+                            <a th:href="'/danh-muc/'+${p.url}" th:text="${p.categoryName}"></a>
+                            <!-- Drodown Menu ------->
+                            <ul class="nav-dropdown js-nav-dropdown">
+                                <li class="container">
+                                    <ul class="row">
+                                        <!--Grid 1-->
+                                        <li class="nav-dropdown-grid" th:each="pp : ${listCate}" th:if="${pp.parentId == p.id}" th:unless="${p.id == pp.id}">
+                                            <h6 th:text="${pp.categoryName}"></h6>
                                             <ul>
-                                                <li><a href="#">Polos & Tees</a></li>
-                                                <li><a href="#">Casual Shirts</a></li>
-                                                <li><a href="#">Jeans</a></li>
-                                                <li><a href="#">Casual Trousers</a></li>
-                                                <li><a href="#">Formal Shirts<span class="sale-label">Sale</span></a></li>
-                                                <li><a href="#">Formal Trousers</a></li>
-                                                <li><a href="#">Suits & Blazers</a></li>
-                                                <li><a href="#">Winter Jackets</a></li>
-                                                <li><a href="#">Track wear</a></li>
-                                            </ul>
-                                        </li>
-                                        <!--Grid 3-->
-                                        <li class="nav-dropdown-grid">
-                                            <h6>ACCESSORIES</h6>
-                                            <ul>
-                                                <li><a href="#">Mens Jewellery</a></li>
-                                                <li><a href="#">Bag</a></li>
-                                                <li><a href="#">Sunglasses</a></li>
-                                                <li><a href="#">Watches</a></li>
-                                                <li><a href="#">Hair Care</a></li>
-                                                <li><a href="#">Ties & Cufflinks</a></li>
-                                                <li><a href="#">Perfume</a></li>
-                                                <li><a href="#">Belt</a></li>
-                                            </ul>
-                                        </li>
-                                        <!--Grid 4-->
-                                        <li class="nav-dropdown-grid">
-                                            <h6>Brand</h6>
-                                            <ul>
-                                                <li><a href="#">Analog</a></li>
-                                                <li><a href="#">Chronograph</a></li>
-                                                <li><a href="#">Digital</a></li>
-                                                <li><a href="#">Watch Cases</a></li>
-                                                <li><a href="#">Samsung</a></li>
-                                                <li><a href="#">Apple</a></li>
-                                                <li><a href="#">Hitachi</a></li>
+                                                <li th:each="ppp : ${listCate}" th:if="${pp.id = ppp.parentId}"><a th:href="'/danh-muc/'+${ppp.url}" th:text="${ppp.categoryName}"></a></li>
                                             </ul>
                                         </li>
 
@@ -317,138 +261,9 @@
                             </ul>
                             <!-- End Drodown Menu -->
                         </li>
-                        <li>
-                            <a href="shop_grid.html">Women</a>
-                            <!-- Drodown Menu ------->
-                            <ul class="nav-dropdown js-nav-dropdown">
-                                <li class="container">
-                                    <ul class="row">
-                                        <!--Grid 1-->
-                                        <li class="nav-dropdown-grid">
-                                            <h6>New In</h6>
-                                            <ul>
-                                                <li><a href="#">New In Clothing</a></li>
-                                                <li><a href="#">New In Shoes</a></li>
-                                                <li><a href="#">New In Bags</a></li>
-                                                <li><a href="#">New In Watches</a></li>
-                                                <li><a href="#">Sweaters</a></li>
-                                                <li><a href="#">Winter Shrugs</a></li>
-                                            </ul>
-                                        </li>
-                                        <!--Grid 2-->
-                                        <li class="nav-dropdown-grid">
-                                            <h6>Clothing</h6>
-                                            <ul>
-                                                <li><a href="#">Tops , tees & shirts</a></li>
-                                                <li><a href="#">Dresses & Jumpsuits</a></li>
-                                                <li><a href="#">Trousers & Jeans</a></li>
-                                                <li><a href="#">Leggings & Jeggings</a></li>
-                                                <li><a href="#">Capris,Shorts & Skirts</a></li>
-                                                <li><a href="#">Winter Jackets</a></li>
-                                                <li><a href="#">Clothing Accessories</a></li>
-                                                <li><a href="#">Sweaters</a></li>
-                                                <li><a href="#">Winter Shrugs</a></li>
-                                            </ul>
-                                        </li>
-                                        <!--Grid 3-->
-                                        <li class="nav-dropdown-grid">
-                                            <h6>Brand</h6>
-                                            <ul>
-                                                <li><a href="#">A&C Signature</a></li>
-                                                <li><a href="#">Angry Birds</a></li>
-                                                <li><a href="#">Macadamia</a></li>
-                                                <li><a href="#">Miller & Schweizer</a></li>
-                                                <li><a href="#">Stylet</a></li>
-                                                <li><a href="#">Van Heusen</a></li>
-                                                <li><a href="#">Wrangler</a></li>
-                                                <li><a href="#">Wills Lifestyle</a></li>
-                                                <li><a href="#">X'Pose</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="nav-dropdown-grid">
-                                            <a href="#" class="sub-banner">
-                                                <img th:src="@{/client/img/banner/banner_115145.jpg}" alt="" /></a>
-                                        </li>
 
-                                    </ul>
-                                </li>
-                            </ul>
-                            <!-- End Drodown Menu -->
-                        </li>
                         <li>
-                            <a href="shop_grid.html">Kids</a>
-                            <!-- Drodown Menu ------->
-                            <ul class="nav-dropdown js-nav-dropdown">
-                                <li class="container">
-                                    <ul class="row">
-                                        <!--Grid 1-->
-                                        <li class="nav-dropdown-grid">
-                                            <h6>Kid's</h6>
-                                            <ul>
-                                                <li><a href="#">Tops & Tunics</a></li>
-                                                <li><a href="#">Shorts & Capris</a></li>
-                                                <li><a href="#">Twin Sets</a></li>
-                                                <li><a href="#">Jeans & Trousers</a></li>
-                                                <li><a href="#">Leggings & Jeggings</a></li>
-                                                <li><a href="#">Skirts</a></li>
-                                                <li><a href="#">Jumpsuits</a></li>
-                                                <li><a href="#">Casual Dresses</a></li>
-                                                <li><a href="#">Ethnic Wear</a></li>
-                                            </ul>
-                                        </li>
-
-                                    </ul>
-                                </li>
-                            </ul>
-                            <!-- End Drodown Menu -->
-                        </li>
-                        <li>
-                            <a href="shop_grid.html">Brand</a>
-                            <!-- Drodown Menu ------->
-                            <ul class="nav-dropdown js-nav-dropdown">
-                                <li class="container">
-                                    <ul class="row">
-                                        <!--Grid 1-->
-                                        <li class="nav-dropdown-grid">
-                                            <ul>
-                                                <li><a href="#">A&C Signature</a></li>
-                                                <li><a href="#">Angry Birds</a></li>
-                                                <li><a href="#">Macadamia</a></li>
-                                                <li><a href="#">Miller & Schweizer</a></li>
-                                                <li><a href="#">Stylet</a></li>
-                                                <li><a href="#">Van Heusen</a></li>
-                                                <li><a href="#">Wrangler</a></li>
-                                                <li><a href="#">Wills Lifestyle</a></li>
-                                                <li><a href="#">X'Pose</a></li>
-                                            </ul>
-                                        </li>
-                                        <!--Grid 2-->
-                                        <li class="nav-dropdown-grid">
-                                            <ul>
-                                                <li><a href="#">Apple</a></li>
-                                                <li><a href="#">United State</a></li>
-                                                <li><a href="#">Google</a></li>
-                                                <li><a href="#">Coca-Cola</a></li>
-                                                <li><a href="#">Microsoft</a></li>
-                                                <li><a href="#">Samsung</a></li>
-                                                <li><a href="#">Apple</a></li>
-                                                <li><a href="#">Facebook</a></li>
-                                                <li><a href="#">Twitter</a></li>
-                                                <li><a href="#">Instagram</a></li>
-
-                                            </ul>
-                                        </li>
-
-                                    </ul>
-                                </li>
-                            </ul>
-                            <!-- End Drodown Menu -->
-                        </li>
-                        <li>
-                            <a href="shop_grid.html">Accessories<span class="nav-label-sale"></span></a>
-                        </li>
-                        <li>
-                            <a href="#">Pages</a>
+                            <a href="#">Tin Tức</a>
                             <!-- Drodown Menu ------->
                             <ul class="nav-dropdown js-nav-dropdown">
                                 <li class="container">

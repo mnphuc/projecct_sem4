@@ -43,14 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // Cấu hình cho Login Form.
-        http.authorizeRequests().antMatchers("/user/**").hasRole("USER").and()
-                .formLogin()//
-                .loginProcessingUrl("/j_spring_security_login")//
-                .loginPage("/login")//
-                .defaultSuccessUrl("/user")//
-                .failureUrl("/login2?message=error")//
+        http.authorizeRequests().antMatchers("/check/**").access("hasRole('ROLE_ADMIN')").and().formLogin()
+                .loginProcessingUrl("/dang-nhap-submit")//
+                .loginPage("/dang-nhap")//
+                .defaultSuccessUrl("/")//
+                .failureUrl("/dang-nhap?message=error")//
                 .usernameParameter("username").passwordParameter("password")
                 .and().exceptionHandling().accessDeniedPage("/403")
-                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).logoutSuccessUrl("/login2?message=logout");
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).logoutSuccessUrl("/dang-nhap?message=logout");
     }
 }

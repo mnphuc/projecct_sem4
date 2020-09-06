@@ -2,6 +2,7 @@ package com.project.sem4.repository.interfaces;
 
 import com.project.sem4.model.Products;
 import com.project.sem4.model.view.InsertProductModel;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -12,5 +13,7 @@ public interface ProductRepository {
     public Boolean editProduct(InsertProductModel insertProductModel);
     public Boolean deleteProduct(Integer id);
     public Products findProById(Long id);
+    public Products getProductBySlug(String slug);
+    public List<Products> getRelatedProduct(Double price);
     
 }

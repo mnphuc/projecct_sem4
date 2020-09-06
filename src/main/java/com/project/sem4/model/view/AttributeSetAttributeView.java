@@ -3,7 +3,7 @@ package com.project.sem4.model.view;
 import com.project.sem4.model.Attribute;
 import com.project.sem4.model.AttributeSet;
 
-import javax.validation.constraints.NotEmpty;
+
 import java.util.List;
 
 public class AttributeSetAttributeView {

@@ -5144,7 +5144,6 @@ img.tp-caption {
         margin: 0;
         -webkit-appearance: none !important;
         -moz-appearance: textfield !important;
-        width: 100%;
         min-width: 80px;
         border-color: #ddd;
         text-align: center;

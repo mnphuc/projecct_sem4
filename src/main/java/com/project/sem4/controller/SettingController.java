@@ -189,4 +189,5 @@ public class SettingController {
         redirectAttributes.addFlashAttribute("msg", msg);
         return "redirect:/quan-tri/thiet-lap/thong-bao";
     }
+    
 }

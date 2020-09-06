@@ -13,7 +13,5 @@ public class ProductAttribute {
     Integer id;
     Long productId;
     Integer attributeId;
-    String type;
-    String value;
 
 }

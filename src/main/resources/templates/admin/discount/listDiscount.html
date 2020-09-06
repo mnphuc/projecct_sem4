@@ -12,12 +12,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Thanh Toán</h1>
+                            <h1>Blog</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Quản Trị</a></li>
-                                <li class="breadcrumb-item active">Thanh Toán</li>
+                                <li class="breadcrumb-item active">Blog</li>
                             </ol>
                         </div>
                     </div>
@@ -30,8 +30,8 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Danh Sách Thanh Toán</h3>
-                                    <a th:href="@{them-phuong-thuc-thanh-toan}" class="btn btn-primary float-right">Thêm Phương Thức Thanh Toán</a>
+                                    <h3 class="card-title">Danh Sách Danh Mục Blog</h3>
+                                    <a th:href="@{them-ma-giam-gia}" class="btn btn-primary float-right">Thêm Mã Giảm Giá</a>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -39,21 +39,23 @@
                                         <thead>
                                         <tr>
                                             <th >ID</th>
-                                            <th >Tên Phương Thức</th>
                                             <th >Mô Tả</th>
-                                            <th >Ngày Tạo</th>
-                                            <th >Action</th>
+                                            <th >Code</th>
+                                            <th >Ngày Bắt Đầu</th>
+                                            <th >Ngày Kết Thúc</th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="pay : ${payment}">
-                                            <td th:text="${pay.id}"></td>
-                                            <td th:text="${pay.name}"></td>
-                                            <td th:text="${pay.description}"></td>
-                                            <td th:text="${pay.createAt}"></td>
+                                        <tr th:each="d : ${list}">
+                                            <td th:text="${d.id}"></td>
+                                            <td th:text="${d.description}"></td>
+                                            <td th:text="${d.codeDiscount}"></td>
+                                            <td th:text="${d.dateStart}"></td>
+                                            <td th:text="${d.dateEnd}"></td>
                                             <td>
-                                                <a th:href="@{sua-phuong-thuc-thanh-toan(id = ${pay.id})}" class="btn btn-primary ">Sửa</a>
-                                                <button type="button" class="btn btn-default deleteItem"  th:attr="data-id=${pay.id}, id=deleteItem+${pay.id}, data-name=${pay.name}" data-toggle="modal" data-target="#modal-sm">Xóa</button>
+                                                <a th:href="@{sua-ma-giam-gia(id = ${d.id})}" class="btn btn-primary ">Sửa</a>
+                                                <button type="button" class="btn btn-default deleteItem"  th:attr="data-id=${d.id}, id=deleteItem+${d.id}, data-name=${d.codeDiscount}" data-toggle="modal" data-target="#modal-sm">Xóa</button>
                                             </td>
                                         </tr>
 
@@ -61,10 +63,11 @@
                                         <tfoot>
                                         <tr>
                                             <th >ID</th>
-                                            <th >Tên Phương Thức</th>
                                             <th >Mô Tả</th>
-                                            <th >Ngày Tạo</th>
-                                            <th >Action</th>
+                                            <th >Code</th>
+                                            <th >Ngày Bắt Đầu</th>
+                                            <th >Ngày Kết Thúc</th>
+                                            <th>Action</th>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -91,7 +94,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form th:action="@{xoa-phuong-thuc-thanh-toan}" method="post" id="myform">
+                        <form th:action="@{xoa-discount}" method="post" id="myform">
                             <input type="hidden" name="id" id="showId" value="">
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
