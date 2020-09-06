@@ -2,9 +2,7 @@ package com.project.sem4.controller;
 
 
 import com.google.gson.Gson;
-import com.project.sem4.model.Banner;
-import com.project.sem4.model.Categories;
-import com.project.sem4.model.Products;
+import com.project.sem4.model.*;
 import com.project.sem4.model.map.AttributeMap;
 import com.project.sem4.model.map.ProductViewMap;
 import com.project.sem4.model.service.Cart;
@@ -54,6 +52,10 @@ public class HomeController {
     CategoriesRepositoryImpl categoriesRepository;
     @Autowired
     ClientRepositoryImpl clientRepository;
+    @Autowired
+    AddressRepositoryImpl addressRepository;
+    @Autowired
+    PaymentRepositoryImpl paymentRepository;
     @ModelAttribute("listCate")
     public List<Categories> messages() {
         return categoriesRepository.getAllCategories();
@@ -107,7 +109,8 @@ public class HomeController {
 
         Page<Products> ListProduct = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize), url);
 
-
+        List<Categories> categoriesList = categoriesRepository.getAllCategories();
+        model.addAttribute("category", categoriesList);
         model.addAttribute("listProduct", ListProduct);
         int totalPages = ListProduct.getTotalPages();
         if (totalPages > 0) {
@@ -119,7 +122,35 @@ public class HomeController {
         }
         return "shopList";
     }
+    @RequestMapping(value = "san-pham-theo-gia",method = RequestMethod.GET)
+    public String filterProductByPrice(Model model,
+                                       @RequestParam("page") Optional<Integer> page,
+                                       @RequestParam("size") Optional<Integer> size,
+                                       @RequestParam(value = "minPrice", required = false)Double minPrice,
+                                       @RequestParam(value = "maxPrice", required = false)Double maxPrice){
+        if (minPrice == null || maxPrice == null){
+            return "redirect:/danh-sach-san-pham";
+        }
 
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Page<Products> ListProduct = productService.filterProductByPrice(PageRequest.of(currentPage - 1, pageSize), minPrice, maxPrice);
+
+
+        model.addAttribute("listProduct", ListProduct);
+        List<Categories> categoriesList = categoriesRepository.getAllCategories();
+        model.addAttribute("category", categoriesList);
+        int totalPages = ListProduct.getTotalPages();
+        if (totalPages > 0) {
+
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        return "shopList";
+    }
 
     @RequestMapping(value = "danh-sach-san-pham", method = RequestMethod.GET)
     public String viewListProduct(Model model,
@@ -180,6 +211,45 @@ public class HomeController {
         model.addAttribute("totalDiscount", totalDiscount);
         return "viewCart";
     }
+
+    @RequestMapping(value = "thanh-toan", method = RequestMethod.GET)
+    public String viewCheckout(Model model, HttpSession session){
+        List<AddressCities> citiesList = addressRepository.getAllCity();
+        model.addAttribute("listCity", citiesList);
+        List<Payment>paymentList = paymentRepository.getAllPayment();
+        model.addAttribute("listPayment", paymentList);
+        HashMap<Long, CartInfo> cartItems = (HashMap<Long, CartInfo>) session.getAttribute("myCart");
+        Double total = Double.valueOf(0);
+        if (cartItems == null || cartItems.size() == 0){
+            return "redirect:/danh-sach-san-pham";
+        }
+        if (cartItems != null){
+            for (CartInfo cartInfo : cartItems.values()){
+                total += cartInfo.getProducts().getPriceSale() * cartInfo.getQuantity();
+            }
+        }
+        Double priceShip = Double.valueOf(25000);
+        if (total >= 1000000){
+            priceShip = Double.valueOf(0);
+        }
+        Double totals = Double.valueOf(0);
+
+        model.addAttribute("totalCart", total);
+        model.addAttribute("priceShip", priceShip);
+        Double totalDiscount = (Double) session.getAttribute("discountPrice");
+        if (totalDiscount == null){
+            totalDiscount = Double.valueOf(0);
+        }
+        if (totalDiscount == null){
+            totals = total + priceShip;
+        }else {
+            totals = total +priceShip - totalDiscount;
+        }
+        model.addAttribute("totals", totals);
+        model.addAttribute("totalDiscount", totalDiscount);
+        return "checkout";
+    }
+
     @Autowired
     private MailService mailService;
     @RequestMapping(value = "test", method = RequestMethod.GET)

@@ -5,80 +5,126 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="wrapper-pro">
-    <div class="content-inner-all">
-        <div class="data-table-area mg-b-15">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="sparkline13-list shadow-reset">
-                            <div class="sparkline13-hd">
-                                <div class="main-sparkline13-hd">
-                                    <div class="row">
-                                        <div class="col-lg-8">
-                                            <h1>Danh Sách <span class="table-project-n">Tỉnh</span> /TP</h1>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <a th:href="@{them-tinh-tp}" class="btn btn-primary pull-right"><span class="adminpro-icon adminpro-plus-add-button"></span> Thêm Tỉnh/TP</a>
-                                        </div>
-                                    </div>
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Blog</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/quan-tri/">Quản Trị</a></li>
+                                <li class="breadcrumb-item active">Tỉnh Thành Phố</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Danh Sách Tỉnh Thành Phố</h3>
+                                    <a th:href="@{them-tinh-tp}" class="btn btn-primary float-right">Thêm Tỉnh Thành Phố</a>
                                 </div>
-                            </div>
-                            <div class="sparkline13-graph">
-                                <div class="datatable-dashv1-list custom-datatable-overright">
-                                    <table id="table" data-toggle="table" data-pagination="true" data-search="false" data-show-columns="false" data-show-pagination-switch="false" data-show-refresh="false" data-key-events="false" data-show-toggle="false" data-resizable="false" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
-                                            <th data-field="id">ID</th>
-                                            <th data-field="name" data-editable="false">Tên Tỉnh/TP</th>
-                                            <th data-field="type" data-editable="false">Cấp</th>
-                                            <th data-field="action">Action</th>
+                                            <th >ID</th>
+                                            <th >Tên Tỉnh/TP</th>
+                                            <th >Cấp</th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
-                                        <tbody  >
+                                        <tbody>
                                             <tr data-th-each="city : ${list}">
                                                 <td data-th-text="${city.id}">.../td>
                                                 <td data-th-text="${city.name}">...</td>
                                                 <td data-th-text="${city.type}">...</td>
                                                 <td>
-                                                    <a th:href="@{sua-tinh-tp(id = ${city.id})}" class="btn btn-primary " style="font-size: 12px">Sửa</a>
-                                                    <button type="button" class="btn btn-custon-rounded-three btn-danger btn-sm deleteItem"  th:attr="data-id=${city.id}, id=deleteItem+${city.id}, data-name=${city.name}" data-toggle="modal" data-target="#ModelDeleteForm">Xóa</button>
+                                                    <a th:href="@{sua-tinh-tp(id = ${city.id})}" class="btn btn-primary ">Sửa</a>
+                                                    <button type="button" class="btn btn-default deleteItem"  th:attr="data-id=${city.id}, id=deleteItem+${city.id}, data-name=${city.name}" data-toggle="modal" data-target="#modal-sm">Xóa</button>
                                                 </td>
                                             </tr>
+
                                         </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th >ID</th>
+                                            <th >Mô Tả</th>
+                                            <th >Code</th>
+                                            <th >Ngày Bắt Đầu</th>
+                                            <th >Ngày Kết Thúc</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
+                                <!-- /.card-body -->
                             </div>
                         </div>
+                        <!-- /.col -->
                     </div>
+                    <!-- /.row -->
                 </div>
-            </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
         </div>
-    </div>
-
-        <div id="ModelDeleteForm" class="modal modal-adminpro-general FullColor-popup-DangerModal fade" role="dialog">
-            <div class="modal-dialog">
+        <!-- /.content-wrapper -->
+        <div class="modal fade" id="modal-sm">
+            <div class="modal-dialog modal-sm">
                 <div class="modal-content">
-                    <div class="modal-header header-color-modal bg-color-4">
+                    <div class="modal-header">
                         <h4 class="modal-title">Bạn Có Muốn Xóa <p id="showName"></p></h4>
-                        <div class="modal-close-area modal-close-df">
-                            <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
-                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
                         <form th:action="@{xoa-cities}" method="post" id="myform">
                             <input type="hidden" name="id" id="showId" value="">
-                            <div class="modal-footer">
-                                <a data-dismiss="modal" href="#">Hủy</a>
-                                <a href="javascript:void()" onclick="document.getElementById('myform').submit();">xóa</a>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Xóa</button>
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
-        </div>
 
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    </div>
 </div>
-</div>
+<th:block layout:fragment="script">
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+            });
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+</th:block>
 </body>
 </html>

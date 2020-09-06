@@ -1,0 +1,304 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{fragments/main_layout}" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Đây Là Trang Quản Lý</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="wraper">
+        <!-- Page Content Wraper -->
+        <div class="page-content-wraper">
+            <!-- Bread Crumb -->
+            <section class="breadcrumb">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <nav class="breadcrumb-link">
+                                <a href="/">Trang Chủ</a>
+                                <span>Thanh Toán</span>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Bread Crumb -->
+
+            <!-- Page Content -->
+            <section class="content-page">
+                <div class="container mb-80">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <article class="post-8">
+                                <p class="checkout-info">
+                                    Returning customer? <strong><a href="login-register.html">Click here to login</a></strong>
+                                </p>
+                                <p class="checkout-info">
+                                    Have a coupon? <strong><a href="#">Click here to enter your code</a></strong>
+                                </p>
+                                <form class="product-checkout mt-45">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h3>Thông Tin Thanh Toán</h3>
+                                            <div class="row">
+                                                <div class="form-field-wrapper form-center col-sm-6">
+                                                    <label for="billing_first_name" class="left">
+                                                        Họ
+                                                        <abbr class="form-required" title="required">*</abbr></label>
+                                                    <input class="input-md form-full-width" name="billing_first_name" id="billing_first_name" title="First Name" value="" placeholder="Nhập Họ Của Bạn" type="text" required="" aria-required="true">
+                                                </div>
+                                                <div class="form-field-wrapper form-center col-sm-6">
+                                                    <label for="billing_last_name" class="left">
+                                                        Tên
+                                                        <abbr class="form-required" title="required">*</abbr></label>
+                                                    <input class="input-md form-full-width" name="billing_last_name" id="billing_last_name" title="Last Name" value="" placeholder="Nhập Tên Của Bạn" type="text" required="" aria-required="true">
+                                                </div>
+                                                <div class="form-field-wrapper form-center form-group col-sm-12">
+                                                    <label for="billing_city" class="left">
+                                                        Tỉnh / Thành Phố
+                                                        <abbr class="form-required" title="required">*</abbr></label>
+                                                    <select name="billing_country" id="billing_city" class="input-md form-full-width" autocomplete="city" tabindex="-1" aria-hidden="true" required="" aria-required="true">
+                                                        <option value="">Chọn Tỉnh Thành Phố</option>
+                                                        <option th:each="city : ${listCity}" th:text="${city.name}">Zimbabwe</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-field-wrapper form-center form-group col-sm-12">
+                                                    <label for="billing_District" class="left">
+                                                        Quận / Huyện
+                                                        <abbr class="form-required" title="required">*</abbr></label>
+                                                    <select name="billing_country" id="billing_District" class="input-md form-full-width" tabindex="-1" aria-hidden="true"aria-required="true">
+                                                        <option>Vui Lòng Chọn Tỉnh Thành Phố </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-field-wrapper form-center form-group col-sm-12">
+                                                    <label for="billing_Wards" class="left">
+                                                        Xã / Phường
+                                                        <abbr class="form-required" title="required">*</abbr></label>
+                                                    <select name="billing_country" id="billing_Wards" class="input-md form-full-width" tabindex="-1" aria-hidden="true"aria-required="true">
+                                                        <option>Vui Lòng Chọn Quận Huyện Thành Phố </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-field-wrapper form-center col-sm-12">
+                                                    <label for="billing_state_county" class="left">
+                                                        Địa Chỉ Nhận Hàng
+                                                        <abbr class="form-required" title="required">*</abbr></label>
+                                                    <textarea class="   form-full-width" name="billing_state_county" title="State / County" value="" placeholder="" type="text" required="" aria-required="true">
+                                                    </textarea>
+                                                </div>
+                                                <div class="form-field-wrapper form-center col-sm-6">
+                                                    <label for="billing_phone" class="left">
+                                                        Số Điện Thoại
+                                                        <abbr class="form-required" title="required">*</abbr></label>
+                                                    <input class="input-md form-full-width" id="billing_phone" name="billing_phone" title="phone" value="" placeholder="0868.608.169" type="tel" required="" aria-required="true">
+                                                </div>
+                                                <div class="form-field-wrapper form-center col-sm-6">
+                                                    <label for="billing_email" class="left">
+                                                        Email
+                                                        <abbr class="form-required" title="required">*</abbr></label>
+                                                    <input class="input-md form-full-width" id="billing_email" name="billing_email" title="Nhập Email" value="" placeholder="Nhập Email" type="email" required="" aria-required="true">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkout-order-review">
+                                                <h3>Hóa Đơn Của Bạn</h3>
+                                                <div class="product-checkout-review-order">
+                                                    <div class="responsive-table">
+                                                        <table class="">
+                                                            <thead>
+                                                            <tr>
+                                                                <th class="product-name">Sản Phẩm</th>
+                                                                <th class="product-total">Tổng Tiền</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr class="cart_item" th:each="cart : ${session.myCart}">
+                                                                <td class="product-name" ><span th:text="${cart.value.products.productName}"></span>
+                                                                    <p>
+                                                                        <th:block th:each="attr  : ${cart.value.attribute}" th:text="' '+${attr.name}+','"></th:block>
+                                                                        <strong th:text="' Số Lượng '+ ${cart.value.quantity}">  1</strong>
+                                                                    </p>
+                                                                    </td>
+                                                                <td class="product-total" th:with="total=${cart.value.quantity * cart.value.products.priceSale}">
+                                                                    <span class="product-price-amount amount" th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></span>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                            <tfoot>
+                                                            <tr class="cart-subtotal">
+                                                                <th>Tổng</th>
+                                                                <td>
+                                                                    <strong><span class="product-price-amount amount" id="totalSub" th:text="${#numbers.formatDecimal(totalCart, 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></span></strong>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="shipping">
+                                                                <th>Phí ship</th>
+                                                                <td><span class="product-price-amount amount" th:text="${#numbers.formatDecimal(priceShip, 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></span></td>
+                                                            </tr>
+                                                            <tr class="shipping">
+                                                                <th>Giảm Giá</th>
+                                                                <td><span class="product-price-amount amount" th:text="${#numbers.formatDecimal(totalDiscount, 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></span></td>
+                                                            </tr>
+                                                            <tr class="order-total">
+                                                                <th>Thành Tiền</th>
+                                                                <td><span class="product-price-amount amount" id="totalPrice" th:text="${#numbers.formatDecimal(totals  , 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></span></td>
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+
+                                                    <div class="product-checkout-payment">
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlSelect1">Chọn Phương Thức Thanh Toán</label>
+                                                            <select class="form-control" id="exampleFormControlSelect1">
+                                                                <option>Chọn Phương Thức Thanh Toán</option>
+                                                                <option th:each="pay : ${listPayment}" th:text="${pay.name}" th:value="${pay.id}"></option>
+                                                            </select>
+                                                        </div>
+                                                        <ul>
+                                                            <li>
+                                                                <input id="payment_method_bacs" name="payment_method" value="bacs" checked="checked" type="radio" />
+                                                                <label for="payment_method_bacs">Direct Bank Transfer</label>
+                                                                <div class="payment_box payment_method_bacs">
+                                                                    <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won't be shipped until the funds have cleared in our account.</p>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <input id="payment_method_cheque" name="payment_method" value="cheque" type="radio" />
+                                                                <label for="payment_method_cheque">Check payments</label>
+                                                            </li>
+                                                            <li>
+                                                                <input id="payment_method_cod" name="payment_method" value="cod" type="radio" />
+                                                                <label for="payment_method_cod">Cash on Delivery</label>
+                                                            </li>
+                                                            <li>
+                                                                <input id="payment_method_paypal" name="payment_method" value="paypal" type="radio" />
+                                                                <label for="payment_method_paypal">
+                                                                    PayPal<img class="paypal-img" src="../../../www.paypalobjects.com/webstatic/mktg/Logo/AM_mc_vs_ms_ae_UK.png" />
+                                                                    <a href="https://www.paypal.com/gb/webapps/mpp/paypal-popup" onclick="javascript:window.open('https://www.paypal.com/gb/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;">What is PayPal?</a>
+                                                                </label>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="place-order">
+                                                            <a class="btn btn-lg btn-color form-full-width" href="#" style="font-size: 30px;">Đặt Hàng</a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <!-- End Page Content -->
+
+        </div>
+        <!-- End Page Content Wraper -->
+
+        <!-- Footer Section -------------->
+        <footer class="footer section-padding">
+            <!-- Footer Info -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-12 col-sm-12 mb-sm-45">
+                        <div class="footer-block about-us-block">
+                            <img src="/client/img/logo_white.png" width="125" alt="">
+                            <p>Gumbo beet greens corn soko endive gum gourd. Parsley allot courgette tatsoi pea sprouts fava bean soluta nobis est ses eligendi optio.</p>
+                            <ul class="footer-social-icon list-none-ib">
+                                <li><a href="http://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="https://twitter.com/" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a href="https://www.pinterest.com/" target="_blank"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
+                                <li><a href="https://plus.google.com/" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                                <li><a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-4 mb-sm-45">
+                        <div class="footer-block information-block">
+                            <h6>Information</h6>
+                            <ul>
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Delivery Information</a></li>
+                                <li><a href="#">Discount</a></li>
+                                <li><a href="#">Latest News</a></li>
+                                <li><a href="#">Our Sitemap</a></li>
+                                <li><a href="#">Terms &amp; Condition</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-4 mb-sm-45">
+                        <div class="footer-block links-block">
+                            <h6>Our Links</h6>
+                            <ul>
+                                <li><a href="#">Brands</a></li>
+                                <li><a href="#">Gift Vouchers</a></li>
+                                <li><a href="#">Affiliates</a></li>
+                                <li><a href="#">Special Event</a></li>
+                                <li><a href="#">Retunrs</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-4 mb-sm-45">
+                        <div class="footer-block extra-block">
+                            <h6>Extra</h6>
+                            <ul>
+                                <li><a href="#">New Collection</a></li>
+                                <li><a href="#">Women Dresses</a></li>
+                                <li><a href="#">Kids Collection</a></li>
+                                <li><a href="#">Mens Collection</a></li>
+                                <li><a href="#">Custom Service</a></li>
+                                <li><a href="#">Shipping policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <div class="footer-block contact-block">
+                            <h6>Contact</h6>
+                            <ul>
+                                <li><i class="fa fa-map-marker" aria-hidden="true"></i>1 Wintergreen Dr. Huntley
+                                    <br>
+                                    IL 60142, Usa</li>
+                                <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:info@sky.com">info@sky.com</a></li>
+                                <li><i class="fa fa-phone" aria-hidden="true"></i>(013) 456789</li>
+                                <li><i class="fa fa-fax" aria-hidden="true"></i>89567989</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Footer Info -->
+
+            <!-- Footer Newsletter -->
+            <div class="container">
+                <div class="footer-newsletter">
+                    <h4>Subscribe Newsletter</h4>
+                    <form class="footer-newslettr-inner">
+                        <input class="input-md fancy" name="footeremail" title="Enter Email Address.." placeholder="Enter Email Address.." type="text">
+                        <button class="btn btn-md btn-color fancy">Sing Up</button>
+                    </form>
+                </div>
+            </div>
+            <!-- End Footer Newsletter -->
+
+            <!-- Footer Copyright -->
+            <div class="container">
+                <div class="copyrights">
+                    <p class="copyright">&copy; Created by <a href="http://nileforest.com/" target="_blank">NileForest</a>. Philos Responsive Woocommerce Theme 2017</p>
+                    <p class="payment">
+                        <img src="/client/img/payment_logos.png" alt="payment">
+                    </p>
+                </div>
+            </div>
+            <!-- End Footer Copyright -->
+        </footer>
+        <!-- End Footer Section -------------->
+    </div>
+</div>
+</body>
+</html>

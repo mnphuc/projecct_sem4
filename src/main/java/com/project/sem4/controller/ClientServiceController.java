@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -99,10 +101,30 @@ public class ClientServiceController {
     }
 
     @RequestMapping(value = "checkDiscount", method = RequestMethod.POST)
-    public ResponseEntity<?> checkDiscount(@RequestParam("code")String code, HttpSession session){
+    public ResponseEntity<?> checkDiscount(@RequestParam("code")String code, HttpSession session) throws ParseException {
         Discount discount = clientRepository.checkDiscount(code);
+        if ( discount == null || discount.getId() == null){
+            return new ResponseEntity<String>("mã Giảm Giá không Tồn Tại", HttpStatus.NO_CONTENT);
+        }
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateNow = new Date();
+        String nowDate = formatDate.format(dateNow);
+        Date nowDateDiscount = formatDate.parse(nowDate);
+        Date minDate = discount.getDateStart();
+        Date maxDate = discount.getDateEnd();
+        if (minDate.compareTo(nowDateDiscount) <= 0 && maxDate.compareTo(nowDateDiscount)>= 0) {
+            System.out.println("còn hạn");
+        }
+        else{
+            return new ResponseEntity<String>("mã Giảm Giá không Tồn Tại", HttpStatus.NO_CONTENT);
+        }
+
         HashMap<Long, CartInfo> cartItems = (HashMap<Long, CartInfo>) session.getAttribute("myCart");
         Double totals = (Double) session.getAttribute("totals");
+        String codes = (String) session.getAttribute("codeDiscount");
+        if ( codes != null && !codes.isEmpty() && codes.equals(code)){
+            return new ResponseEntity<String>("Bạn Đã Sử Dụng Mã Code Này Rồi", HttpStatus.NO_CONTENT);
+        }
         Double totalDiscount = Double.valueOf(0);
         if (discount.getId() != null){
             Integer a = Integer.parseInt(discount.getDiscount());
@@ -113,6 +135,8 @@ public class ClientServiceController {
             abc = discount.getMaxDiscount();
         }
         session.setAttribute("discountPrice", abc);
+        session.removeAttribute("codeDiscount");
+        session.setAttribute("codeDiscount", code);
         return new ResponseEntity<Double>(abc, HttpStatus.OK);
     }
 

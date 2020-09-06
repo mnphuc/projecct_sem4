@@ -281,7 +281,7 @@
                                 <img th:src="${c.image}" th:alt="${c.categoryName}" />
                             </div>
                             <div class="categories-content">
-                                <a href="#">
+                                <a th:href="'/danh-muc/'+${c.url}">
                                     <div class="categories-caption">
                                         <h6 class="normal" th:text="${c.categoryName}">Cupple's</h6>
                                     </div>

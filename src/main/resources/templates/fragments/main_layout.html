@@ -86,7 +86,7 @@
                 type: "POST",
                 url: "/api/remove",
                 data: {keyId: keyId },
-                success: function (data) {
+                success: function (data, xhr) {
                     $("#"+keyId).remove();
                     var quantityCart = 0;
                     var totalPriceCart = 0;
@@ -101,6 +101,7 @@
                     //console.log(totalPriceCart)
                     $('#cartQuantity').text(quantityCart)
                     $('#totalCartH').text(formatNumber(totalPriceCart, '.', ',')+ " VND")
+                    $('#total').text(formatNumber(totalPriceCart, '.', ',')+ " VND")
                     //console.log("ahihai data", data);
                 }
             })
@@ -127,7 +128,7 @@
         while (rgx.test(x1)) {
             x1 = x1.replace(rgx, '$1' + groupSeperate + '$2');
         }
-        return x1 + x2;
+        return x1;
     }
     function addTocart(productId, attr, quantity) {
         $.ajax({

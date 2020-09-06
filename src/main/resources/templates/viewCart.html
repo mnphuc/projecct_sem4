@@ -107,11 +107,11 @@
                                                 </tr>
                                                 <tr class="sale-price">
                                                     <th>Giảm Giá</th>
-                                                    <td><span class="sale-price-amount amount" th:text="${#numbers.formatDecimal(totalDiscount, 0, 'COMMA', 0, 'POINT')}+' VNĐ'">0 VNĐ</span></td>
+                                                    <td><span class="sale-price-amount amount" id="priceSale" th:text="${#numbers.formatDecimal(totalDiscount, 0, 'COMMA', 0, 'POINT')}+' VNĐ'">0 VNĐ</span></td>
                                                 </tr>
                                                 <tr class="order-total">
                                                     <th>Tổng</th>
-                                                    <td><span class="product-price-amount amount" th:text="${#numbers.formatDecimal(totals  , 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></span></td>
+                                                    <td><span class="product-price-amount amount" id="totalPrice" th:text="${#numbers.formatDecimal(totals  , 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></span></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -144,17 +144,29 @@
                 }
             });
             $("#btnDiscount").click(function (){
-                console.log("click thành công")
                 var codeDiscount = $("#coupon_code").val()
                 console.log(codeDiscount)
-                $.ajax({
-                    type: "POST",
-                    url: "/api/checkDiscount",
-                    data: {code: codeDiscount },
-                    success: function (data) {
-                        console.log("ahihai data", data);
-                    }
-                })
+                if (!!codeDiscount) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/checkDiscount",
+                        data: {code: codeDiscount},
+                        success: function (data, statusText, xhr) {
+                            if (xhr.status == 200) {
+                                $("#priceSale").text(formatNumber(data, '.', ',') + ' VNĐ')
+                                var totalPrice = $("#totalPrice").text().replace(/,/gi, "");
+                                var total = parseInt(totalPrice);
+                                //console.log(total)
+                                var totals = total - data;
+                                //console.log(totals)
+                                $("#totalPrice").text(formatNumber(totals, '.', ',') + ' VNĐ')
+                                //console.log("ahihai data", data);
+                            } else {
+                                console.log("Định Dùng Nhiều Lần À, đéo Có Đâu Nhé")
+                            }
+                        }
+                    })
+                }
             })
 
             // var totalCheck = 0;

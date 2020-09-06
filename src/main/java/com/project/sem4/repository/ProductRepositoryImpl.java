@@ -291,4 +291,45 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         return list;
     }
+
+    @Override
+    public List<Products> filterProductByPrice(Double minPrice, Double maxPrice) {
+        List<Products> list = new ArrayList<>();
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call filterProductByPrice (?,?)}");
+            cs.setDouble(1, minPrice);
+            cs.setDouble(2, maxPrice);
+            rs = cs.executeQuery();
+            while (rs.next()){
+                Products products = new Products();
+                products.setId(rs.getLong("id"));
+                products.setProductName(rs.getString("ProductName"));
+                products.setPrice(rs.getDouble("price"));
+                products.setImageLink(rs.getString("imageLink"));
+                products.setImageList(rs.getString("imageList"));
+                products.setQuantity(rs.getInt("Quantity"));
+                products.setPriceSale(rs.getDouble("PriceSale"));
+                products.setNote(rs.getInt("Note"));
+                products.setSaleStatus(rs.getInt("SaleStatus"));
+                products.setDescription(rs.getString("Description"));
+                products.setView(rs.getInt("view"));
+                products.setMetaDescription(rs.getString("MetaKeyWord"));
+                products.setMetaTitle(rs.getString("MetaTitle"));
+                products.setMetaDescription(rs.getString("MetaDescription"));
+                products.setSlug(rs.getString("slug"));
+                products.setCreateAt(rs.getDate("create_at"));
+                products.setStatus(rs.getBoolean("status"));
+                list.add(products);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            DBConnect.closeAll(conn,cs,rs);
+        }
+        return list;
+    }
 }
