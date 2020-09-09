@@ -28,27 +28,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
-        // account kai/123456
-//        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("kai")
-//                .password("$2a$04$Q2Cq0k57zf2Vs/n3JXwzmerql9RzElr.J7aQd3/Sq0fw/BdDFPAj.").roles("ADMIN");
-//
-//        // account sena/123456
-//        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("sena")
-//                .password("$2a$04$Q2Cq0k57zf2Vs/n3JXwzmerql9RzElr.J7aQd3/Sq0fw/BdDFPAj.").roles("USER");
-        // auth.inMemoryAuthentication().passwordEncoder(NoOpPasswordEncoder.getInstance()).withUser("sena").password("123456").roles("USER");
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // Cấu hình cho Login Form.
-        http.authorizeRequests().antMatchers("/check/**").access("hasRole('ROLE_ADMIN')").and().formLogin()
+        http.authorizeRequests().antMatchers("/thanh-toan/**").access("hasRole('ROLE_USER')").and().formLogin()
                 .loginProcessingUrl("/dang-nhap-submit")//
                 .loginPage("/dang-nhap")//
                 .defaultSuccessUrl("/")//
                 .failureUrl("/dang-nhap?message=error")//
-                .usernameParameter("username").passwordParameter("password")
+                .usernameParameter("email")
+                .passwordParameter("pass")
                 .and().exceptionHandling().accessDeniedPage("/403")
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).logoutSuccessUrl("/dang-nhap?message=logout");
     }

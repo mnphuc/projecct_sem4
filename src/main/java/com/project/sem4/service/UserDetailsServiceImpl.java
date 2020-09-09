@@ -21,22 +21,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Users users = this.userRepository.loadUserByUsername(email);
-        if (users == null) {
-            System.out.println("User not found! " + email);
-            throw new UsernameNotFoundException("Email " + email + " không tồn tại");
-        }
-        System.out.println("Found User: " + email);
-        List<String> roleNames = this.userRepository.getRoleByUser(users.getUserID());
-        List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
-        if (roleNames != null) {
-            for (String role : roleNames) {
-                // ROLE_USER, ROLE_ADMIN,..
-                GrantedAuthority authority = new SimpleGrantedAuthority(role);
-                grantList.add(authority);
+        if(users.getUserID() != null && users.getEnabled()){
+            List<String> roleNames = this.userRepository.getRoleByUser(users.getUserID());
+            List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
+            if (roleNames != null) {
+                for (String role : roleNames) {
+                    GrantedAuthority authority = new SimpleGrantedAuthority(role);
+                    grantList.add(authority);
+                }
             }
+            UserDetails userDetails = (UserDetails) new User(users.getEmail(), //
+                    users.getPassword(), grantList);
+            return userDetails;
+        }else {
+            System.out.println("không đăng nhập đc rồi ahihi");
+            throw new UsernameNotFoundException("username not found");
         }
-        UserDetails userDetails = (UserDetails) new User(users.getEmail(), //
-                users.getPassword(), grantList);
-        return userDetails;
     }
 }

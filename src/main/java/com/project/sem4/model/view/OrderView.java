@@ -1,14 +1,14 @@
-package com.project.sem4.model;
+package com.project.sem4.model.view;
 
 import lombok.Data;
 
 import java.util.Date;
 @Data
-public class Order {
+public class OrderView {
     Integer id;
-    Integer userId;
+    String  userName;
     Integer total;
-    Integer paymentId;
+    String paymentName;
     String phone;
     String address;
     String description;

@@ -14,8 +14,8 @@
                 <div class="row">
                     <div class="col-12">
                         <nav class="breadcrumb-link">
-                            <a href="#">Home</a>
-                            <span>Login & Register</span>
+                            <a href="/">Trang Chủ</a>
+                            <span>Đăng Nhập & Đăng Ký</span>
                         </nav>
                     </div>
                 </div>
@@ -29,30 +29,60 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-border-box">
-                            <form>
-                                <h2 class="normal"><span>Registered Customers</span></h2>
-                                <p>Lorem ipsum dolor amet, conse adipiscing, eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <form th:action="@{/dang-nhap-submit}" method="POST" autocomplete="false">
+                                <h2 class="normal"><span>Đăng Nhập</span></h2>
+                                <p>Đăng Nhập Để Mua Hàng Dễ Dàng Hơn</p>
+
                                 <div class="form-field-wrapper">
-                                    <label>Enter Your Email <span class="required">*</span></label>
-                                    <input id="author-email" class="input-md form-full-width" name="author" placeholder="Enter Your Email Address" value="" size="30" aria-required="true" required="" type="email">
+                                    <label for="author-email">Email <span class="required">*</span></label>
+                                    <input id="author-email" class="input-md form-full-width" autocomplete="false" autofocus name="email" placeholder="Nhập Email Đăng Nhập" size="30" aria-required="true" required="" type="email">
                                 </div>
                                 <div class="form-field-wrapper">
-                                    <label>Enter Your Password <span class="required">*</span></label>
-                                    <input id="author-pass" class="input-md form-full-width" name="author-pass" placeholder="Enter Your Password" value="" size="30" aria-required="true" required="" type="password">
+                                    <label for="author-pass">Mật Khẩu <span class="required">*</span></label>
+                                    <input id="author-pass" autocomplete="false" class="input-md form-full-width" name="pass" placeholder="Nhập Mật Khẩu" value="" size="30" aria-required="true" required="" type="password">
                                 </div>
+                                <th:block th:if="${err != null}">
+                                    <div  th:text="${err}" class="alert alert-danger" role="alert" >
+                                        Lỗi Rồi đó ahihi
+                                    </div>
+                                </th:block>
                                 <div class="form-field-wrapper">
-                                    <input name="submit" id="submit" class="submit btn btn-md btn-black" value="Sign In" type="submit">
+                                    <input name="submit" id="submit" class="submit btn btn-md btn-black" value="Đăng Nhập" type="submit">
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-border-box">
-                            <form>
-                                <h2 class="normal"><span>New Customers</span></h2>
-                                <p>Lorem ipsum dolor amet, conse adipiscing, eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <form th:action="@{/dang-ky}" method="POST" th:object="${insertUser}">
+                                <h2 class="normal"><span>Đăng Ký Tài Khoản Mới</span></h2>
+                                <p>Nếu chưa có tài khoản vui lòng đăng ký tài khoản ở đây</p>
                                 <div class="form-field-wrapper">
-                                    <input name="submit" id="submit1" class="submit btn btn-md btn-color" value="Create An Account" type="submit">
+                                    <label for="reg-email">Email <span class="required">*</span></label>
+                                    <input id="reg-email" class="input-md form-full-width" th:field="*{email}" placeholder="Nhập Email" value="" size="30" aria-required="true" required="" type="email">
+                                </div>
+                                <div class="form-field-wrapper">
+                                    <label for="reg-fullname">Họ Và Tên <span class="required">*</span></label>
+                                    <input id="reg-fullname" class="input-md form-full-width" th:field="*{fullName}" placeholder="Nhập Họ Và Tên" value="" size="30" aria-required="true" required="" type="text">
+                                </div>
+                                <div class="form-field-wrapper">
+                                    <label for="datemask">Sinh Nhật <span class="required">*</span></label>
+                                    <input class="input-md form-full-width" th:field="*{birthday}" aria-required="true" required="" type="text" data-inputmask-alias="datetime" id="datemask" data-inputmask-inputformat="yyyy/mm/dd" data-mask>
+                                </div>
+                                <div class="form-field-wrapper">
+                                    <label>Số Điện Thoại <span class="required">*</span></label>
+                                    <input id="email" class="input-md form-full-width" th:field="*{phoneNumber}" placeholder="0868.608.169" value="" size="30" aria-required="true" required="" type="text">
+                                </div>
+                                <div class="form-field-wrapper">
+                                    <label>Địa Chỉ <span class="required">*</span></label>
+                                    <textarea class="input-md form-full-width" th:field="*{address}" style="height: 150px" cols="50" rows="20" required></textarea>
+                                </div>
+                                <div class="form-field-wrapper">
+                                    <label>Mật Khẩu <span class="required">*</span></label>
+                                    <input id="pass" class="input-md form-full-width" th:field="*{password}" autocomplete="" placeholder="Nhập Mật Khẩu" value="" size="30" aria-required="true" required="" type="password">
+                                </div>
+                                <div class="form-field-wrapper">
+                                    <input name="submit" class="submit btn btn-md btn-black" value="Đăng Ký" type="submit">
                                 </div>
                             </form>
                         </div>
@@ -66,5 +96,15 @@
     <!-- End Page Content Wraper -->
 </div>
 </div>
+<th:block layout:fragment="script">
+    <script>
+        $(document).ready(function() {
+            $('#datemask').inputmask('yyyy/mm/dd', { 'placeholder': 'yyyy/mm/dd' })
+            //toastr.success("Xóa Sản Phẩm Trong Giỏ Hàng Thành Công")
+
+
+        })
+    </script>
+</th:block>
 </body>
 </html>

@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 public class Categories {
     private Integer id;
-    @NotEmpty(message = "Tên Danh Muc không được để trống")
+    @NotEmpty(message = "Tên Danh Mục không được để trống")
     private String categoryName;
     private String image;
     private String description;

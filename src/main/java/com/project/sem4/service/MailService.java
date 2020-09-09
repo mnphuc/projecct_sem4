@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -34,7 +36,11 @@ public class MailService {
         send(mail);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
+    @Async
+    public void sendEmailToKen(SimpleMailMessage email) {
+        MimeMessage mail = javaMailSender.createMimeMessage();
+        javaMailSender.send(mail);
+    }
     public void send(Mail mail) {
         final Context context = new Context();
         context.setVariable("message", mail.getMessage());

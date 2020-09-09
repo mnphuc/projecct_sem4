@@ -7,7 +7,10 @@ import com.project.sem4.model.map.AttributeMap;
 import com.project.sem4.model.map.ProductViewMap;
 import com.project.sem4.model.service.Cart;
 import com.project.sem4.model.service.Mail;
+import com.project.sem4.model.users.User;
 import com.project.sem4.model.view.CartInfo;
+import com.project.sem4.model.view.InsertUser;
+import com.project.sem4.model.view.Message;
 import com.project.sem4.repository.*;
 import com.project.sem4.service.MailService;
 import com.project.sem4.service.ProductsService;
@@ -17,12 +20,18 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -32,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -56,10 +66,10 @@ public class HomeController {
     AddressRepositoryImpl addressRepository;
     @Autowired
     PaymentRepositoryImpl paymentRepository;
-    @ModelAttribute("listCate")
-    public List<Categories> messages() {
-        return categoriesRepository.getAllCategories();
-    }
+    @Autowired
+    UserRepositoryImpl userRepository;
+
+
 
 //    @RequestMapping( value = "endPoints", method = RequestMethod.GET )
 //    public String getEndPointsInView( Model model )
@@ -75,6 +85,8 @@ public class HomeController {
         model.addAttribute("listProduct", productsList);
         List<Categories> categories = categoriesRepository.getAllCategories();
         List<Categories> newlist = categories.stream().limit(3).collect(Collectors.toList());
+        List<Products> productsList1 = productRepository.getAllProductByOder();
+        model.addAttribute("productPay", productsList1);
         model.addAttribute("listCategory", newlist);
         return "home";
     }
@@ -249,9 +261,22 @@ public class HomeController {
         model.addAttribute("totalDiscount", totalDiscount);
         return "checkout";
     }
+    @RequestMapping(value = "lich-su-mua-hang", method = RequestMethod.GET)
+    public String viewOrderHistory(){
 
+        return "oderHistory";
+    }
+    @RequestMapping(value = "thong-tin", method = RequestMethod.GET)
+    public String aboutShop(){
+        return "about";
+    }
+    @RequestMapping(value = "lien-he", method = RequestMethod.GET)
+    public String viewContact(){
+        return "contact";
+    }
     @Autowired
     private MailService mailService;
+    // test send mail
     @RequestMapping(value = "test", method = RequestMethod.GET)
     public String testMail() throws IOException, MessagingException {
         Mail mail = new Mail();

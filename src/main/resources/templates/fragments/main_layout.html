@@ -22,6 +22,8 @@
     <link th:href="@{/client/css/plugins/font-awesome.min.css}" rel="stylesheet" type="text/css" />
     <!-- fontawesome css -->
     <link th:href="@{/client/css/plugins/animate.css}" rel="stylesheet" type="text/css" />
+    <!-- Toastr -->
+    <link rel="stylesheet" th:href="@{/admin/plugins/toastr/toastr.min.css}">
     <!-- animate css -->
     <link th:href="@{/client/css/style.css}" rel="stylesheet" type="text/css" />
     <!-- template css -->
@@ -65,11 +67,34 @@
 <script type="text/javascript" th:src="@{/client/js/plugins/slick.js}"></script>
 <!-- Slick Slider js -->
 <script type="text/javascript" th:src="@{/client/js/plugins/plugins-all.js}"></script>
+<!-- InputMask -->
+<script th:src="@{/admin/plugins/moment/moment.min.js}"></script>
+<script th:src="@{/admin/plugins/inputmask/min/jquery.inputmask.bundle.min.js}"></script>
+<!-- Toastr -->
+<script th:src="@{/admin/plugins/toastr/toastr.min.js}"></script>
 <!-- Plugins All js -->
 <script type="text/javascript" th:src="@{/client/js/custom.js}"></script>
 <!-- custom js -->
 <!-- end jquery -->
+<script  type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+        var message = /*[[${msg}]]*/ 'msg';
+        console.log(message)
+        if (!!message) {
+            if (message[0].key == "success") {
+                toastr.success(message[0].value)
+            }
+            if (message[0].key == "error") {
+                toastr.error(message[0].value)
+            }
+
+        }
+    })
+    /*]]>*/
+</script>
 <script>
+
     $(document).ready(function() {
         var token = $("meta[name='_csrf']").attr("content");
         $.ajaxSetup({
@@ -87,6 +112,7 @@
                 url: "/api/remove",
                 data: {keyId: keyId },
                 success: function (data, xhr) {
+                    toastr.success("Xóa Sản Phẩm Trong Giỏ Hàng Thành Công")
                     $("#"+keyId).remove();
                     var quantityCart = 0;
                     var totalPriceCart = 0;
@@ -136,6 +162,7 @@
             url: "/api/addCart/?proId="+productId+"&attr="+attr+"&quantity="+quantity,
             success: function (data) {
                 //console.log(data);
+                toastr.success("Đã Thêm Sản Phẩm Vào Giỏ Hàng")
                 var html = '';
                 var totalPrice = 0;
                 var quantityCart = 0;

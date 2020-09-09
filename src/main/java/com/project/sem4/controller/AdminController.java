@@ -5,6 +5,7 @@ import com.project.sem4.model.Users;
 import com.project.sem4.repository.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,9 @@ import java.util.List;
 public class AdminController {
     @Autowired
     UserRepositoryImpl userRepository;
+
+
+
     @RequestMapping(value = "",method = RequestMethod.GET)
     public String Index(ModelMap model, HttpServletRequest request){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
