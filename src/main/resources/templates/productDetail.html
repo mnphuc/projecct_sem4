@@ -28,7 +28,6 @@
 
     <!-- Page Content -->
     <section id="product-ID_XXXX" class="content-page single-product-content">
-
         <!-- Product -->
         <div id="product-detail" class="container">
             <div class="row">
@@ -39,34 +38,9 @@
                             <div class="product-page-image">
                                 <!-- Slick Image Slider -->
                                 <div class="product-image-slider product-image-gallery" id="product-image-gallery" data-pswp-uid="3">
-                                    <div class="item">
-                                        <a class="product-gallery-item" href="img/product-img/single/product_12547007_1.jpg" data-size="" data-med="img/product-img/single/product_12547007_1.jpg" data-med-size="">
-                                            <img src="img/product-img/single/product_12547007_1.jpg" alt="image 1" />
-                                        </a>
-                                    </div>
-                                    <div class="item">
-                                        <a class="product-gallery-item" href="img/product-img/single/product_12547007_2.jpg" data-size="" data-med="img/product-img/single/product_12547007_2.jpg" data-med-size="">
-                                            <img src="img/product-img/single/product_12547007_2.jpg" alt="image 2" />
-                                        </a>
-                                    </div>
-                                    <div class="item">
-                                        <a class="product-gallery-item" href="img/product-img/single/product_12547007_3.jpg" data-size="" data-med="img/product-img/single/product_12547007_3.jpg" data-med-size="">
-                                            <img src="img/product-img/single/product_12547007_3.jpg" alt="image 3" />
-                                        </a>
-                                    </div>
-                                    <div class="item">
-                                        <a class="product-gallery-item" href="img/product-img/single/product_12547007_4.jpg" data-size="" data-med="img/product-img/single/product_12547007_4.jpg" data-med-size="">
-                                            <img src="img/product-img/single/product_12547007_4.jpg" alt="image 4" />
-                                        </a>
-                                    </div>
-                                    <div class="item">
-                                        <a class="product-gallery-item" href="img/product-img/single/product_12547007_5.jpg" data-size="" data-med="img/product-img/single/product_12547007_5.jpg" data-med-size="">
-                                            <img src="img/product-img/single/product_12547007_5.jpg" alt="image 5" />
-                                        </a>
-                                    </div>
-                                    <div class="item">
-                                        <a class="product-gallery-item" href="img/product-img/single/product_12547007_6.jpg" data-size="" data-med="img/product-img/single/product_12547007_6.jpg" data-med-size="">
-                                            <img src="img/product-img/single/product_12547007_6.jpg" alt="image 1" />
+                                    <div class="item" th:each="image : ${#strings.arraySplit(product.imageList, ',')}">
+                                        <a class="product-gallery-item" th:href="'/'+${image}" data-size="" th:attr="data-med='/'+${image}" data-med-size="">
+                                            <img th:src="'/'+${image}" alt="image 1" />
                                         </a>
                                     </div>
                                 </div>
@@ -79,23 +53,8 @@
 
                             <!-- Slick Thumb Slider -->
                             <div class="product-image-slider-thumbnails">
-                                <div class="item">
-                                    <img src="img/product-img/single/product_12547007_1.jpg" alt="image 1" />
-                                </div>
-                                <div class="item">
-                                    <img src="img/product-img/single/product_12547007_2.jpg" alt="image 1" />
-                                </div>
-                                <div class="item">
-                                    <img src="img/product-img/single/product_12547007_3.jpg" alt="image 1" />
-                                </div>
-                                <div class="item">
-                                    <img src="img/product-img/single/product_12547007_4.jpg" alt="image 1" />
-                                </div>
-                                <div class="item">
-                                    <img src="img/product-img/single/product_12547007_5.jpg" alt="image 1" />
-                                </div>
-                                <div class="item">
-                                    <img src="img/product-img/single/product_12547007_6.jpg" alt="image 1" />
+                                <div class="item" th:each="image : ${#strings.arraySplit(product.imageList, ',')}">
+                                    <img th:src="'/'+${image}" alt="image 1" />
                                 </div>
                             </div>
                             <!-- End Slick Thumb Slider -->
@@ -126,16 +85,6 @@
                                             </th:block>
                                         </div>
                                     </form>
-<!--                                    <form class="col-md-12 filters-size">-->
-<!--                                        <label for="select-size">Select Size</label>-->
-<!--                                        <div class="size-selector">-->
-<!--                                            <div class="entry active">S</div>-->
-<!--                                            <div class="entry">M</div>-->
-<!--                                            <div class="entry">L</div>-->
-<!--                                            <div class="entry">X</div>-->
-<!--                                            <div class="entry">XL</div>-->
-<!--                                        </div>-->
-<!--                                    </form>-->
                                 </div>
                                 <div class="single-variation-wrap">
                                     <div class="product-quantity">

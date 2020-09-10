@@ -165,6 +165,44 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    public Products getProductById(Long id) {
+        Products products = new Products();
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call findProductById (?)}");
+            cs.setLong(1, id);
+            rs = cs.executeQuery();
+            while (rs.next()){
+                products.setId(rs.getLong("id"));
+                products.setProductName(rs.getString("ProductName"));
+                products.setPrice(rs.getDouble("price"));
+                products.setImageLink(rs.getString("imageLink"));
+                products.setImageList(rs.getString("imageList"));
+                products.setQuantity(rs.getInt("Quantity"));
+                products.setPriceSale(rs.getDouble("PriceSale"));
+                products.setNote(rs.getInt("Note"));
+                products.setSaleStatus(rs.getInt("SaleStatus"));
+                products.setDescription(rs.getString("Description"));
+                products.setView(rs.getInt("view"));
+                products.setMetaDescription(rs.getString("MetaKeyWord"));
+                products.setMetaTitle(rs.getString("MetaTitle"));
+                products.setMetaDescription(rs.getString("MetaDescription"));
+                products.setSlug(rs.getString("slug"));
+                products.setCreateAt(rs.getDate("create_at"));
+                products.setStatus(rs.getBoolean("status"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            DBConnect.closeAll(conn,cs,rs);
+        }
+        return products;
+    }
+
+    @Override
     public Boolean editProduct(InsertProductModel insertProductModel) {
         String slug = MnpSlug.makeSlug(insertProductModel.getProductName());
         insertProductModel.setSlug(slug);

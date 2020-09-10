@@ -14,6 +14,7 @@ public interface ProductRepository {
     public Boolean deleteProduct(Integer id);
     public Products findProById(Long id);
     public Products getProductBySlug(String slug);
+    public Products getProductById(Long id);
     public List<Products> getRelatedProduct(Double price);
     public List<Products> filterProductByPrice(Double minPrice, Double maxPrice);
     public List<Products> getAllProductByOder();

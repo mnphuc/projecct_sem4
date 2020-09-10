@@ -154,7 +154,16 @@
     <li id="editFolder">Sửa</li>
     <li id="remoteFolder">Xóa</li>
 </ul>
-<input type="button" id="save_value" name="save_value" value="Save" />
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid">
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 100px;">
+                <li class="active"><a id="save_value" class="btn btn-info">Chọn <span class="sr-only">(current)</span></a></li>
+                <li><a id="closePopup">Hủy</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
 
 
 <!--JAVASCRIPT-->
@@ -304,25 +313,41 @@
         $(document).ready(function(){
             $('body').on('click', '#listImage .media-block', function () {
                 var bien = $(this).data('image');
-                getImage(bien)
+                var checkFun = getUrlParameter('callImage');
+                if (checkFun == 'true') {
+                    getImage(bien)
+                }
             })
             $('#save_value').click(function () {
                 var arr = $('.magic-checkbox:checked').map(function () {
                     return this.value;
                 }).get();
-                console.log(arr);
+                var checkList = getUrlParameter('calllist');
+                console.log(checkList)
+                if (checkList == 'true'){
+                    console.log(arr)
+                    getListImage(arr);
+                }
             });
 
 
         });
-
+        function getListImage(array){
+            if (window.opener != null && !window.opener.closed) {
+                var tech = getUrlParameter('id');
+                var txtName = window.opener.document.getElementById(tech); // ID này là của parent form
+                txtName.value = array;
+                window.opener.popupCallback('2',array);
+            }
+            window.close();
+        }
 
         function getImage(value) {
             if (window.opener != null && !window.opener.closed) {
                 var tech = getUrlParameter('id');
                 var txtName = window.opener.document.getElementById(tech); // ID này là của parent form
                 txtName.value = value;
-                window.opener.popupCallback(value);
+                window.opener.popupCallback('1',value);
             }
             window.close();
         }

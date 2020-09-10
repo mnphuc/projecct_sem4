@@ -25,5 +25,6 @@ public interface AddressRepository {
     public Boolean insertWard(AddressWards wards);
     public AddressWardView findWardById(Integer Id);
     public  Boolean updateWards(AddressWards wards);
+
 }
 

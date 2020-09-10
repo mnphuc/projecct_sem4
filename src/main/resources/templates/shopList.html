@@ -141,7 +141,7 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <p class="product-title"><a th:href="${pro.slug}" th:text="${pro.productName}"></a></p>
+                                            <p class="product-title"><a th:href="@{'/san-pham/'+${pro.slug}}" th:text="${pro.productName}"></a></p>
                                             <div class="product-rating">
                                                 <div class="star-rating" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating" title="Rated 4 out of 5">
                                                     <span style="width: 60%"></span>

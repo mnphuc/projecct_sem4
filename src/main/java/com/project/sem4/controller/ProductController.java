@@ -65,7 +65,7 @@ public class ProductController {
         return "admin/product/insertProduct";
     }
     @RequestMapping(value = "them-san-pham", method = RequestMethod.POST)
-    public String insertProductSubmit(@Valid InsertProductModel productModel, BindingResult result, Model model) {
+    public String insertProductSubmit(@Valid InsertProductModel productModel, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         String slug = MnpSlug.makeSlug(productModel.getProductName());
         productModel.setSlug(slug);
         if (result.hasErrors()){
@@ -77,6 +77,8 @@ public class ProductController {
         }
         Boolean bl = productRepository.insertProducts(productModel);
         if (bl) {
+            String msg = "success,Thông báo,Thêm Mới SẢn Phẩm Thành Công,hide";
+            redirectAttributes.addFlashAttribute("msg", msg);
             return "redirect:/quan-tri/san-pham/danh-sach-san-pham";
         }
         List<Message> list = new ArrayList<>();

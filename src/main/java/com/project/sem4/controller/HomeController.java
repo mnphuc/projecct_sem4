@@ -9,9 +9,11 @@ import com.project.sem4.model.service.Cart;
 import com.project.sem4.model.service.Mail;
 import com.project.sem4.model.users.User;
 import com.project.sem4.model.view.CartInfo;
+import com.project.sem4.model.view.InsertOrderView;
 import com.project.sem4.model.view.InsertUser;
 import com.project.sem4.model.view.Message;
 import com.project.sem4.repository.*;
+import com.project.sem4.service.CheckOutService;
 import com.project.sem4.service.MailService;
 import com.project.sem4.service.ProductsService;
 import com.sun.xml.internal.stream.events.AttributeImpl;
@@ -68,8 +70,11 @@ public class HomeController {
     PaymentRepositoryImpl paymentRepository;
     @Autowired
     UserRepositoryImpl userRepository;
+    @Autowired
+    OrderRepositoryImpl orderRepository;
 
-
+    @Autowired
+    CheckOutService checkOutService;
 
 //    @RequestMapping( value = "endPoints", method = RequestMethod.GET )
 //    public String getEndPointsInView( Model model )
@@ -230,6 +235,7 @@ public class HomeController {
         model.addAttribute("listCity", citiesList);
         List<Payment>paymentList = paymentRepository.getAllPayment();
         model.addAttribute("listPayment", paymentList);
+        model.addAttribute("order", new InsertOrderView());
         HashMap<Long, CartInfo> cartItems = (HashMap<Long, CartInfo>) session.getAttribute("myCart");
         Double total = Double.valueOf(0);
         if (cartItems == null || cartItems.size() == 0){
@@ -261,6 +267,14 @@ public class HomeController {
         model.addAttribute("totalDiscount", totalDiscount);
         return "checkout";
     }
+
+    @RequestMapping(value = "thanh-toan", method = RequestMethod.POST)
+    public String submitCheckOut(@Valid InsertOrderView insertOrderView, Model model, RedirectAttributes redirectAttributes){
+        checkOutService.checkout(insertOrderView);
+        return "redirect:/";
+    }
+
+
     @RequestMapping(value = "lich-su-mua-hang", method = RequestMethod.GET)
     public String viewOrderHistory(){
 

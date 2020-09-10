@@ -1,18 +1,20 @@
 package com.project.sem4.model.view;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 @Data
 public class OrderView {
-    Integer id;
-    String  userName;
-    Integer total;
-    String paymentName;
-    String phone;
-    String address;
-    String description;
-    Date createDate;
-    Integer status;
+    private Integer id;
+    private String  userName;
+    private Integer total;
+    private Integer totalPrice;
+    private String paymentName;
+    private String phone;
+    private String address;
+    private String description;
+    private Date createDate;
+    private Integer status;
 
 }

@@ -1,11 +1,10 @@
 package com.project.sem4.controller;
 
-import com.project.sem4.model.Attribute;
-import com.project.sem4.model.Discount;
-import com.project.sem4.model.Products;
+import com.project.sem4.model.*;
 import com.project.sem4.model.map.HashMapCart;
 import com.project.sem4.model.service.Cart;
 import com.project.sem4.model.view.CartInfo;
+import com.project.sem4.repository.AddressRepositoryImpl;
 import com.project.sem4.repository.AttributeRepositoryImpl;
 import com.project.sem4.repository.ClientRepositoryImpl;
 import com.project.sem4.repository.ProductRepositoryImpl;
@@ -30,10 +29,10 @@ public class ClientServiceController {
     ClientRepositoryImpl clientRepository;
     @Autowired
     AttributeRepositoryImpl attributeRepository;
-
+    @Autowired
+    AddressRepositoryImpl addressRepository;
     @RequestMapping(value = "addCart", method = RequestMethod.GET)
     public ResponseEntity<HashMap<Long, CartInfo>> addCart(HttpSession session, @ModelAttribute Cart cart) {
-
         Integer[] attrs = new Integer[0];
         String[] attrName = new String[0];
         List<Integer> integers = new ArrayList<>();
@@ -139,5 +138,12 @@ public class ClientServiceController {
         session.setAttribute("codeDiscount", code);
         return new ResponseEntity<Double>(abc, HttpStatus.OK);
     }
-
+    @RequestMapping(value = "getListDistrict", method = RequestMethod.GET)
+    public List<AddressDistrict> findDistrictByCitiesId(@RequestParam(value = "id") Integer id){
+        return addressRepository.findDistrictByCitiesId(id);
+    }
+    @RequestMapping(value = "getListWard", method = RequestMethod.GET)
+    public List<AddressWards> findWardByDistrictId(@RequestParam(value = "id") Integer id){
+        return addressRepository.findWardByDistrictId(id);
+    }
 }

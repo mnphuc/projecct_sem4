@@ -129,12 +129,25 @@
 <script type="text/Javascript">
     function OpenPopupWindow(Param, CallImage, CallList)
     {
-        var url = "/quan-tri/fileManager?id="+Param+"&callImage="+CallImage+"&CallList="+CallList;
+        var url = "/quan-tri/fileManager?id="+Param+"&callImage="+CallImage+"&calllist="+CallList;
         myRef = window.open(url ,'mywin','left=20,top=20,width=1300,height=700,toolbar=1,resizable=0');
         myRef.focus()
     }
-    function popupCallback(str){
-        $("#show_image").attr("src", str);
+    function popupCallback(check,str){
+        if (check == 1){
+            console.log("là 1 ảnh", str)
+            $("#show_image").attr("src", str);
+        }else {
+            var html = '';
+            $.each(str, function (index, item){
+                console.log(item)
+                html += '<img id="show_imageList" src="/'+item+'" alt="..." class="img-thumbnail show_edit_images" style="width: 176px; height: 176px">';
+            })
+            html += '<img id="show_imageList" src="/admin/dist/img/00001.png" onclick="OpenPopupWindow(\'Listimage\', \'false\', \'true\')"  alt="..." class="img-thumbnail show_edit_images" style="width: 176px; height: 176px">'
+            $("#listImageShow").html(html)
+            console.log(html)
+        }
+
     }
 
 </script>
