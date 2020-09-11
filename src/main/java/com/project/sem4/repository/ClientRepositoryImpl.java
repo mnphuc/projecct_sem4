@@ -201,7 +201,7 @@ public class ClientRepositoryImpl implements ClientRepository {
             rs = cs.executeQuery();
             String json = null;
             while (rs.next()){
-                json = (String) rs.getObject("JSON_F52E2B61-18A1-11d1-B105-00805F49916B");
+                json = (String) rs.getObject("getAttributeByProId");
 
             }
             Gson gson = new Gson();

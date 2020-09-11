@@ -310,7 +310,7 @@ public class AttributeRepositoryImpl implements AttributeRepository {
             cs = conn.prepareCall("{call returnJson}");
             rs = cs.executeQuery();
             while (rs.next()){
-                json = (String) rs.getObject("JSON_F52E2B61-18A1-11d1-B105-00805F49916B");
+                json = (String) rs.getObject("AttributeJson");
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
