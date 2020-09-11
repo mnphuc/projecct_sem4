@@ -202,7 +202,6 @@ public class ClientRepositoryImpl implements ClientRepository {
             String json = null;
             while (rs.next()){
                 json = (String) rs.getObject("getAttributeByProId");
-
             }
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<GsonOb>>(){}.getType();

@@ -20,4 +20,5 @@ public interface UserRepository {
     public List<Role> getAllRoles();
     public Boolean confirmUsers(Long userId, Boolean enabled);
     public Users findUserById(Long id);
+    public Boolean findUserByEmail(String email);
 }

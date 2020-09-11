@@ -174,6 +174,38 @@ public class BlogRepositoryImpl implements BlogRepository {
     }
 
     @Override
+    public BlogView getBlogBySlug(String slug) {
+        BlogView blogView = new BlogView();
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call getBlogBySlug (?)}");
+            cs.setString(1, slug);
+            rs = cs.executeQuery();
+            while (rs.next()){
+                blogView.setId(rs.getInt("id"));
+                blogView.setBlogCategoryId(rs.getInt("BlogCategoryId"));
+                blogView.setContent(rs.getString("Content"));
+                blogView.setImage(rs.getString("image"));
+                blogView.setSlug(rs.getString("slug"));
+                blogView.setTag(rs.getString("tag"));
+                blogView.setTitle(rs.getString("title"));
+                blogView.setMetaTitle(rs.getString("MetaTitle"));
+                blogView.setMetaContent(rs.getString("MetaContent"));
+                blogView.setUserId(rs.getInt("UserId"));
+                blogView.setCreateAt(rs.getDate("create_At"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            DBConnect.closeAll(conn,cs,rs);
+        }
+        return blogView;
+    }
+
+    @Override
     public Boolean insertBlog(Blogs blogs) {
         Boolean bl = false;
         Connection conn;

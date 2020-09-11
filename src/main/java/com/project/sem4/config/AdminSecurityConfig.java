@@ -36,7 +36,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         http.antMatcher("/quan-tri/**").authorizeRequests().antMatchers("/quan-tri/**").access("hasRole('ROLE_ADMIN')").and().formLogin()//
                 .loginProcessingUrl("/quan-tri/login-submit")//
                 .loginPage("/dang-nhap-quan-tri")//
-                .defaultSuccessUrl("/quan-tri")//
+                .defaultSuccessUrl("/quan-tri/don-hang/")//
                 .failureUrl("/dang-nhap-quan-tri?message=error")//
                 .usernameParameter("username")//
                 .passwordParameter("password")

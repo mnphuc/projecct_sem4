@@ -4,9 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Date;
 @Data
 public class InsertUser {
@@ -16,11 +14,14 @@ public class InsertUser {
     @NotNull(message = "Sinh Nhật Không Được Để Trống")
     @DateTimeFormat(pattern="yyyy/MM/dd")
     private Date birthday;
+    @Pattern(regexp = "(09|01|08|03|07[2|6|8|9])+([0-9]{8})")
     private String phoneNumber;
     @NotEmpty(message = "email không được để trống")
+    @Email(message = "Email Không Đúng Định Dạng")
     private String email;
     private String address;
     @NotEmpty(message = "Mật Khẩu không được để trống")
+    @Min(value = 6, message = "Mật Khẩu Phải Lớn Hơn 6 Ký Tự")
     private String password;
     private Boolean locked ;
     private Boolean enabled;

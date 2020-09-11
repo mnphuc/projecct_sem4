@@ -240,7 +240,8 @@ public class HomeController {
 
     @RequestMapping(value = "bai-viet/{slug}", method = RequestMethod.GET)
     public String viewBlog(Model model, @PathVariable("slug")String slug){
-
+        BlogView blogView = blogRepository.getBlogBySlug(slug);
+        model.addAttribute("detailBlog", blogView);
         return "blogDetail";
     }
     @RequestMapping(value = "thanh-toan", method = RequestMethod.GET)

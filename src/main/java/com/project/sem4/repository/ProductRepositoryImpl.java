@@ -104,6 +104,30 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    public Boolean findProductByName(String proName) {
+        Boolean bl = false;
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call findProductByName (?)}");
+            cs.setString(1, proName);
+            rs = cs.executeQuery();
+            int i = 0;
+            while (rs.next()){
+                i ++;
+            }
+            if (i == 0){
+                bl = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return bl;
+    }
+
+    @Override
     public Boolean insertProducts(InsertProductModel insertProductModel) {
         insertProductModel.setMetaKeyWord(insertProductModel.getProductName());
         insertProductModel.setMetaTitle(insertProductModel.getProductName());

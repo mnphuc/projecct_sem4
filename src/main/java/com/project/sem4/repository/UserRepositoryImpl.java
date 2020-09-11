@@ -53,6 +53,32 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public Boolean findUserByEmail(String email) {
+        Boolean bl = false;
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call findUserByEmail (?)}");
+            cs.setString(1, email);
+            rs = cs.executeQuery();
+            int i = 0;
+            while (rs.next()){
+                i++;
+            }
+            if (i == 0){
+                bl = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            DBConnect.closeAll(conn,cs,rs);
+        }
+        return bl;
+    }
+
+    @Override
     public List<String> getRoleByUser(Long userId) {
         List<String> list = new ArrayList<>();
         Connection conn;

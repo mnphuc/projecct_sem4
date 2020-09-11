@@ -2,6 +2,7 @@ package com.project.sem4.controller;
 
 
 import com.project.sem4.model.Users;
+import com.project.sem4.repository.OrderRepositoryImpl;
 import com.project.sem4.repository.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -28,14 +29,14 @@ import java.util.List;
 public class AdminController {
     @Autowired
     UserRepositoryImpl userRepository;
-
+    @Autowired
+    OrderRepositoryImpl orderRepository;
 
 
     @RequestMapping(value = "",method = RequestMethod.GET)
     public String Index(ModelMap model, HttpServletRequest request){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
-
         Users u = userRepository.loadUserByUsername(userDetail.getUsername());
         request.getSession().setAttribute("userId", u.getUserID());
         return "admin/home";

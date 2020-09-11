@@ -53,8 +53,9 @@ public class ProductController {
     @RequestMapping(value = "them-san-pham", method = RequestMethod.GET)
     public String insertProductForm(ModelMap model){
         InsertProductModel insertProductModel = new InsertProductModel();
-        List<Attribute> listAttributes = attributeRepository.getAllAttribute();
+
         model.addAttribute("insertProductModel",  new InsertProductModel());
+        List<Attribute> listAttributes = attributeRepository.getAllAttribute();
         List<Categories> listCategories = categoriesRepository.getAllCategories();
         List<AttributeSet> listAttrSet = attributeRepository.getAllAttributeSet();
         String listJson = attributeRepository.getListAttributeSetAttributeViews();
@@ -65,17 +66,21 @@ public class ProductController {
         return "admin/product/insertProduct";
     }
     @RequestMapping(value = "them-san-pham", method = RequestMethod.POST)
-    public String insertProductSubmit(@Valid InsertProductModel productModel, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
-        String slug = MnpSlug.makeSlug(productModel.getProductName());
-        productModel.setSlug(slug);
+    public String insertProductSubmit(@Valid InsertProductModel insertProductModel, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()){
+            List<Attribute> listAttributes = attributeRepository.getAllAttribute();
             List<Categories> listCategories = categoriesRepository.getAllCategories();
-            model.addAttribute("listCate", listCategories);
+            List<AttributeSet> listAttrSet = attributeRepository.getAllAttributeSet();
             String listJson = attributeRepository.getListAttributeSetAttributeViews();
+            model.addAttribute("listCate", listCategories);
+            model.addAttribute("listAttr", listAttributes);
+            model.addAttribute("listAttrSet", listAttrSet);
             model.addAttribute("listJson", listJson);
             return "admin/product/insertProduct";
         }
-        Boolean bl = productRepository.insertProducts(productModel);
+        String slug = MnpSlug.makeSlug(insertProductModel.getProductName());
+        insertProductModel.setSlug(slug);
+        Boolean bl = productRepository.insertProducts(insertProductModel);
         if (bl) {
             String msg = "success,Thông báo,Thêm Mới SẢn Phẩm Thành Công,hide";
             redirectAttributes.addFlashAttribute("msg", msg);
@@ -120,5 +125,22 @@ public class ProductController {
         }
 
         return "admin/product/editProduct";
+    }
+    @RequestMapping(value = "xoa-san-pham", method = RequestMethod.POST)
+    public String deleteProduct(@RequestParam (name = "id", required = false) Integer id, Model model, RedirectAttributes redirectAttributes){
+        if (id == null ){
+            String msg = "warning,Cảnh Báo,Bạn Đang Cố Tấn Công Hệ Thống Của Mình,hide";
+            redirectAttributes.addFlashAttribute("msg", msg);
+            return "redirect:/quan-tri/san-pham/danh-sach-san-pham";
+        }
+        Boolean bl = productRepository.deleteProduct(id);
+        if (bl){
+            String msg = "success,Thông Báo,Xóa Sản Phẩm Thành Công,hide";
+            redirectAttributes.addFlashAttribute("msg", msg);
+            return "redirect:/quan-tri/san-pham/danh-sach-san-pham";
+        }
+        String msg = "error,Lỗi,Xóa Không Thành Công,hide";
+        redirectAttributes.addFlashAttribute("msg", msg);
+        return "redirect:/quan-tri/san-pham/danh-sach-san-pham";
     }
 }

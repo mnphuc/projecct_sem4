@@ -17,4 +17,5 @@ public interface BlogRepository {
     public Blogs findBlogById(Integer id);
     public Boolean editBlog(Blogs blogs);
     public Boolean deleteBlog(Integer id);
+    public BlogView getBlogBySlug(String slug);
 }

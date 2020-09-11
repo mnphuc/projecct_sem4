@@ -12,7 +12,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Blog</h1>
+                            <h1>Quản Lý Đơn Hàng</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -31,7 +31,18 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Danh Sách Đơn Hàng</h3>
-                                    <a class="btn btn-primary float-right">Chọn Kiểu Lọc</a>
+                                    <div class="btn-group float-right">
+                                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Lọc Đơn Hàng
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#">Tất Cả Đơn Hàng</a>
+                                            <a class="dropdown-item" href="#">Chưa Duyệt</a>
+                                            <a class="dropdown-item" href="#">Đang Vận Chuyển</a>
+                                            <a class="dropdown-item" href="#">Đã Hoàn Thành</a>
+                                            <a class="dropdown-item" href="#">Đã Hủy</a>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">

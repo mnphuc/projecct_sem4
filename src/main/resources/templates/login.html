@@ -59,7 +59,9 @@
                                 <p>Nếu chưa có tài khoản vui lòng đăng ký tài khoản ở đây</p>
                                 <div class="form-field-wrapper">
                                     <label for="reg-email">Email <span class="required">*</span></label>
-                                    <input id="reg-email" class="input-md form-full-width" th:field="*{email}" placeholder="Nhập Email" value="" size="30" aria-required="true" required="" type="email">
+                                    <input id="reg-email" class="input-md form-full-width" th:field="*{email}" th:classappend="${#fields.hasErrors('email')} ? is-invalid : ''" placeholder="Nhập Email" value="" size="30" aria-required="true" required="" type="email">
+                                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red" class="invalid-feedback">
+                                    </div>
                                 </div>
                                 <div class="form-field-wrapper">
                                     <label for="reg-fullname">Họ Và Tên <span class="required">*</span></label>

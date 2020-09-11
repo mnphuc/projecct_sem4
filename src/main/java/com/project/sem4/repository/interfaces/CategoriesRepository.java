@@ -10,4 +10,5 @@ public interface    CategoriesRepository {
     public Boolean updateCategories(Categories categories);
     public Categories findCategoryById(Integer id);
     public Boolean deleteCategories(Integer id);
+    public Boolean findCategoyByName(String cateName);
 }

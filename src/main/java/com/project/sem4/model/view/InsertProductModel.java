@@ -1,5 +1,6 @@
 package com.project.sem4.model.view;
 
+import com.project.sem4.validator.UniqueProductName;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -10,6 +11,7 @@ import java.util.*;
 public class InsertProductModel {
     private Long id;
     @NotEmpty(message = "Tên Sản Phẩm Không Được Để Trống")
+    @UniqueProductName
     private String productName;
     @NotNull(message = "Giá Không Được Để Trống")
     private Double price;
@@ -17,6 +19,7 @@ public class InsertProductModel {
     private String imageLink;
     private String imageList;
     private Integer quantity;
+    @NotNull(message = "Giá Khuyến Mại Không Được Để Trống")
     private Double priceSale;
     private Integer note;
     private Integer saleStatus;

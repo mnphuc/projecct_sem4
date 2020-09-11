@@ -1,5 +1,6 @@
 package com.project.sem4.model;
 
+import com.project.sem4.validator.UniqueCategoryName;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 public class Categories {
     private Integer id;
     @NotEmpty(message = "Tên Danh Mục không được để trống")
+    @UniqueCategoryName
     private String categoryName;
     private String image;
     private String description;

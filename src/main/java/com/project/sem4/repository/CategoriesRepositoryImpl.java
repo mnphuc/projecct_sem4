@@ -134,6 +134,33 @@ public class CategoriesRepositoryImpl implements CategoriesRepository {
     }
 
     @Override
+    public Boolean findCategoyByName(String cateName) {
+        Boolean bl = false;
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+
+        try {
+            cs = conn.prepareCall("{call findCategoyByName (?)}");
+            cs.setString(1, cateName);
+            rs = cs.executeQuery();
+            int i = 0;
+            while (rs.next()){
+                i ++;
+            }
+            if (i ==0){
+                bl = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            DBConnect.closeAll(conn,cs,rs);
+        }
+        return bl;
+    }
+
+    @Override
     public Boolean deleteCategories(Integer id) {
         Boolean bl = false;
         Connection conn;

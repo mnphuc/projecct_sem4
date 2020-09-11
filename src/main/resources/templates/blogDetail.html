@@ -1,10 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{fragments/main_layout}" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Đây Là Trang Quản Lý</title>
 </head>
 <body>
+<div layout:fragment="content">
+    <div class="wraper">
+<!-- Page Content Wraper -->
+<div class="page-content-wraper">
+    <!-- Bread Crumb -->
+    <section class="breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="breadcrumb-link">
+                        <a href="">Trang Chủ</a>
+                        <span th:text="${detailBlog.title}"></span>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Bread Crumb -->
 
+    <!-- Page Content -->
+    <section class="content-page">
+        <div class="container">
+            <div class="row">
+                <!-- Blog Content -->
+                <div class="col-md-9 blog-single style-1">
+                    <div class="blog-box">
+                        <div class="blog-img-wrap">
+                            <img th:src="${detailBlog.image}" th:alt="${detailBlog.title}" />
+                        </div>
+                        <div class="blog-box-content">
+                            <div class="blog-box-content-inner">
+                                <h4 class="blog-title" th:text="${detailBlog.title}"></h4>
+                                <p class="info"><span>by <a href="#">Philos Team</a></span><span th:text="${detailBlog.createAt}">29 Jan 2017</span></p>
+                                <div class="blog-description-content" th:utext="${detailBlog.content}">
+                                    <p>You can remember what your childhood bedroom is like, right? That is your imagination doing that. You know the sound that your feet make when you walk across gravel don't you? You can imagine it, but you are not hearing it in your ears, are you? Just imagine these things as best as you can.</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt ut labore. Lorem ipsum dolor sit amet, consectetur adipiscing aptent taciti sociosqu ad litora torquent.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-30" />
+                    </div>
+                </div>
+                <!-- End Blog Content -->
+
+                <!-- Sidebar -->
+            </div>
+        </div>
+    </section>
+</div>
+</div>
+</div>
+    <!-- End Page Content -->
 </body>
 </html>
