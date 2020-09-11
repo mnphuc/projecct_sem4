@@ -12,6 +12,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.project.sem4.model.*;
 import com.project.sem4.model.map.AttributeMap;
+import com.project.sem4.model.view.RatingView;
 import com.project.sem4.repository.interfaces.ClientRepository;
 import com.project.sem4.vendor.DBConnect;
 import org.apache.catalina.mapper.Mapper;
@@ -241,6 +242,59 @@ public class ClientRepositoryImpl implements ClientRepository {
             DBConnect.closeAll(conn,cs,rs);
         }
         return discount;
+    }
+
+    @Override
+    public List<RatingView> getRatingByProId(Long proId) {
+        List<RatingView> list = new ArrayList<>();
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call getRatingByProId (?)}");
+            cs.setLong(1, proId);
+            rs = cs.executeQuery();
+            while (rs.next()){
+                RatingView ratingView = new RatingView();
+                ratingView.setId(rs.getInt("id"));
+                ratingView.setStarRating(rs.getInt("starRating"));
+                ratingView.setComment(rs.getString("comment"));
+                ratingView.setNameUser(rs.getString("fullName"));
+                ratingView.setCreateAt(rs.getDate("CreateAt"));
+                list.add(ratingView);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            DBConnect.closeAll(conn,cs,rs);
+        }
+        return list;
+    }
+
+    @Override
+    public Boolean addRating(Rating rating) {
+        Boolean bl = false;
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call addRating (?,?,?,?)}");
+            cs.setInt(1, rating.getStarRating());
+            cs.setString(2, rating.getComment());
+            cs.setLong(3, rating.getUserId());
+            cs.setLong(4, rating.getProductId());
+            int i = cs.executeUpdate();
+            if (i > 0 ){
+                bl = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            DBConnect.closeAll(conn,cs,rs);
+        }
+        return bl;
     }
 
 

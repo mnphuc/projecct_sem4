@@ -31,6 +31,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Danh Sách Đơn Hàng</h3>
+                                    <a class="btn btn-primary float-right">Chọn Kiểu Lọc</a>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -63,7 +64,7 @@
                                                 <th:block th:if="${d.status == 0}">Hủy</th:block>
                                             </td>
                                             <td>
-                                                <a th:href="@{chi-tiet(id = ${d.id})}" class="btn btn-primary ">Chi Tiết</a>
+                                                <a th:href="@{/quan-tri/don-hang/chi-tiet(id = ${d.id})}" class="btn btn-primary ">Chi Tiết</a>
                                             </td>
                                         </tr>
 

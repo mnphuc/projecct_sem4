@@ -52,26 +52,26 @@
                                 </dt>
 
                                 <dd>
-                                    <th:block th:if="${d.status == 1}">
+                                    <th:block th:if="${order.status == 1}">
                                         <span class="label label-warning">Đang chờ duyệt</span>
                                         <div class="mt-20">
-                                            <a th:href="@{/quan-tri/don-hang/update(id = $(order.id), status = 2}" class="btn btn-primary">Duyệt</a>
-                                            <a th:href="@{/quan-tri/don-hang/update(id = $(order.id), status = 0}" class="btn btn-danger">Hủy</a>
+                                            <a th:href="@{/quan-tri/don-hang/update(id = ${order.id}, status = 2)}" class="btn btn-primary">Duyệt</a>
+                                            <a th:href="@{/quan-tri/don-hang/update(id = ${order.id}, status = 0)}" class="btn btn-danger">Hủy</a>
                                         </div>
                                     </th:block>
-                                    <th:block th:if="${d.status == 2}">
+                                    <th:block th:if="${order.status == 2}">
                                         <span class="label label-warning"> Đã Duyệt</span>
                                         <div class="mt-20">
-                                            <a th:href="@{/quan-tri/don-hang/update(id = $(order.id), status = 3}" class="btn btn-primary">Đang Giao Hàng</a>
+                                            <a th:href="@{/quan-tri/don-hang/update(id=${order.id}, status = 3)}" class="btn btn-primary">Đang Giao Hàng</a>
                                         </div>
                                     </th:block>
-                                    <th:block th:if="${d.status == 3}">
+                                    <th:block th:if="${order.status == 3}">
                                         <span class="label label-warning"> Đang Giao Hàng</span>
                                         <div class="mt-20">
-                                            <a th:href="@{/quan-tri/don-hang/update(id = $(order.id), status = 4}" class="btn btn-primary">Xong</a>
+                                            <a th:href="@{/quan-tri/don-hang/update(id = ${order.id}, status = 4)}" class="btn btn-primary">Xong</a>
                                         </div>
                                     </th:block>
-                                    <th:block th:if="${d.status == 0}">
+                                    <th:block th:if="${order.status == 0}">
                                         <span class="label label-danger"> Đơn Hàng Này Đã Bị Hủy</span>
                                     </th:block>
                                 </dd>
@@ -88,49 +88,27 @@
                                     <th>Thực trả</th>
 
                                 </tr>
-                                @{ double total = 0;
-                                double gg = 0;
-                                double tructra = 0;
-                                }
-                                @foreach (var item in lstODVM)
-                                {
-                                gg = (item.Product.Discount) * (item.Product.PriceOut) / 100;
-                                tructra = item.Product.PriceOut - gg;
                                 <tr th:each="item : ${orderDetail}">
                                     <td>
-                                        <span th:text="${item.product.productName}"></span>
+                                        <span th:text="${item.products.productName}"></span>
                                         <br>
                                         <th:block th:each="attr : ${item.attributes}">
                                             <span th:text="${attr.name}+', '"></span>
                                         </th:block>
                                     </td>
-                                    <td th:text="${item.total}">15</td>
-                                    <th:block th:with="totalProduct=${item.product.priceSale * item.total}"></th:block>
-                                    <td th:text="${totalProduct}">178,144 VNĐ</td>
-                                    <td th:text="${item.price * item.total}">160.000 VNĐ</td>
-                                </tr>
-                                total += (item.Quantity * tructra);
-                                @*<tr>
-                                <td>
-                                    <img src="@item.Product.Images" width="75" alt="Alternate Text" />
-                                    <b>@item.Product.ProductName | @item</b>
-                                </td>
-                                <td>@item.Quantity</td>
-                                <td>@String.Format("{0:#,## VNĐ}", item.Price)</td>
-                                <td>@String.Format("{0:#,## VNĐ}", item.Money)</td>
-                            </tr>
-                                total += item.Money;*@
-                                }
-                                <tr>
-                                    <th colspan="4">Tổng tiền</th>
+                                    <td th:text="${item.orderDetail.total}">15</td>
+                                    <td th:text="${#numbers.formatDecimal(item.products.priceSale * item.orderDetail.total, 0, 'COMMA', 0, 'POINT')}+' VNĐ'">178,144 VNĐ</td>
+                                    <td th:text="${#numbers.formatDecimal(item.orderDetail.price, 0, 'COMMA', 0, 'POINT')}+' VNĐ'">160.000 VNĐ</td>
 
-                                    <th>@String.Format("{0:#,## VNĐ}", total)</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3">Tổng tiền</th>
+                                    <th th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}+' VNĐ'">142.000 VNĐ</th>
                                 </tr>
 
                                 <tr>
-                                    <th colspan="4">Tổng giá trị</th>
-
-                                    <th>@String.Format("{0:#,## VNĐ}", total)</th>
+                                    <th colspan="3">Tổng Tiền Phải Trả</th>
+                                    <th th:text="${#numbers.formatDecimal(totalOrder, 0, 'COMMA', 0, 'POINT')}+' VNĐ'">142.000 VNĐ</th>
                                 </tr>
                             </table>
                         </div>

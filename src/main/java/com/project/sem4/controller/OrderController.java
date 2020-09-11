@@ -34,6 +34,14 @@ public class OrderController {
         OrderView  orderView = orderRepository.getOrderById(id);
         model.addAttribute("order", orderView);
         model.addAttribute("orderDetail", listOrderDetail);
+        Double totalPrice = Double.valueOf(0);
+        Double totalOrder = Double.valueOf(0);
+        for (OrderDetailMap detail : listOrderDetail){
+            totalPrice += detail.getProducts().getPriceSale() * detail.getOrderDetail().getTotal();
+            totalOrder += detail.getOrderDetail().getPrice();
+        }
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("totalOrder", totalOrder);
         return "admin/order/orderDetail";
     }
     @RequestMapping(value = "update", method = RequestMethod.GET)

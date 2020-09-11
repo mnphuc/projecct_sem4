@@ -36,9 +36,10 @@
                         <form class="form-horizontal" th:action="@{them-banner}" method="POST" th:object="${banner}">
                             <div class="card-body">
                                 <div class="form-group row">
-                                    <label for="imageLink" class="col-sm-2 col-form-label">Ảnh Banner</label>
+                                    <label for="image" class="col-sm-2 col-form-label">Ảnh Banner</label>
                                     <div class="col-sm-4">
-                                        <input type="text" th:field="*{imageLink}" class="form-control " th:classappend="${#fields.hasErrors('imageLink')} ? is-invalid : ''" onclick="OpenPopupWindow('imageLink')" id="imageLink" placeholder="Chọn Ảnh">
+                                        <input type="text" th:field="*{imageLink}" class="form-control " th:classappend="${#fields.hasErrors('imageLink')} ? is-invalid : ''" id="image" style="display: none"  placeholder="ảnh">
+                                        <img id="show_image" th:src="@{/admin/dist/img/00001.png}" onclick="OpenPopupWindow('image', 'true', 'false')"  alt="..." class="img-thumbnail show_edit_images" style="width: 30%;">
                                         <div th:if="${#fields.hasErrors('imageLink')}" th:errors="*{imageLink}" class="invalid-feedback">
                                         </div>
                                     </div>

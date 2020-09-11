@@ -8,10 +8,7 @@ import com.project.sem4.model.map.ProductViewMap;
 import com.project.sem4.model.service.Cart;
 import com.project.sem4.model.service.Mail;
 import com.project.sem4.model.users.User;
-import com.project.sem4.model.view.CartInfo;
-import com.project.sem4.model.view.InsertOrderView;
-import com.project.sem4.model.view.InsertUser;
-import com.project.sem4.model.view.Message;
+import com.project.sem4.model.view.*;
 import com.project.sem4.repository.*;
 import com.project.sem4.service.CheckOutService;
 import com.project.sem4.service.MailService;
@@ -72,7 +69,8 @@ public class HomeController {
     UserRepositoryImpl userRepository;
     @Autowired
     OrderRepositoryImpl orderRepository;
-
+    @Autowired
+    BlogRepositoryImpl blogRepository;
     @Autowired
     CheckOutService checkOutService;
 
@@ -82,6 +80,12 @@ public class HomeController {
 //        model.addAttribute( "endPoints", requestMappingHandlerMapping.getHandlerMethods().keySet());
 //        return "hello";
 //    }
+    static class SortByDate implements Comparator<BlogView> {
+        @Override
+        public int compare(BlogView f, BlogView ff) {
+            return ff.getCreateAt().compareTo(f.getCreateAt());
+        }
+    }
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String Index(ModelMap model){
         List<Banner> listBanner = bannerRepository.getAllBanner();
@@ -93,6 +97,9 @@ public class HomeController {
         List<Products> productsList1 = productRepository.getAllProductByOder();
         model.addAttribute("productPay", productsList1);
         model.addAttribute("listCategory", newlist);
+        List<BlogView> blogsList = blogRepository.getAllBlog();
+        Collections.sort(blogsList, new SortByDate());
+        model.addAttribute("blogsList", blogsList);
         return "home";
     }
 
@@ -115,6 +122,8 @@ public class HomeController {
         List<Products> newlist = productsList.stream().limit(5).collect(Collectors.toList());
         model.addAttribute("productRelated", newlist);
         model.addAttribute("productRs", productsList);
+        List<RatingView> ratingViewList = clientRepository.getRatingByProId(products.getId());
+        model.addAttribute("rating", ratingViewList);
         return "productDetail";
     }
     @RequestMapping(value = "danh-muc/{url}", method = RequestMethod.GET)
@@ -229,6 +238,11 @@ public class HomeController {
         return "viewCart";
     }
 
+    @RequestMapping(value = "bai-viet/{slug}", method = RequestMethod.GET)
+    public String viewBlog(Model model, @PathVariable("slug")String slug){
+
+        return "blogDetail";
+    }
     @RequestMapping(value = "thanh-toan", method = RequestMethod.GET)
     public String viewCheckout(Model model, HttpSession session){
         List<AddressCities> citiesList = addressRepository.getAllCity();

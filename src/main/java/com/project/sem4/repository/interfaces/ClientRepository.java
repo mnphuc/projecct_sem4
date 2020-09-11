@@ -2,6 +2,7 @@ package com.project.sem4.repository.interfaces;
 
 import com.project.sem4.model.*;
 import com.project.sem4.model.map.AttributeMap;
+import com.project.sem4.model.view.RatingView;
 import com.project.sem4.repository.ClientRepositoryImpl;
 import sun.rmi.runtime.Log;
 
@@ -15,4 +16,6 @@ public interface ClientRepository {
     public List<Products> getProductByCate(String url);
     public List<ClientRepositoryImpl.GsonOb> getAttributeByProId(Long proId);
     public Discount checkDiscount(String code);
+    public List<RatingView> getRatingByProId(Long proId);
+    public Boolean addRating(Rating rating);
 }

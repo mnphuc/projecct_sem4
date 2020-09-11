@@ -4,13 +4,13 @@ import com.project.sem4.model.*;
 import com.project.sem4.model.map.HashMapCart;
 import com.project.sem4.model.service.Cart;
 import com.project.sem4.model.view.CartInfo;
-import com.project.sem4.repository.AddressRepositoryImpl;
-import com.project.sem4.repository.AttributeRepositoryImpl;
-import com.project.sem4.repository.ClientRepositoryImpl;
-import com.project.sem4.repository.ProductRepositoryImpl;
+import com.project.sem4.model.view.RatingView;
+import com.project.sem4.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +31,8 @@ public class ClientServiceController {
     AttributeRepositoryImpl attributeRepository;
     @Autowired
     AddressRepositoryImpl addressRepository;
+    @Autowired
+    UserRepositoryImpl userRepository;
     @RequestMapping(value = "addCart", method = RequestMethod.GET)
     public ResponseEntity<HashMap<Long, CartInfo>> addCart(HttpSession session, @ModelAttribute Cart cart) {
         Integer[] attrs = new Integer[0];
@@ -145,5 +147,17 @@ public class ClientServiceController {
     @RequestMapping(value = "getListWard", method = RequestMethod.GET)
     public List<AddressWards> findWardByDistrictId(@RequestParam(value = "id") Integer id){
         return addressRepository.findWardByDistrictId(id);
+    }
+    @RequestMapping(value = "addReview", method = RequestMethod.GET)
+    public List<RatingView> addReview(@RequestParam(value = "proId", required = false)Long proId, @RequestParam(value = "start", required = false)Integer start, @RequestParam(value = "comment", required = false)String comment){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Users user = userRepository.getUserByEmail(authentication.getName());
+        Rating rating = new Rating();
+        rating.setStarRating(start);
+        rating.setComment(comment);
+        rating.setProductId(proId);
+        rating.setUserId(user.getUserID());
+        Boolean bl = clientRepository.addRating(rating);
+        return clientRepository.getRatingByProId(proId);
     }
 }

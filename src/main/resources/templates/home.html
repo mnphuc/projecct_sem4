@@ -337,7 +337,7 @@
         <section id="like-share" class="like-share">
             <div class="container">
                 <div class="like-share-inner overlay-black40">
-                    <h3>Like And Share Our Page for one time <span class="color">10%</span> Off</h3>
+                    <h3>Chia Sẻ Ngay Để Nhận Mã Giảm Giá 10% <span class="color">10%</span> Trên Hóa Đơn</h3>
                     <ul class="social-icon">
                         <li><a href="http://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                         <li><a href="https://plus.google.com/" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
@@ -357,43 +357,15 @@
             <div class="container">
                 <div id="blog-carousel" class="blog-carousel owl-carousel owl-theme nf-carousel-theme1">
                     <!-- item.1 -->
-                    <div class="product-item">
+                    <div class="product-item" th:each="blog : ${blogsList}">
                         <div class="blog-box">
                             <div class="blog-img-wrap">
-                                <img src="img/blog/blog_01.jpg" alt="philos" />
+                                <img th:src="${blog.image}" th:alt="${blog.title}" />
                             </div>
                             <div class="blog-box-content">
                                 <div class="blog-box-content-inner">
-                                    <h4 class="blog-title"><a href="#">Huge Saving Limited Offer period</a></h4>
-                                    <p class="info"><span>by <a href="#">Philos Team</a></span><span>29 Jan 2017</span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- item.2 -->
-                    <div class="product-item">
-                        <div class="blog-box">
-                            <div class="blog-img-wrap">
-                                <img src="img/blog/blog_02.jpg" alt="theme" />
-                            </div>
-                            <div class="blog-box-content">
-                                <div class="blog-box-content-inner">
-                                    <h4 class="blog-title"><a href="#">Summer Collection Launched</a></h4>
-                                    <p class="info"><span>by <a href="#">Admin</a></span><span>15 Jan 2017</span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- item.3 -->
-                    <div class="product-item">
-                        <div class="blog-box">
-                            <div class="blog-img-wrap">
-                                <img src="img/blog/blog_03.jpg" alt="template" />
-                            </div>
-                            <div class="blog-box-content">
-                                <div class="blog-box-content-inner">
-                                    <h4 class="blog-title"><a href="#">New Lunched Vintage Collaction</a></h4>
-                                    <p class="info"><span>by <a href="#">People</a></span><span>19 Jan 2017</span></p>
+                                    <h4 class="blog-title"><a th:href="'/bai-viet/'+${blog.slug}" th:text="${blog.title}">Huge Saving Limited Offer period</a></h4>
+                                    <p class="info"><span>by <a href="">Philos Team</a></span><span th:text="${#dates.format(blog.createAt, 'dd-MM-yyyy')}">29 Jan 2017</span></p>
                                 </div>
                             </div>
                         </div>
@@ -404,111 +376,53 @@
         </section>
         <!-- End Blog & News -->
 
-        <!-- Newsletter -->
-
-        <section class="section-padding dark-bg container-fluid bg-image text-center overlay-black40" data-background-img="img/bg/bg_7.jpg" data-bg-position-x="center top">
-            <div class="container newsletter section-padding-b">
-                <h2 class="page-title">Subscribe To Newsletter</h2>
-                <form name="form-newsletter" class="newsletter-from" id="form-newsletter" method="post">
-                    <div class="form-input">
-                        <input class="input-lg" name="frmemail" id="frmemail" placeholder="Enter Email Address..." title="Enter Email Address..." type="text">
-                    </div>
-                    <button class="btn btn-lg btn-color">Sing Up</button>
-                </form>
-                <p class="italic">Sign up For Exclusive Updates, New Arrivals And Insider-Only Discount.</p>
-            </div>
-        </section>
-
-        <!-- Newsletter -->
-
-        <!-- About blocks -->
-        <section class="">
-            <div class="container container-margin-minus-t">
-                <div class="home-about-blocks">
-                    <div class="col-12 about-blocks-wrap">
-                        <div class="row">
-                            <!--Customer Say-->
-                            <div class="col-sm-6 col-md-6 customer-say">
-                                <div class="about-box-inner">
-                                    <h4 class="mb-25">Customer Say</h4>
-
-                                    <!--Customer Carousel-->
-                                    <div class="testimonials-carousel owl-carousel owl-theme nf-carousel-theme1">
-                                        <div class="product-item">
-                                            <p class="large quotes">I think when we use 'stress', we are often using a kind of dummy word to try to fit many different things into one big category</p>
-                                            <h6 class="quotes-people">- Jeff Dunham (Apple)</h6>
-                                        </div>
-                                        <div class="product-item">
-                                            <p class="large quotes">It's true, you can never eat a pet you name. And anyway, it would be like a ventriloquist eating his dummy</p>
-                                            <h6 class="quotes-people">- George Lois (microsoft)</h6>
-                                        </div>
-                                    </div>
-                                    <!--End Customer Carousel-->
-                                </div>
-                            </div>
-
-                            <!--About Shop-->
-                            <div class="col-sm-6 col-md-6 about-shop">
-                                <div class="about-box-inner">
-                                    <h4 class="mb-25">About Philos</h4>
-                                    <p class="mb-20">Welcome to <b class="black">Philos</b> - RandomText is a tool designers and developers can use to quickly grab dummy text in either Lorem Ipsum or Gibberish format.</p>
-                                    <a href="#" class="btn btn-xs btn-black">More <i class="fa fa-angle-right right"></i></a>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End About blocks -->
 
         <!-- Brnad Logo -->
         <section id="brand-logo" class="section-padding brand-logo">
             <div class="container">
                 <ul class="list-none-ib brand-logo-carousel owl-carousel owl-theme">
                     <li class="brand-item"><a href="#">
-                        <img src="img/logo/01.png" alt="nileforest" />
+                        <img src="/client/img/logo/01.png" alt="nileforest" />
                     </a>
                     </li>
                     <li class="brand-item">
                         <a href="#">
-                            <img src="img/logo/02.png" alt="niletheme" />
+                            <img src="/client/img/logo/02.png" alt="niletheme" />
                         </a>
                     </li>
                     <li class="brand-item">
                         <a href="#">
-                            <img src="img/logo/03.png" alt="nile" />
+                            <img src="/client/img/logo/03.png" alt="nile" />
                         </a>
                     </li>
                     <li class="brand-item">
                         <a href="#">
-                            <img src="img/logo/04.png" alt="forest" />
+                            <img src="/client/img/logo/04.png" alt="forest" />
                         </a>
                     </li>
                     <li class="brand-item">
                         <a href="#">
-                            <img src="img/logo/05.png" alt="themeforest" />
+                            <img src="/client/img/logo/05.png" alt="themeforest" />
                         </a>
                     </li>
                     <li class="brand-item">
                         <a href="#">
-                            <img src="img/logo/06.png" alt="woocommerce" />
+                            <img src="/client/img/logo/06.png" alt="woocommerce" />
                         </a>
                     </li>
                     <li class="brand-item">
                         <a href="#">
-                            <img src="img/logo/07.png" alt="ecommerce" />
+                            <img src="/client/img/logo/07.png" alt="ecommerce" />
                         </a>
                     </li>
                     <li class="brand-item">
                         <a href="#">
-                            <img src="img/logo/08.png" alt="html" />
+                            <img src="/client/img/logo/08.png" alt="html" />
                         </a>
                     </li>
                     <li class="brand-item">
                         <a href="#">
-                            <img src="img/logo/09.png" alt="multiprapose" />
+                            <img src="/client/img/logo/09.png" alt="multiprapose" />
                         </a>
                     </li>
 
@@ -528,27 +442,27 @@
                 <ul class="intagram-feed">
                     <li>
                         <a href="#">
-                            <img src="img/instagram/insta-1.jpg" alt="">
+                            <img src="/client/img/instagram/insta-1.jpg" alt="">
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <img src="img/instagram/insta-2.jpg" alt="">
+                            <img src="/client/img/instagram/insta-2.jpg" alt="">
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <img src="img/instagram/insta-3.jpg" alt="">
+                            <img src="/client/img/instagram/insta-3.jpg" alt="">
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <img src="img/instagram/insta-4.jpg" alt="">
+                            <img src="/client/img/instagram/insta-4.jpg" alt="">
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <img src="img/instagram/insta-5.jpg" alt="">
+                            <img src="/client/img/instagram/insta-5.jpg" alt="">
                         </a>
                     </li>
                 </ul>

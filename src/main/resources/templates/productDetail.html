@@ -69,7 +69,7 @@
                                     <div class="star-rating" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating" title="Rated 4 out of 5">
                                         <span style="width: 60%"></span>
                                     </div>
-                                    <div class="product-rating-count">( <span class="count">3</span> Reviews )</div>
+                                    <div class="product-rating-count">( <span class="count">3</span> Đánh Giá )</div>
                                 </div>
                                 <div class="product-price">
                                     <del th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></del><span><span class="product-price-sign"></span><span class="product-price-text" th:text="${#numbers.formatDecimal(product.priceSale, 0, 'COMMA', 0, 'POINT')}+' VNĐ'">399.00 </span></span>
@@ -171,7 +171,7 @@
                     <a class="active" href="#tab_description" role="tab" data-toggle="tab">Mô Tả</a>
                 </li>
                 <li class="nav-item">
-                    <a class="" href="#tab_reviews" role="tab" data-toggle="tab">Reviews (<span>3</span>)</a>
+                    <a class="" href="#tab_reviews" role="tab" data-toggle="tab">Đánh Giá (<span>3</span>)</a>
                 </li>
 
             </ul>
@@ -197,90 +197,71 @@
                     <div id="tab_reviews-coll" class=" product-collapse collapse container">
                         <div class="row">
                             <div class="review-form-wrapper col-md-6">
-                                <h6 class="review-title">Add a Review </h6>
-                                <form class="comment-form">
-                                    <div class="form-field-wrapper">
-                                        <label>Your Rating</label>
-                                        <p class="stars">
-                                                    <span>
-                                                        <a class="star-1" href="#">1</a>
-                                                        <a class="star-2" href="#">2</a>
-                                                        <a class="star-3" href="#">3</a>
-                                                        <a class="star-4 active" href="#">4</a>
-                                                        <a class="star-5" href="#">5</a>
-                                                    </span>
-                                        </p>
-                                    </div>
-                                    <div class="form-field-wrapper">
-                                        <label>Your Review <span class="required">*</span></label>
-                                        <textarea id="comment" class="form-full-width" name="comment" cols="45" rows="8" aria-required="true" required=""></textarea>
-                                    </div>
-                                    <div class="form-field-wrapper">
-                                        <label>Name <span class="required">*</span></label>
-                                        <input id="author" class="input-md form-full-width" name="author" value="" size="30" aria-required="true" required="" type="text">
-                                    </div>
-                                    <div class="form-field-wrapper">
-                                        <label>Email <span class="required">*</span></label>
-                                        <input id="email" class="input-md form-full-width" name="email" value="" size="30" aria-required="true" required="" type="email">
-                                    </div>
-                                    <div class="form-field-wrapper">
-                                        <input name="submit" id="submit" class="submit btn btn-md btn-color" value="Submit" type="submit">
-                                    </div>
-                                </form>
+                                <h6 class="review-title">Thêm 1 Đánh Giá </h6>
+                                <th:block sec:authorize="!isFullyAuthenticated()">
+                                    <span>Bạn Chưa Đăng Nhập ?</span>
+                                    <a href="/dang-nhap" class="btn btn-lg btn-info">Đăng Nhập</a>
+                                </th:block>
+                                <th:block sec:authorize="isAuthenticated()">
+                                    <form class="comment-form">
+                                        <div class="form-field-wrapper">
+                                            <label>Sao Của Bạn Đánh Giá</label>
+                                            <p class="stars">
+                                                        <span id="box-star">
+                                                            <a class="star-1" data-start="1">1</a>
+                                                            <a class="star-2" data-start="2">2</a>
+                                                            <a class="star-3" data-start="3">3</a>
+                                                            <a class="star-4 " data-start="4">4</a>
+                                                            <a class="star-5 active" data-start="5">5</a>
+                                                        </span>
+                                            </p>
+                                        </div>
+                                        <div class="form-field-wrapper">
+                                            <label>Đánh Giá Của Bạn <span class="required">*</span></label>
+                                            <textarea id="comment" class="form-full-width" name="comment" cols="45" rows="8" aria-required="true" required=""></textarea>
+                                        </div>
+                                        <div class="form-field-wrapper">
+                                            <button  id="submit" class="submit btn btn-md btn-color" th:attr="data-proId=${product.id}" type="button">Đánh Giá</button>
+                                        </div>
+                                    </form>
+                                </th:block>
                             </div>
                             <div class="comments col-md-6">
-                                <h6 class="review-title">Customer Reviews</h6>
+                                <h6 class="review-title">Đánh Giá Của Người Dùng</h6>
                                 <!--<p class="review-blank">There are no reviews yet.</p>-->
-                                <ul class="commentlist">
-                                    <li id="comment-101" class="comment-101">
-                                        <img src="img/avatar.jpg" class="avatar" alt="author" />
+                                <ul class="commentlist" id="commentList">
+                                    <li id="comment-101" class="comment-101" th:each="rat : ${rating}">
+                                        <img src="/client/img/avatar.jpg" class="avatar" alt="author" />
                                         <div class="comment-text">
-                                            <div class="star-rating" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating" title="Rated 4 out of 5">
-                                                <span style="width: 100%"></span>
+                                            <div class="star-rating" itemprop="reviewRating" itemscope="" title="Rated 4 out of 5">
+                                                <th:block th:if="${rat.starRating == 5}">
+                                                    <span style="width: 100%"></span>
+                                                </th:block>
+                                                <th:block th:if="${rat.starRating == 4}">
+                                                    <span style="width: 80%"></span>
+                                                </th:block>
+                                                <th:block th:if="${rat.starRating == 3}">
+                                                    <span style="width: 60%"></span>
+                                                </th:block>
+                                                <th:block th:if="${rat.starRating == 2}">
+                                                    <span style="width: 40%"></span>
+                                                </th:block>
+                                                <th:block th:if="${rat.starRating == 1}">
+                                                    <span style="width: 20%"></span>
+                                                </th:block>
+
                                             </div>
                                             <p class="meta">
-                                                <strong itemprop="author">James Koster</strong>
+                                                <strong itemprop="author" th:text="${rat.nameUser}">James Koster</strong>
                                                 &nbsp;&mdash;&nbsp;
-                                                <time itemprop="datePublished" datetime="">April 25, 2016</time>
+                                                <time itemprop="datePublished" datetime="" th:text="${rat.createAt}">April 25, 2016</time>
                                             </p>
                                             <div class="description" itemprop="description">
-                                                <p>Wow Amazing!</p>
+                                                <p th:text="${rat.comment}">Wow Amazing!</p>
                                             </div>
                                         </div>
                                     </li>
-                                    <li id="102" class="comment-102">
-                                        <img src="img/avatar.jpg" class="avatar" alt="author" />
-                                        <div class="comment-text">
-                                            <div class="star-rating" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating" title="Rated 4 out of 5">
-                                                <span style="width: 80%"></span>
-                                            </div>
-                                            <p class="meta">
-                                                <strong itemprop="author">Michel</strong>
-                                                &nbsp;&mdash;&nbsp;
-                                                <time itemprop="datePublished" datetime="">April 14, 2016</time>
-                                            </p>
-                                            <div class="description" itemprop="description">
-                                                <p>Wow Special!</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li id="comment-103" class="comment-103">
-                                        <img src="img/avatar.jpg" class="avatar" alt="author" />
-                                        <div class="comment-text">
-                                            <div class="star-rating" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating" title="Rated 4 out of 5">
-                                                <span style="width: 60%"></span>
-                                            </div>
-                                            <p class="meta">
-                                                <em>Your comment is awaiting approval</em>
-                                                <!-- <strong itemprop="author">Kerry</strong>
-                                            &nbsp;&mdash;&nbsp;
-                                            <time itemprop="datePublished" datetime="">march 19, 2016</time>-->
-                                            </p>
-                                            <div class="description" itemprop="description">
-                                                <p>When an unknown printer took a galley!</p>
-                                            </div>
-                                        </div>
-                                    </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -352,10 +333,72 @@
                 url: "/api/addCart/?proId="+proId+"&attr="+attr+"&quantity="+quantity,
                 success: function (data) {
                     var html = '';
-                    console.log(data)
+                    var html = '';
+                    var totalPrice = 0;
+                    var quantityCart = 0;
+                    for (var key in data){
+                        var keys = Object.keys(data)[key];
+                        var value = data[key];
+                        var priceTotal = formatNumber(value.products.priceSale, '.', ',') + ' VNĐ';
+                        html += ' <li class="checkRemove" id="'+key+'"><a th:href="/san-pham/'+value.products.slug+'"class="product-image"><img src="'+value.products.imageLink+'" alt="'+value.products.productName+'" /></a><div class="product-content"><!-- Item Linkcollateral --><a class="product-link" href="/san-pham/'+value.products.slug+'">'+value.products.productName+'</a><div class="cart-collateral"><span class="qty-cart">'+value.quantity+'</span>&nbsp;<span>&#215;</span>&nbsp;<span class="product-price-amount" >'+priceTotal+'</span></div><a class="product-remove" href="javascript:void(0)" data-key="'+key+'" id="remove-cart"><i class="fa fa-times-circle" aria-hidden="true"></i></a></div></li>';
+                        totalPrice += value.quantity * value.products.priceSale;
+                        quantityCart ++;
+                    }
+                    $("#listItemCart").html(html);
+                    $("#total").text(formatNumber(totalPrice, '.', ',') + ' VNĐ')
+                    $("#cartQuantity").text(quantityCart)
+                    $("#totalCartH").text(formatNumber(totalPrice, '.', ',')+ ' VNĐ')
                 }
             })
         }
+
+        function addReview(star, proId, txt){
+            $.ajax({
+                type: "GET",
+                url: "/api/addReview/?proId=" + proId + "&start=" + star + "&comment=" + txt,
+                success: function (data) {
+                    $('#comment').val('');
+                    var html = ''
+                    $.each(data, function (index, item){
+                        html += '<li id="comment-'+item.id+'" class="comment-'+item.id+'"><img src="/client/img/avatar.jpg" class="avatar" alt="author" />';
+                        html += '<div class="comment-text"><div class="star-rating" itemprop="reviewRating" itemscope="" title="Rated 4 out of 5">';
+                        if (item.starRating == 5){
+                            html += '<span style="width: 100%"></span>';
+                        }if (item.starRating == 4){
+                            html += '<span style="width: 80%"></span>';
+                        }if (item.starRating == 3){
+                            html += '<span style="width: 60%"></span>';
+                        }if (item.starRating == 2){
+                            html += '<span style="width: 40%"></span>';
+                        }if (item.starRating == 1){
+                            html += '<span style="width: 20%"></span>';
+                        }
+                        html += '</div><p class="meta"> <strong itemprop="author">'+item.nameUser+'&nbsp;&mdash;&nbsp;</strong>';
+                        html += '<time itemprop="datePublished" datetime="">'+item.createAt+'</time>';
+                        html += '</p><div class="description" itemprop="description"><p>'+item.comment+'</p></div> </div> </li>'
+
+                    })
+                    $('#commentList').html(html);
+                    console.log(html)
+                }
+            })
+        }
+        $('#box-star a').click(function (){
+            $('#box-star a.active').removeClass('active');
+            $(this).addClass('active')
+        })
+        $('#submit').click(function (){
+            var star = $('#box-star a.active').data('start');
+            var comment = $('#comment').val();
+            var proId = $(this).data("proid");
+            if (!!star && !!comment && !!proId) {
+                addReview(star, proId,comment)
+            }else {
+                toastr.error("Bạn Chưa Nhập Đánh Giá Của Mình");
+                $('#comment').focus();
+            }
+
+        })
     </script>
 </th:block>
 </body>
