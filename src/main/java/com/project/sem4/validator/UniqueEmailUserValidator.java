@@ -1,13 +1,18 @@
 package com.project.sem4.validator;
 
+import com.project.sem4.repository.UserRepositoryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class UniqueEmailUserValidator implements ConstraintValidator<UniqueEmailUser, String> {
 
-    @Override
-    public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
+    @Autowired
+    UserRepositoryImpl userRepository;
 
-        return false;
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        return value != null && userRepository.findUserByEmail(value);
     }
 }

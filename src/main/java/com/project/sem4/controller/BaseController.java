@@ -93,8 +93,8 @@ public class BaseController {
     @RequestMapping(value = "dang-ky/confirm", method = RequestMethod.GET)
     public String confirmUser(@RequestParam(value = "token")String token, RedirectAttributes redirectAttributes){
         ConfirmationToken confirmationToken = confirmationTokenRepository.findTokenByToken(token);
-        if (confirmationToken != null){
-            userRepository.confirmUsers(confirmationToken.getUserId(), true);
+        if (confirmationToken.getId() != null){
+            Boolean bll = userRepository.confirmUsers(confirmationToken.getUserId(), true);
             Boolean bl = confirmationTokenRepository.deleteToken(confirmationToken.getId());
             if (bl){
                 String msg = "success,Thông báo,Kích Hoạt Thành Công,hide";
@@ -102,6 +102,8 @@ public class BaseController {
                 return "redirect:/dang-nhap";
             }
         }
+        String msg = "error,Thông báo,Kích Hoạt Thất Bại,hide";
+        redirectAttributes.addFlashAttribute("msg", msg);
         return "redirect:/dang-nhap";
     }
 }
