@@ -22,9 +22,13 @@ public class OrderController {
     OrderRepositoryImpl orderRepository;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String orderView(Model model){
-        List<OrderView> list = orderRepository.getAllOder();
-
+    public String orderView(Model model, @RequestParam(value = "s", required = false)Integer s){
+        List<OrderView> list = new ArrayList<>();
+        if (s != null) {
+            list = orderRepository.getAllOrderByStatus(s);
+        }else {
+            list = orderRepository.getAllOder();
+        }
         model.addAttribute("listOrder", list);
         return "admin/order/listOrder";
     }

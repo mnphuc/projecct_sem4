@@ -1,6 +1,10 @@
 package com.project.sem4.service;
 
+import com.project.sem4.model.map.OrderDetailMap;
+import com.project.sem4.model.service.ListTask;
 import com.project.sem4.model.service.Mail;
+import com.project.sem4.model.view.OrderView;
+import com.project.sem4.repository.OrderRepositoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Service
 public class MailService {
@@ -31,19 +36,30 @@ public class MailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    OrderRepositoryImpl orderRepository;
 
-    public ResponseEntity<?> sendMail(Mail mail) {
-        send(mail);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
     @Async
     public void sendEmailToKen(SimpleMailMessage email) {
         MimeMessage mail = javaMailSender.createMimeMessage();
         javaMailSender.send(mail);
     }
-    public void send(Mail mail) {
+    public void send(ListTask mail) {
         final Context context = new Context();
-        context.setVariable("message", mail.getMessage());
+        context.setVariable("", mail.getMessage());
+        Integer id = Integer.parseInt(mail.getObject());
+        List<OrderDetailMap> listOrderDetail = orderRepository.getAllOrderDetail(id);
+        OrderView orderView = orderRepository.getOrderById(id);
+        context.setVariable("order", orderView);
+        context.setVariable("orderDetail", listOrderDetail);
+        Double totalPrice = Double.valueOf(0);
+        Double totalOrder = Double.valueOf(0);
+        for (OrderDetailMap detail : listOrderDetail){
+            totalPrice += detail.getProducts().getPriceSale() * detail.getOrderDetail().getTotal();
+            totalOrder += detail.getOrderDetail().getPrice();
+        }
+        context.setVariable("totalPrice", totalPrice);
+        context.setVariable("totalOrder", totalOrder);
         String body = templateEngine.process("mail", context);
         sendPreparedMail(mail.getEmail(), mail.getObject(), body, true);
     }

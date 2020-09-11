@@ -9,6 +9,4 @@ public class OrderDetail {
     Long productId;
     Integer total;
     Double price;
-
-
 }

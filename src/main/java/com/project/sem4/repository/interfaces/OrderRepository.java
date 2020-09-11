@@ -19,4 +19,5 @@ public interface OrderRepository {
     public OrderView getOrderById(Integer id);
     public Boolean updateStatusOrder(Integer orderId, Integer status);
     public List<OrderView> getOrdrByuserId(Long userId);
+    public List<OrderView> getAllOrderByStatus(Integer status);
 }

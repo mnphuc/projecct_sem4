@@ -2,10 +2,12 @@ package com.project.sem4.controller;
 
 import com.project.sem4.model.Users;
 import com.project.sem4.model.service.ConfirmationToken;
+import com.project.sem4.model.service.ListTask;
 import com.project.sem4.model.view.InsertUser;
 import com.project.sem4.model.view.Message;
 import com.project.sem4.repository.ConfirmationTokenRepositoryImpl;
 import com.project.sem4.repository.UserRepositoryImpl;
+import com.project.sem4.service.CheckTest;
 import com.project.sem4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
@@ -104,6 +106,31 @@ public class BaseController {
         }
         String msg = "error,Thông báo,Kích Hoạt Thất Bại,hide";
         redirectAttributes.addFlashAttribute("msg", msg);
+        return "redirect:/dang-nhap";
+    }
+    @RequestMapping(value = "reset/nhap-mat-khau", method = RequestMethod.GET)
+    public String resertPassword(@RequestParam(value = "token")String token){
+        ConfirmationToken confirmationToken = confirmationTokenRepository.findTokenByToken(token);
+        if (confirmationToken.getId() != null){
+
+        }
+        return "";
+    }
+    @Autowired
+    CheckTest checkTest;
+    @RequestMapping(value = "resert-password", method = RequestMethod.GET)
+    public String resertPass(@RequestParam(value = "email", required = false)String email) {
+        Users users = userRepository.getUserByEmail(email);
+        final ConfirmationToken confirmationToken = new ConfirmationToken(users);
+        confirmationToken.setUser(users);
+        confirmationToken.setUserId(users.getUserID());
+        confirmationTokenRepository.addConfigToken(confirmationToken);
+        ListTask listTask = new ListTask();
+        listTask.setEmail(users.getEmail());
+        listTask.setObject(confirmationToken.getConfirmationToken());
+        listTask.setCheckTask(3);
+        listTask.setMessage("Khôi Phục Tài Khoản");
+        checkTest.addTask(listTask);
         return "redirect:/dang-nhap";
     }
 }

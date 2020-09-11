@@ -22,4 +22,12 @@ public class sendConfirmationMail {
         javaMailSender.send(msg);
         return Object::notify;
     }
+    public Job sendResetPasswordMail(String userMail, String token) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo("phucmnp@gmail.com");
+        msg.setSubject("Khôi Phục Tải Khoản");
+        msg.setText("Click vào link này http://localhost:8080/reset/nhap-mat-khau?token="+token +" để lấy lại mật khẩu");
+        javaMailSender.send(msg);
+        return Object::notify;
+    }
 }

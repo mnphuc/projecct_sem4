@@ -1,6 +1,8 @@
 package com.project.sem4.service;
 
 import com.project.sem4.model.*;
+import com.project.sem4.model.map.OrderDetailMap;
+import com.project.sem4.model.service.ListTask;
 import com.project.sem4.model.view.CartInfo;
 import com.project.sem4.model.view.InsertOrderView;
 import com.project.sem4.repository.OrderRepositoryImpl;
@@ -11,7 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class CheckOutService {
@@ -19,6 +23,8 @@ public class CheckOutService {
     UserRepositoryImpl userRepository;
     @Autowired
     OrderRepositoryImpl orderRepository;
+    @Autowired
+    CheckTest checkTest;
     @Autowired
     HttpSession session;
     public void checkout(InsertOrderView insertOrderView){
@@ -43,21 +49,28 @@ public class CheckOutService {
         order.setDescription(insertOrderView.getDescription());
         Integer idOrder = orderRepository.insertOrderCheckOut(order);
 
-
         for (CartInfo cartInfo : cartItems.values()){
           OrderDetail orderDetail = new OrderDetail();
           orderDetail.setOrderId(idOrder);
           orderDetail.setProductId(cartInfo.getProducts().getId());
           orderDetail.setPrice(cartInfo.getQuantity() * cartInfo.getProducts().getPriceSale());
           orderDetail.setTotal(cartInfo.getQuantity());
+
           Integer idOrderDetail = orderRepository.insertOrderDetail(orderDetail);
           for (Attribute attribute : cartInfo.getAttribute()){
               OrderDetailAttributeProduct orderDetailAttributeProduct = new OrderDetailAttributeProduct();
               orderDetailAttributeProduct.setOrderDetailId(idOrderDetail);
               orderDetailAttributeProduct.setAttributeProductId(attribute.getId());
               orderRepository.insertOrderDetailAttribute(orderDetailAttributeProduct);
+
           }
         }
+        ListTask listTask = new ListTask();
+        listTask.setEmail(user.getEmail());
+        listTask.setCheckTask(2);
+        listTask.setObject(String.valueOf(idOrder));
+        checkTest.addTask(listTask);
+
         session.removeAttribute("myCart");
         session.removeAttribute("discountPrice");
         session.removeAttribute("codeDiscount");

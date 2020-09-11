@@ -179,6 +179,40 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public List<OrderView> getAllOrderByStatus(Integer status) {
+        List<OrderView> list = new ArrayList<>();
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call getAllOrderByStatus (?)}");
+            cs.setInt(1, status);
+            rs = cs.executeQuery();
+            while (rs.next()){
+                OrderView orderView = new OrderView();
+                orderView.setId(rs.getInt("id"));
+                orderView.setUserName(rs.getString("fullname"));
+                orderView.setTotal(rs.getInt("total"));
+                orderView.setPaymentName(rs.getString("name"));
+                orderView.setPhone(rs.getString("phone"));
+                orderView.setAddress(rs.getString("address"));
+                orderView.setDescription(rs.getString("description"));
+                Timestamp timestamp = rs.getTimestamp("createDate");
+                Date date = new Date(timestamp.getTime());
+                orderView.setCreateDate(date);
+                orderView.setStatus(rs.getInt("status"));
+                list.add(orderView);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            DBConnect.closeAll(conn,cs,rs);
+        }
+        return list;
+    }
+
+    @Override
     public Integer insertOrderCheckOut(Order order) {
         Integer idOrder = 0;
         Connection conn;

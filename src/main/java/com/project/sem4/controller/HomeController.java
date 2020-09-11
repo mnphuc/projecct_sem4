@@ -7,11 +7,13 @@ import com.project.sem4.model.map.AttributeMap;
 import com.project.sem4.model.map.OrderDetailMap;
 import com.project.sem4.model.map.ProductViewMap;
 import com.project.sem4.model.service.Cart;
+import com.project.sem4.model.service.ListTask;
 import com.project.sem4.model.service.Mail;
 import com.project.sem4.model.users.User;
 import com.project.sem4.model.view.*;
 import com.project.sem4.repository.*;
 import com.project.sem4.service.CheckOutService;
+import com.project.sem4.service.CheckTest;
 import com.project.sem4.service.MailService;
 import com.project.sem4.service.ProductsService;
 import com.sun.xml.internal.stream.events.AttributeImpl;
@@ -43,6 +45,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -74,6 +77,8 @@ public class HomeController {
     BlogRepositoryImpl blogRepository;
     @Autowired
     CheckOutService checkOutService;
+    @Autowired
+    MailService mailService;
 
 //    @RequestMapping( value = "endPoints", method = RequestMethod.GET )
 //    public String getEndPointsInView( Model model )
@@ -105,12 +110,6 @@ public class HomeController {
     }
 
 
-    @RequestMapping(value = "hello", method = RequestMethod.GET)
-    public String hello(@RequestParam(name = "name", required = false, defaultValue = "") String name, Model model) {
-        model.addAttribute("name", name);
-
-        return "hello";
-    }
     @RequestMapping(value = "san-pham/{slug}", method = RequestMethod.GET)
     public String viewProduct(@PathVariable("slug")String slug, Model model){
         Products products = productRepository.getProductBySlug(slug);
@@ -323,16 +322,5 @@ public class HomeController {
     public String viewContact(){
         return "contact";
     }
-    @Autowired
-    private MailService mailService;
-    // test send mail
-    @RequestMapping(value = "test", method = RequestMethod.GET)
-    public String testMail() throws IOException, MessagingException {
-        Mail mail = new Mail();
-        mail.setEmail("phucmnp@gmail.com");
-        mail.setObject("anh nhứ e");
-        mail.setMessage("ahihi đồ óc chó");
-        mailService.sendMail(mail);
-        return "";
-    }
+
 }
