@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // Cấu hình cho Login Form.
-        http.authorizeRequests().antMatchers("/thanh-toan/**").access("hasRole('ROLE_USER')").and().formLogin()
+        http.authorizeRequests().antMatchers("/thanh-toan/**", "/lich-su-mua-hang/**").access("hasRole('ROLE_USER')").and().formLogin()
                 .loginProcessingUrl("/dang-nhap-submit")//
                 .loginPage("/dang-nhap")//
                 .defaultSuccessUrl("/")//

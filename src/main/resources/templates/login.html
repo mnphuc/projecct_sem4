@@ -41,11 +41,13 @@
                                     <label for="author-pass">Mật Khẩu <span class="required">*</span></label>
                                     <input id="author-pass" autocomplete="false" class="input-md form-full-width" name="pass" placeholder="Nhập Mật Khẩu" value="" size="30" aria-required="true" required="" type="password">
                                 </div>
+
                                 <th:block th:if="${err != null}">
                                     <div  th:text="${err}" class="alert alert-danger" role="alert" >
                                         Lỗi Rồi đó ahihi
                                     </div>
                                 </th:block>
+                                <a class="mb-2" id="resertPassword">Quên Mật Khẩu</a>
                                 <div class="form-field-wrapper">
                                     <input name="submit" id="submit" class="submit btn btn-md btn-black" value="Đăng Nhập" type="submit">
                                 </div>
@@ -66,22 +68,32 @@
                                 <div class="form-field-wrapper">
                                     <label for="reg-fullname">Họ Và Tên <span class="required">*</span></label>
                                     <input id="reg-fullname" class="input-md form-full-width" th:field="*{fullName}" placeholder="Nhập Họ Và Tên" value="" size="30" aria-required="true" required="" type="text">
+                                    <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" style="color: red" class="invalid-feedback">
+                                    </div>
                                 </div>
                                 <div class="form-field-wrapper">
                                     <label for="datemask">Sinh Nhật <span class="required">*</span></label>
                                     <input class="input-md form-full-width" th:field="*{birthday}" aria-required="true" required="" type="text" data-inputmask-alias="datetime" id="datemask" data-inputmask-inputformat="yyyy/mm/dd" data-mask>
+                                    <div th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}" style="color: red" class="invalid-feedback">
+                                    </div>
                                 </div>
                                 <div class="form-field-wrapper">
                                     <label>Số Điện Thoại <span class="required">*</span></label>
                                     <input id="email" class="input-md form-full-width" th:field="*{phoneNumber}" placeholder="0868.608.169" value="" size="30" aria-required="true" required="" type="text">
+                                    <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" style="color: red" class="invalid-feedback">
+                                    </div>
                                 </div>
                                 <div class="form-field-wrapper">
                                     <label>Địa Chỉ <span class="required">*</span></label>
                                     <textarea class="input-md form-full-width" th:field="*{address}" style="height: 150px" cols="50" rows="20" required></textarea>
+                                    <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red" class="invalid-feedback">
+                                    </div>
                                 </div>
                                 <div class="form-field-wrapper">
                                     <label>Mật Khẩu <span class="required">*</span></label>
                                     <input id="pass" class="input-md form-full-width" th:field="*{password}" autocomplete="" placeholder="Nhập Mật Khẩu" value="" size="30" aria-required="true" required="" type="password">
+                                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red" class="invalid-feedback">
+                                    </div>
                                 </div>
                                 <div class="form-field-wrapper">
                                     <input name="submit" class="submit btn btn-md btn-black" value="Đăng Ký" type="submit">
@@ -103,7 +115,17 @@
         $(document).ready(function() {
             $('#datemask').inputmask('yyyy/mm/dd', { 'placeholder': 'yyyy/mm/dd' })
             //toastr.success("Xóa Sản Phẩm Trong Giỏ Hàng Thành Công")
+            $('#resertPassword').click(function (){
+                var email = $('author-email').val();
+                if (!email){
 
+                    toastr.error("Bạn Chưa Nhập Email")
+                    $('author-email').focus();
+                }else {
+                    console.log("quên mật khẩu")
+                }
+
+            })
 
         })
     </script>

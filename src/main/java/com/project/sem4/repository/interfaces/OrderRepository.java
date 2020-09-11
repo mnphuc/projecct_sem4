@@ -18,4 +18,5 @@ public interface OrderRepository {
     public List<Attribute> getAttributeByOrderDetailId(Integer orderDetailId);
     public OrderView getOrderById(Integer id);
     public Boolean updateStatusOrder(Integer orderId, Integer status);
+    public List<OrderView> getOrdrByuserId(Long userId);
 }

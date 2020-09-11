@@ -33,90 +33,27 @@
                                         <table>
                                             <thead>
                                             <tr>
-                                                <th class="product-remove"></th>
-                                                <th class="product-thumbnail"></th>
                                                 <th class="product-name">Tên Đơn Hàng</th>
                                                 <th class="product-subtotal">Tổng Tiền</th>
+                                                <th class="product-ac">Ngày Tạo</th>
                                                 <th class="product-view">Hành Động</th>
                                             </tr>
                                             </thead>
                                             <tbody>
 
-                                            <tr th:each="cart : ${session.myCart}">
-                                                <td class="product-remove">
-                                                    <a href="javascript:void(0)"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-                                                </td>
-                                                <td class="product-thumbnail">
-                                                    <a>
-                                                        <img th:src="${cart.value.products.imageLink}" th:alt="${cart.value.products.productName}" /></a>
-                                                </td>
-                                                <td class="product-name">
-                                                    <a th:text="${cart.value.products.productName}">Red Printed Round Neck T-Shirt</a>
-                                                </td>
-                                                <td class="product-attr" >
-                                                    <span th:each="attr  : ${cart.value.attribute}">
-                                                        <p>
-                                                            <b th:text="${attr.name}"></b>
-                                                        </p>
-                                                    </span>
-                                                </td>
-                                                <td class="product-price" th:text="${#numbers.formatDecimal(cart.value.products.priceSale, 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></td>
-                                                <td>
-                                                    <div class="product-quantity">
-                                                        <span data-value="+" class="quantity-btn quantityPlus"></span>
-                                                        <input class="quantity input-lg" step="1" min="1" th:attr="max=${cart.value.products.quantity}, data-key=${cart.key}" name="quantity" th:value="${cart.value.quantity}" title="Quantity" type="number" />
-                                                        <span data-value="-" class="quantity-btn quantityMinus"></span>
-                                                    </div>
-                                                </td>
-                                                <td class="product-subtotal" th:with="total=${cart.value.quantity * cart.value.products.priceSale}">
-                                                    <span class="product-price-sub_totle amount" th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></span>
+                                            <tr th:each="order : ${listOrder}">
+                                                <td class="product-name" th:text="'order-'+${order.id}"></td>
+                                                <td class="product-subtotal" th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></td>
+                                                <td class="product-ac" th:text=" ${#dates.format(order.createDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                                                <td class="product-view">
+                                                    <a th:href="'/chi-tiet-don-hang/'+${order.id}">Xem Chi Tiết</a>
                                                 </td>
                                             </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="row cart-actions">
-                                        <div class="col-md-6">
-                                            <div class="coupon">
-                                                <input class="input-md" id="coupon_code" name="coupon_code" title="Coupon Code" value="" placeholder="Nhập Mã Giảm Giá" type="text">
-                                                <button class="btn btn-md btn-black" id="btnDiscount" type="button">Áp Dụng </button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <input class="btn btn-md btn-gray" name="update_cart" value="Cập Nhật" disabled="" type="submit">
-                                        </div>
-                                    </div>
                                 </form>
-                                <div class="cart-collateral">
-                                    <div class="cart_totals">
-                                        <h3>Tổng Giỏ Hàng</h3>
-                                        <div class="responsive-table">
-                                            <table>
-                                                <tbody>
-                                                <tr class="cart-subtotal">
-                                                    <th>Tổng Tiền</th>
-                                                    <td><span class="product-price-amount amount" id="totalSub" th:text="${#numbers.formatDecimal(totalCart, 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></span></td>
-                                                </tr>
-                                                <tr class="shipping">
-                                                    <th>Phí ship</th>
-                                                    <td><span class="product-price-amount amount" th:text="${#numbers.formatDecimal(priceShip, 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></span></td>
-                                                </tr>
-                                                <tr class="sale-price">
-                                                    <th>Giảm Giá</th>
-                                                    <td><span class="sale-price-amount amount" id="priceSale" th:text="${#numbers.formatDecimal(totalDiscount, 0, 'COMMA', 0, 'POINT')}+' VNĐ'">0 VNĐ</span></td>
-                                                </tr>
-                                                <tr class="order-total">
-                                                    <th>Tổng</th>
-                                                    <td><span class="product-price-amount amount" id="totalPrice" th:text="${#numbers.formatDecimal(totals  , 0, 'COMMA', 0, 'POINT')}+' VNĐ'"></span></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="product-proceed-to-checkout">
-                                            <a class="btn btn-lg btn-color form-full-width" href="/thanh-toan">Thanh Toán</a>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </article>
                         </div>
                     </div>

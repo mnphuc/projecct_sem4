@@ -4,6 +4,7 @@ package com.project.sem4.controller;
 import com.google.gson.Gson;
 import com.project.sem4.model.*;
 import com.project.sem4.model.map.AttributeMap;
+import com.project.sem4.model.map.OrderDetailMap;
 import com.project.sem4.model.map.ProductViewMap;
 import com.project.sem4.model.service.Cart;
 import com.project.sem4.model.service.Mail;
@@ -291,9 +292,28 @@ public class HomeController {
 
 
     @RequestMapping(value = "lich-su-mua-hang", method = RequestMethod.GET)
-    public String viewOrderHistory(){
-
+    public String viewOrderHistory(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Users user = userRepository.getUserByEmail(authentication.getName());
+        List<OrderView> list = orderRepository.getOrdrByuserId(user.getUserID());
+        model.addAttribute("listOrder", list);
         return "oderHistory";
+    }
+    @RequestMapping(value = "chi-tiet-don-hang/{idOrder}", method = RequestMethod.GET)
+    public String viewDetailOrder(@PathVariable("idOrder")Integer idOrder, Model model){
+        List<OrderDetailMap> listOrderDetail = orderRepository.getAllOrderDetail(idOrder);
+        OrderView  orderView = orderRepository.getOrderById(idOrder);
+        model.addAttribute("order", orderView);
+        model.addAttribute("orderDetail", listOrderDetail);
+        Double totalPrice = Double.valueOf(0);
+        Double totalOrder = Double.valueOf(0);
+        for (OrderDetailMap detail : listOrderDetail){
+            totalPrice += detail.getProducts().getPriceSale() * detail.getOrderDetail().getTotal();
+            totalOrder += detail.getOrderDetail().getPrice();
+        }
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("totalOrder", totalOrder);
+        return "orderDetail";
     }
     @RequestMapping(value = "thong-tin", method = RequestMethod.GET)
     public String aboutShop(){
