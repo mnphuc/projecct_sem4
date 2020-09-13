@@ -3,6 +3,7 @@ package com.project.sem4.controller;
 import com.project.sem4.model.Users;
 import com.project.sem4.model.service.ConfirmationToken;
 import com.project.sem4.model.service.ListTask;
+import com.project.sem4.model.service.ResetPassword;
 import com.project.sem4.model.view.InsertUser;
 import com.project.sem4.model.view.Message;
 import com.project.sem4.repository.ConfirmationTokenRepositoryImpl;
@@ -109,17 +110,38 @@ public class BaseController {
         return "redirect:/dang-nhap";
     }
     @RequestMapping(value = "reset/nhap-mat-khau", method = RequestMethod.GET)
-    public String resertPassword(@RequestParam(value = "token")String token){
+    public String resertPassword(@RequestParam(value = "token")String token, Model model, RedirectAttributes redirectAttributes){
         ConfirmationToken confirmationToken = confirmationTokenRepository.findTokenByToken(token);
         if (confirmationToken.getId() != null){
-
+            //Boolean bl = userRepository.changePassWord(confirmationToken.getUserId(), )
+            ResetPassword resetPassword = new ResetPassword();
+            resetPassword.setToken(token);
+            model.addAttribute("resetPassword", resetPassword);
+            return "resertPassword";
         }
-        return "";
+        String msg = "error,Thông báo,Không Tồn Tại Trang Này,hide";
+        redirectAttributes.addFlashAttribute("msg", msg);
+        return "redirect:/dang-nhap";
+    }
+    @RequestMapping(value = "reset-pass-submit", method = RequestMethod.POST)
+    public String submitResetPass(@Valid ResetPassword resetPassword, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        if (bindingResult.hasErrors()){
+            return "resertPassword";
+        }
+        ConfirmationToken confirmationToken = confirmationTokenRepository.findTokenByToken(resetPassword.getToken());
+        Boolean bl = userRepository.changePassWord(confirmationToken.getUserId(), resetPassword.getPassNew());
+
+        if (bl){
+            String msg = "error,Thông báo,Khôi Phục Mật Khẩu Thành Công,hide";
+            redirectAttributes.addFlashAttribute("msg", msg);
+            return "redirect:/dang-nhap";
+        }
+        return "redirect:/reset/nhap-mat-khau";
     }
     @Autowired
     CheckTest checkTest;
     @RequestMapping(value = "resert-password", method = RequestMethod.GET)
-    public String resertPass(@RequestParam(value = "email", required = false)String email) {
+    public String resertPass(@RequestParam(value = "email", required = false)String email, RedirectAttributes redirectAttributes) {
         Users users = userRepository.getUserByEmail(email);
         final ConfirmationToken confirmationToken = new ConfirmationToken(users);
         confirmationToken.setUser(users);
@@ -131,6 +153,8 @@ public class BaseController {
         listTask.setCheckTask(3);
         listTask.setMessage("Khôi Phục Tài Khoản");
         checkTest.addTask(listTask);
+        String msg = "error,Thông báo,Kiểm Tra Mail Để Đổi Mật Khẩu,hide";
+        redirectAttributes.addFlashAttribute("msg", msg);
         return "redirect:/dang-nhap";
     }
 }

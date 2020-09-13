@@ -21,4 +21,5 @@ public interface UserRepository {
     public Boolean confirmUsers(Long userId, Boolean enabled);
     public Users findUserById(Long id);
     public Boolean findUserByEmail(String email);
+    public Boolean changePassWord(Long userId, String passNew);
 }

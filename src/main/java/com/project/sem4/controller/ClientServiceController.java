@@ -104,7 +104,7 @@ public class ClientServiceController {
     @RequestMapping(value = "checkDiscount", method = RequestMethod.POST)
     public ResponseEntity<?> checkDiscount(@RequestParam("code")String code, HttpSession session) throws ParseException {
         Discount discount = clientRepository.checkDiscount(code);
-        if ( discount == null || discount.getId() == null){
+        if ( discount.getId() == null || discount.getId() == null){
             return new ResponseEntity<String>("mã Giảm Giá không Tồn Tại", HttpStatus.NO_CONTENT);
         }
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");

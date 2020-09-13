@@ -227,6 +227,29 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public Boolean changePassWord(Long userId, String passNew) {
+        Boolean bl = false;
+        Connection conn;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        conn = DBConnect.openConnect();
+        try {
+            cs = conn.prepareCall("{call resetPassWord(?,?)}");
+            cs.setLong(1, userId);
+            cs.setString(2, passNew);
+            int i = cs.executeUpdate();
+            if (i > 0){
+                bl = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            DBConnect.closeAll(conn,cs,rs);
+        }
+        return bl;
+    }
+
+    @Override
     public Boolean confirmUsers(Long userId, Boolean enabled) {
         Boolean bl = false;
         Connection conn;

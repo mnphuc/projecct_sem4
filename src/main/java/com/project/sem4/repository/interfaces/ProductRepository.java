@@ -19,5 +19,5 @@ public interface ProductRepository {
     public List<Products> filterProductByPrice(Double minPrice, Double maxPrice);
     public List<Products> getAllProductByOder();
     public Boolean findProductByName(String proName);
-    
+    public List<Products> searceProductByName(String proName);
 }

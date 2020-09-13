@@ -177,7 +177,27 @@ public class HomeController {
         }
         return "shopList";
     }
+    @RequestMapping(value = "tim-kiem-san-pham", method = RequestMethod.GET)
+    public String viewListProductSearce(Model model,@RequestParam(value = "q", required = false) String q,
+                                  @RequestParam("page") Optional<Integer> page,
+                                  @RequestParam("size") Optional<Integer> size){
 
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+        Page<Products> ListProduct = productService.findPaginatedSearce(PageRequest.of(currentPage - 1, pageSize), q);
+        model.addAttribute("listProduct", ListProduct);
+        List<Categories> categoriesList = categoriesRepository.getAllCategories();
+        model.addAttribute("category", categoriesList);
+        int totalPages = ListProduct.getTotalPages();
+        if (totalPages > 0) {
+
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        return "shopList";
+    }
     @RequestMapping(value = "danh-sach-san-pham", method = RequestMethod.GET)
     public String viewListProduct(Model model,
                                   @RequestParam("page") Optional<Integer> page,

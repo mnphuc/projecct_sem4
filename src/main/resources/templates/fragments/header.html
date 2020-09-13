@@ -6,18 +6,17 @@
             <img th:src="@{client/img/close-icon-white.png}" alt="Newsletter Close" /></a>
         <!--End Close Button-->
 
-        <h3 class="mb-40">Join Our Mailing List </h3>
+        <h3 class="mb-40">Tham Gia Làm Thành Viên </h3>
         <p class="black mb-20">
-            But I must explain to you how all this mistaken<br />
-            idea of denouncing pleasure pain.
+            Để nhận ưu đãi của chúng tôi<br />
         </p>
         <form>
             <input class="input-md" name="footeremail" title="Enter Email Address.." placeholder="example@domain.com" type="email">
             <button class="btn btn-md btn-color">Subscribe</button>
         </form>
         <label class="mt-20">
-            Sign up For Exclusive Updates, New Arrivals<br />
-            And Insider-Only Discount.</label>
+           Đăng Ký Tài Khoản và cập nhật tin tức thường xuyên hơn<br />
+           </label>
         <a class="nlpopup_close nlpopup_close_link mt-40">&#10006; Close</a>
     </section>
     <!-- Overlay -->
@@ -111,12 +110,12 @@
         <!-- End Close Icon -->
         <div class="container">
             <!-- Search Form -->
-            <form role="search" id="searchform" action="http://theme.nileforest.com/search" method="get">
+            <form role="search" id="searchform" action="/tim-kiem-san-pham" method="GET">
                 <div class="search-icon-lg">
                     <img th:src="@{/client/img/search-icon-lg.png}" alt="" />
                 </div>
                 <label class="h6 normal search-input-label" for="search-query">Nhập Từ Khóa Để Tìm Kiếm Sản Phẩm</label>
-                <input value="" name="q" type="search" id="search-query" placeholder="Search..." />
+                <input value="" name="q" type="search" id="search-query" placeholder="Nhập Từ Khóa..." />
                 <button type="submit">
                     <img th:src="@{/client/img/search-lg-go-icon.png}" alt="" />
                 </button>
@@ -193,10 +192,6 @@
                         <ul class="list-none-ib">
                             <!-- Search-->
                             <li><a id="search-overlay-menu-btn"><i aria-hidden="true" class="fa fa-search"></i></a></li>
-
-                            <!-- Whishlist-->
-                            <li><a class="js_whishlist-btn"><i aria-hidden="true" class="fa fa-heart"></i><span class="countTip">10</span></a></li>
-
                             <!-- Cart-->
                             <li><a id="sidebar_toggle_btn">
                                 <div class="cart-icon">
@@ -259,64 +254,7 @@
                             </ul>
                             <!-- End Drodown Menu -->
                         </li>
-
-                        <li>
-                            <a href="#">Tin Tức</a>
-                            <!-- Drodown Menu ------->
-                            <ul class="nav-dropdown js-nav-dropdown">
-                                <li class="container">
-                                    <ul class="row">
-
-                                        <!--Grid 1-->
-                                        <li class="nav-dropdown-grid">
-                                            <h6>Shop Page</h6>
-                                            <ul>
-                                                <li><a href="shop_grid.html">Shop Grid - Sidebar Left</a></li>
-                                                <li><a href="shop_grid-sidebar_right.html">Shop Grid - Sidebar Right</a></li>
-                                                <li><a href="shop_grid-no_sidebar.html">Shop Grid - No Sidebar</a></li>
-                                                <li><a href="shop_list.html">Shop List - Sidebar Left</a></li>
-                                                <li><a href="shop_list-sidebar_right.html">Shop List - Sidebar Right</a></li>
-                                            </ul>
-                                        </li>
-                                        <!--Grid 2-->
-                                        <li class="nav-dropdown-grid">
-                                            <h6>Product Page</h6>
-                                            <ul>
-                                                <li><a href="product_detail.html">Product Page - Default</a></li>
-                                                <li><a href="product_detail-with_sidebar.html">Product Page - With Sidebar</a></li>
-                                                <li><a href="cart.html">Cart Page</a></li>
-                                                <li><a href="checkout.html">Checkout Page</a></li>
-                                            </ul>
-                                        </li>
-                                        <!--Grid 3-->
-                                        <li class="nav-dropdown-grid">
-                                            <h6>Extra Page</h6>
-                                            <ul>
-                                                <li><a href="index-2.html">Home</a></li>
-                                                <li><a href="about.html">About Us</a></li>
-                                                <li><a href="contact.html">Contact Us</a></li>
-                                                <li><a href="portfolio.html">Portfolio</a></li>
-                                                <li><a href="portfolio-single.html">Portfolio Detail</a></li>
-
-                                            </ul>
-                                        </li>
-
-                                        <!--Grid 1-->
-                                        <li class="nav-dropdown-grid">
-                                            <h6 class="white">Extra Page</h6>
-                                            <ul>
-                                                <li><a href="blog.html">Blog</a></li>
-                                                <li><a href="blog-with_sidebar.html">Blog - With sidebar</a></li>
-                                                <li><a href="blog-single.html">Blog Detail</a></li>
-                                                <li><a href="login-register.html">Login & Register</a></li>
-                                            </ul>
-                                        </li>
-
-                                    </ul>
-                                </li>
-                            </ul>
-                            <!-- End Drodown Menu -->
-                        </li>
+                        
                     </ul>
                 </nav>
                 <!-- End Navigation Menu -->

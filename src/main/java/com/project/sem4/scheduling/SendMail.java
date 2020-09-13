@@ -35,6 +35,11 @@ public class SendMail {
                     System.out.println("gửi hóa Đơn thành công"+ listTask.getEmail());
                     checkTest.removeTask(listTask);
                 }
+                if (listTask.getCheckTask() == 3){
+                    sendConfirmationMail.sendResetPasswordMail(listTask.getEmail(), listTask.getObject());
+                    System.out.println("Đã gửi mail reset Mật khẩu"+ listTask.getEmail());
+                    checkTest.removeTask(listTask);
+                }
             }
         }
     }

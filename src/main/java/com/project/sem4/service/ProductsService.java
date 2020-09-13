@@ -52,6 +52,25 @@ public class ProductsService {
 
         return bookPage;
     }
+    public Page<Products> findPaginatedSearce(Pageable pageable, String key) {
+        List<Products> books = productRepository.searceProductByName(key);
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Products> list;
+
+        if (books.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, books.size());
+            list = books.subList(startItem, toIndex);
+        }
+
+        Page<Products> bookPage
+                = new PageImpl<Products>(list, PageRequest.of(currentPage, pageSize), books.size());
+
+        return bookPage;
+    }
 
     public Page<Products> filterProductByPrice(Pageable pageable, Double minPrice, Double maxPrice) {
         List<Products> products = new ArrayList<>();
